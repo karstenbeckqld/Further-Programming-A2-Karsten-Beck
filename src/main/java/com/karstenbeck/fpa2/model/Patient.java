@@ -24,7 +24,7 @@ public class Patient extends Record {
      * @return The patient ID as String
      */
     public String getId() {
-        return this.data.get("id");
+        return this.data.get("patientId");
     }
 
     /**
@@ -43,6 +43,15 @@ public class Patient extends Record {
      */
     public String getLastName() {
         return (String) this.data.get("lastName");
+    }
+
+    /**
+     * The getUserName() method returns the patient's username.
+     *
+     * @return The userName as String
+     */
+    public String getUserName() {
+        return this.data.get("userName");
     }
 
     /**

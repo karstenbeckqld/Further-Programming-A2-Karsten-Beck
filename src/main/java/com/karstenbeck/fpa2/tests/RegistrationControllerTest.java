@@ -19,7 +19,7 @@ public class RegistrationControllerTest extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/karstenbeck/fpa2/register.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/karstenbeck/fpa2/scenes/register.fxml"));
         stage.setScene(new Scene(loader.load()));
         stage.show();
         try {

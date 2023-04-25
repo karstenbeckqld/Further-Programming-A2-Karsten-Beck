@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="670.0"
+            prefWidth="1130.0"
+            style="-fx-background-color: rgba(255,255,255,0);"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.karstenbeck.fpa2.controller.TableDisplayController">
+    <children>
+        <AnchorPane prefHeight="670.0"
+                    prefWidth="1100.0"
+                    style="-fx-background-color: #23a4f5; -fx-background-radius: 20px;"
+                    translateX="30.0">
+            <children>
+                <TableView id="tableView"
+                           layoutX="246.0"
+                           layoutY="37.0"
+                           prefHeight="400.0"
+                           prefWidth="800.0"
+                           style="-fx-background-radius: 20px;"
+                           AnchorPane.bottomAnchor="40.0"
+                           AnchorPane.leftAnchor="250.0"
+                           AnchorPane.rightAnchor="40.0"
+                           AnchorPane.topAnchor="40.0">
+                    <columns>
+                        <TableColumn id="date"
+                                     prefWidth="100.0"
+                                     text="Date"/>
+                        <TableColumn id="time"
+                                     prefWidth="100.0"
+                                     text="Time"/>
+                        <TableColumn id="weight"
+                                     prefWidth="100.0"
+                                     text="Weight"/>
+                        <TableColumn id="temp"
+                                     prefWidth="100.0"
+                                     text="Temperature"/>
+                        <TableColumn id="sysBp"
+                                     prefWidth="100.0"
+                                     text="systolic BP"/>
+                        <TableColumn id="diaBp"
+                                     prefWidth="100.0"
+                                     text="diastolic BP"/>
+                        <TableColumn id="comment"
+                                     prefWidth="198.0"
+                                     text="Comment"/>
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+        <AnchorPane prefHeight="600.0"
+                    prefWidth="230.0"
+                    style="-fx-background-color: #2470a4; -fx-background-radius: 20px;"
+                    translateY="35.0">
+            <children>
+                <VBox prefHeight="598.0"
+                      prefWidth="228.0">
+                    <children>
+                        <Button mnemonicParsing="false"
+                                prefHeight="50.0"
+                                prefWidth="228.0"
+                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                text="Back">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false"
+                                prefHeight="50.0"
+                                prefWidth="228.0"
+                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                text="Load">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false"
+                                prefHeight="50.0"
+                                prefWidth="228.0"
+                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                text="Sign Out">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

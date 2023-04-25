@@ -1,11 +1,13 @@
 package com.karstenbeck.fpa2.controller;
 
-import com.karstenbeck.fpa2.core.MyHealth;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * The Controller class is the parent class to the controllers that interface between the fxml files and MyHealth.
@@ -18,15 +20,13 @@ public class Controller {
     /**
      * The stageForward() method provides the child classes with a method to create a new stage.
      *
-     * @param resource      The link to the fxml file for the stage to be crated as String
+     * @param event      The link to the fxml file for the stage to be crated as String
      * @throws IOException  The method can throw an IOException due to the load() method used
      */
-    public void stageForward(String resource) throws IOException {
-        Stage redirectStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(MyHealth.class.getResource(resource));
-        redirectStage.setScene(new Scene(fxmlLoader.load()));
+    public void stageForward(Event event, URL forwardTo) throws IOException {
 
-        redirectStage.getProperties().put("controller", fxmlLoader.getController());
-        redirectStage.show();
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(forwardTo);
+        stage.setScene(new Scene(fxmlLoader.load()));
     }
 }

@@ -16,7 +16,7 @@ public class DatabaseConnection {
     /**
      * The JdbcUrl variable stores the path to the database.
      */
-    private static final String JdbcUrl = "jdbc:sqlite:/Users/karstenbeck/Documents/Programming/Java/RMIT/Further Programming/FPA2/patients.db";
+    private static final String JdbcUrl = "jdbc:sqlite:/Users/karstenbeck/Documents/Programming/Java/RMIT/FP/FPA2/data.db";
 
     /**
      * The query() method runs a query on the database with a given string.
@@ -55,7 +55,7 @@ public class DatabaseConnection {
     }
 
     /**
-     * The booleanQuery() method runs a query on the database to search for a specific string.
+     * The booleanQuery() method can get used to insert and update records in the database.
      *
      * @param query The query to get run on the database as String
      * @return A boolean value of either true (success) or false (fail)

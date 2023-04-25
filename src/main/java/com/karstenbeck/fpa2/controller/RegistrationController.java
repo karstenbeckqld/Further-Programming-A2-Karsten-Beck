@@ -2,6 +2,8 @@ package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.EmptyInputFieldException;
 import com.karstenbeck.fpa2.model.Patient;
+import com.karstenbeck.fpa2.services.FXMLUtility;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -70,9 +72,9 @@ public class RegistrationController extends Controller {
     /**
      * The cancelUserCreation() method loads the login screen again.
      *
-     * @throws IOException  Because it uses the load() method in the stageForward() method, it can throw an IOException
+     * @throws IOException Because it uses the load() method in the stageForward() method, it can throw an IOException
      */
-    public void cancelUserCreation() throws IOException {
-        stageForward("/com/karstenbeck/fpa2/login.fxml");
+    public void cancelUserCreation(ActionEvent event) throws IOException {
+        stageForward(event, FXMLUtility.loginFXML);
     }
 }

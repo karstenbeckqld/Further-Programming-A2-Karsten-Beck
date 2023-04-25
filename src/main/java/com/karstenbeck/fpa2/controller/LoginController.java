@@ -1,13 +1,25 @@
 package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.MyHealth;
+import com.karstenbeck.fpa2.model.Patient;
+import com.karstenbeck.fpa2.model.RecordFinder;
+import com.karstenbeck.fpa2.services.FXMLUtility;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import com.karstenbeck.fpa2.model.Patient;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+
 import java.io.IOException;
+
+import static javafx.scene.input.KeyCode.ENTER;
 
 /**
  * The LoginController class forms the interface between the login.fxml file and MyHealth.
@@ -15,7 +27,7 @@ import java.io.IOException;
  * @author Karsten Beck
  * @version 1.0 (15/04/2023)
  */
-public class LoginController extends Controller{
+public class LoginController extends Controller {
 
     /**
      * The reference to the login button in the LoginController class.
@@ -47,27 +59,74 @@ public class LoginController extends Controller{
     private TextField userName;
 
     /**
+     * The initialize() method gets executed automatically uon loading the LoginController. It sets up appropriate
+     * EventHandlers for the input fields and buttons.
+     */
+    public void initialize() {
+
+        EventHandler<MouseEvent> mouseClickHandler = mouseEvent -> {
+            if (MouseButton.PRIMARY.equals(mouseEvent.getButton())) {
+                try {
+                    loginButtonClick(mouseEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        EventHandler<KeyEvent> pressEnterKeyHandler = keyEvent -> {
+            if (keyEvent.getCode() == ENTER) {
+                try {
+                    loginButtonClick(keyEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        userName.setOnKeyPressed(pressEnterKeyHandler);
+        login.setOnMousePressed(mouseClickHandler);
+        password.setOnKeyPressed(pressEnterKeyHandler);
+    }
+
+    /**
      * The loginButtonClick() method is bound to the login button in login.fxml and performs a basic login check.
      */
-    public void loginButtonClick() {
+    public void loginButtonClick(Event event) throws IOException {
         if (this.userName.getText().isBlank()) {
             this.loginMessage.setText("Please enter a Username.");
         } else if (this.password.getText().isBlank()) {
             this.loginMessage.setText("Your Password is required.");
         } else {
 
-            MyHealth.getMyHealthInstance().setCurrentPatient(Patient.setPatientByUserName(this.userName.getText()));
-            System.out.println(MyHealth.getMyHealthInstance().getCurrentPatient().toString());
+            /* Retrieve credentials from database table 'patients' by using the 'where' method of the RecordFinder class */
+            ObservableList<Patient> isPatient = new RecordFinder().where("userName", this.userName.getText()).getData("patients");
 
-            /* Now open the patient's record overview stage. */
+            if (isPatient.size() > 0) {
+
+                if (this.password.getText().equals(isPatient.get(0).getPassword())) {
+
+                    /* If the passwords from the entry and in the database match, we set the global active patient to the patient that logged in */
+                    MyHealth.getMyHealthInstance().setCurrentPatient(Patient.setPatientByUserName(this.userName.getText()));
+
+                    /* Now we can forward the user to the next scene where they'll get their records displayed. */
+                    stageForward(event, FXMLUtility.patOverview);
+                }
+
+            } else {
+                this.loginMessage.setText("Wrong username or password. Please try again.");
+            }
         }
     }
 
     /**
      * The registerNewPatient() method is bound to the register button in login.fxml and changes the scene to the
      * registration view.
+     *
+     * @param event         The ActionEvent received from the 'Register' button.
+     * @throws IOException  The method can throw an IOException due to the Event class
      */
-    public void registerButtonClick() throws IOException {
-        stageForward("/com/karstenbeck/fpa2/register.fxml");
+    public void registerButtonClick(ActionEvent event) throws IOException {
+        stageForward(event, FXMLUtility.registrationFXML);
     }
 }

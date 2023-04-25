@@ -118,6 +118,15 @@ public class PatientRecord extends Record {
     }
 
     /**
+     * The getPatientRecordDataSet() method provides the complete record data to the calling method.
+     *
+     * @return  The record data as HashMap&lt;String,String&gt;
+     */
+    public HashMap<String, String> getPatientRecordDataSet() {
+        return this.data;
+    }
+
+    /**
      * The getCurrentPatientRecords() method provides the records for the patient that is currently registered with the
      * MyHealth object.
      *
@@ -125,6 +134,10 @@ public class PatientRecord extends Record {
      */
     public RecordFinder getCurrentPatientRecords() {
         return new RecordFinder().where("patientId", String.valueOf(MyHealth.getMyHealthInstance().getCurrentPatient().getId()));
+    }
+
+    public RecordFinder getPatientDetails(String patUserName, String patPassword){
+        return new RecordFinder().where(patUserName, patPassword);
     }
 
 }

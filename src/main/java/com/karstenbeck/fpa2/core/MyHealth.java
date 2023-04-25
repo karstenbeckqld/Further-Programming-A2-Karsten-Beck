@@ -1,10 +1,8 @@
 package com.karstenbeck.fpa2.core;
 
 import com.karstenbeck.fpa2.model.Patient;
+import com.karstenbeck.fpa2.services.FXMLUtility;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +23,10 @@ public class MyHealth extends Application {
      */
     private Patient patient;
 
+    private Stage primaryStage;
+
+    private Stage rootStage;
+
     /**
      * Default constructor to create an object of the MyHealth class.
      */
@@ -41,18 +43,14 @@ public class MyHealth extends Application {
     public void start(Stage primaryStage) {
 
         try {
-            GridPane root = (GridPane) FXMLLoader.load(getClass().getResource("/com/karstenbeck/fpa2/login.fxml"));
+            this.primaryStage = primaryStage;
+            this.primaryStage.setScene(FXMLUtility.loadScene(FXMLUtility.loginFXML,primaryStage));
 
-            /* Create the Scene */
-            Scene scene = new Scene(root, 300, 300);
-            scene.getStylesheets().add(getClass().getResource("/com/karstenbeck/fpa2/application.css").toExternalForm());
-
-            /* Place the scene on the stage */
-            primaryStage.setScene(scene);
+            this.primaryStage.setResizable(false);
 
             /* Set a title for the */
-            primaryStage.setTitle("Welcome to MyHealth App!");
-            primaryStage.show();
+            this.primaryStage.setTitle("Welcome to MyHealth App!");
+            this.primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,6 +81,15 @@ public class MyHealth extends Application {
      */
     public static MyHealth getMyHealthInstance() {
         return MyHealth.myHealthInstance;
+    }
+
+    /**
+     * The getStage() method returns the current instance of the primaryStage variable.
+     *
+     * @return  The current primaryStage
+     */
+    public Stage getStage() {
+        return this.primaryStage;
     }
 
     /**
