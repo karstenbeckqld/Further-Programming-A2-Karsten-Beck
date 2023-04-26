@@ -47,6 +47,8 @@ public class MyHealth extends Application {
             this.primaryStage.setScene(FXMLUtility.loadScene(FXMLUtility.loginFXML,primaryStage));
 
             this.primaryStage.setResizable(false);
+            //this.primaryStage.initStyle(StageStyle.TRANSPARENT);
+
 
             /* Set a title for the */
             this.primaryStage.setTitle("Welcome to MyHealth App!");

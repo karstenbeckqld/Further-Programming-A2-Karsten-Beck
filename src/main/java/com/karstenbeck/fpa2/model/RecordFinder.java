@@ -4,6 +4,7 @@ import com.karstenbeck.fpa2.core.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -100,6 +101,40 @@ public class RecordFinder {
     public <T extends Record> ObservableList<T> getData(String table) {
 
         ObservableList<T> databaseContent = FXCollections.observableArrayList();
+        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM " + table);
+
+        if (this.where.size()>0) {
+            this.where.forEach((key,value) -> {
+                sqlQuery.append(" WHERE ").append(key).append("='").append(value).append("'");
+            });
+        }
+
+        if (this.limit>0) {
+            sqlQuery.append(" AND LIMIT =").append(this.limit);
+        }
+
+        Vector<HashMap<String,String>> queryResult = DatabaseConnection.query(sqlQuery.toString());
+
+        /* Run the sqlQuery on the database and add found records to the ArrayList. */
+        if (queryResult.isEmpty()) {
+            System.out.println("No records found.");
+        } else {
+            for (HashMap<String,String> n : queryResult) {
+                if (table.equals("patients")){
+                    databaseContent.add((T) new Patient(n));
+                } else if (table.equals("records")) {
+                    databaseContent.add((T) new PatientRecord(n));
+                }
+            }
+        }
+
+        return databaseContent;
+
+    }
+
+    public <T extends Record> ArrayList<T> getDataAsArrayList(String table) {
+
+        ArrayList<T> databaseContent = new ArrayList<>();
         StringBuilder sqlQuery = new StringBuilder("SELECT * FROM " + table);
 
         if (this.where.size()>0) {

@@ -29,4 +29,9 @@ public class Controller {
         FXMLLoader fxmlLoader = new FXMLLoader(forwardTo);
         stage.setScene(new Scene(fxmlLoader.load()));
     }
+
+    public void createPopUp(Event event, URL forwardTo) throws IOException{
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(forwardTo);
+    }
 }

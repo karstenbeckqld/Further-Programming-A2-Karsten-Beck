@@ -6,6 +6,7 @@ package com.karstenbeck.fpa2.services;
 import com.karstenbeck.fpa2.core.MyHealth;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class FXMLUtility {
 
     public static URL patOverview = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/tableView.fxml");
 
+    public static URL editView = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editRecord.fxml");
 
     //**** LOAD SCENE METHOD ****\\
     //This utility helper method accepts a scene url, stage and css file and will combine the three
@@ -36,7 +38,7 @@ public class FXMLUtility {
         Scene scene =  new Scene(fxmlLoader.load());
 
         //set the fill color to transparent
-        //scene.setFill(Color.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
 
         //add the CSS
         //scene.getStylesheets().add(css);

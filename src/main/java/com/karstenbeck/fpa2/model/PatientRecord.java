@@ -14,6 +14,8 @@ import java.util.Vector;
  */
 public class PatientRecord extends Record {
 
+    //private String date;
+
     /**
      * Non-default constructor which creates an object of the PatientRecord class.
      *

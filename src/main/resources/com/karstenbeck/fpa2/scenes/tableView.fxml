@@ -13,55 +13,68 @@
             minWidth="-Infinity"
             prefHeight="670.0"
             prefWidth="1130.0"
-            style="-fx-background-color: rgba(255,255,255,0);"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+            styleClass="container"
+            stylesheets="@../css/userData.css"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.karstenbeck.fpa2.controller.TableDisplayController">
     <children>
         <AnchorPane prefHeight="670.0"
                     prefWidth="1100.0"
-                    style="-fx-background-color: #23a4f5; -fx-background-radius: 20px;"
+                    styleClass="main"
                     translateX="30.0">
             <children>
                 <TableView id="tableView"
+                           fx:id="tableView"
                            layoutX="246.0"
                            layoutY="37.0"
                            prefHeight="400.0"
                            prefWidth="800.0"
-                           style="-fx-background-radius: 20px;"
+                           styleClass="table"
                            AnchorPane.bottomAnchor="40.0"
                            AnchorPane.leftAnchor="250.0"
                            AnchorPane.rightAnchor="40.0"
                            AnchorPane.topAnchor="40.0">
                     <columns>
                         <TableColumn id="date"
-                                     prefWidth="100.0"
+                                     fx:id="date"
+                                     styleClass="table-col"
                                      text="Date"/>
                         <TableColumn id="time"
-                                     prefWidth="100.0"
+                                     fx:id="time"
+                                     styleClass="table-col"
                                      text="Time"/>
                         <TableColumn id="weight"
-                                     prefWidth="100.0"
+                                     fx:id="weight"
+                                     styleClass="table-col"
                                      text="Weight"/>
                         <TableColumn id="temp"
-                                     prefWidth="100.0"
+                                     fx:id="temp"
+                                     styleClass="table-col"
                                      text="Temperature"/>
                         <TableColumn id="sysBp"
-                                     prefWidth="100.0"
+                                     fx:id="sysBp"
+                                     styleClass="table-col"
                                      text="systolic BP"/>
                         <TableColumn id="diaBp"
-                                     prefWidth="100.0"
+                                     fx:id="diaBp"
+                                     styleClass="table-col"
                                      text="diastolic BP"/>
                         <TableColumn id="comment"
-                                     prefWidth="198.0"
+                                     fx:id="comment"
+                                     prefWidth="100.0"
+                                     styleClass="table-col"
                                      text="Comment"/>
+                        <TableColumn fx:id="buttons"
+                                     prefWidth="228.0"
+                                     text="Buttons"/>
                     </columns>
                 </TableView>
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="600.0"
                     prefWidth="230.0"
-                    style="-fx-background-color: #2470a4; -fx-background-radius: 20px;"
+                    styleClass="menuPane"
                     translateY="35.0">
             <children>
                 <VBox prefHeight="598.0"
@@ -70,7 +83,7 @@
                         <Button mnemonicParsing="false"
                                 prefHeight="50.0"
                                 prefWidth="228.0"
-                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                styleClass="menuButton"
                                 text="Back">
                             <font>
                                 <Font size="18.0"/>
@@ -79,7 +92,7 @@
                         <Button mnemonicParsing="false"
                                 prefHeight="50.0"
                                 prefWidth="228.0"
-                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                styleClass="menuButton"
                                 text="Load">
                             <font>
                                 <Font size="18.0"/>
@@ -88,7 +101,7 @@
                         <Button mnemonicParsing="false"
                                 prefHeight="50.0"
                                 prefWidth="228.0"
-                                style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #fff;"
+                                styleClass="menuButton"
                                 text="Sign Out">
                             <font>
                                 <Font size="18.0"/>

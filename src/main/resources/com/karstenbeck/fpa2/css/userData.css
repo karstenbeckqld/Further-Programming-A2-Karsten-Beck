@@ -1,39 +1,109 @@
-.start{
-    -fx-background-color: #7c9fd5;
-    -fx-color-label-visible: #beb8b8;
+.container {
+    -fx-background-color: transparent;
 }
 
-.welcome {
-    -fx-text-alignment: center;
-    -fx-text-fill: #000000;
+.main {
+    -fx-background-color: #23a4f5;
+    -fx-background-radius: 20px;
 }
 
-.loginButton {
-    -fx-arc-width: 200px;
-    -fx-arc-height: 50px;
-    -fx-font-size: 18px;
-    -fx-border-color: none;
-    -fx-border-radius: 25px;
-    -fx-background-color: #436e43;
-    -fx-background-radius: 25px;
+.table {
+    -fx-background-color: #0d6593;
+    -fx-background-radius: 20px;
+
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px 20px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 5px 0;
+}
+
+.table-view .column-header {
     -fx-text-fill: #fff;
-    -fx-cursor: hand;
-}
-.loginButton:hover{
-    -fx-background-color: #508350;
 }
 
-.registerButton {
-    -fx-arc-width: 200px;
-    -fx-arc-height: 50px;
-    -fx-font-size: 18px;
-    -fx-border-color: none;
-    -fx-border-radius: 25px;
-    -fx-background-color: #cc934a;
-    -fx-background-radius: 25px;
+.table .table-col {
     -fx-text-fill: #fff;
-    -fx-cursor: hand;
+
 }
-.registerButton:hover{
-    -fx-background-color: #eeab56;
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: #bbbaba;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: rgba(82, 160, 201, 0.49);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: #fff;
+}
+
+.table-col {
+}
+
+
+.menuPane {
+    -fx-background-color: #2470a4;
+    -fx-background-radius: 20px;
+}
+
+.menuButton {
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-text-fill: #fff;
+}
+
+.deleteButton {
+    -fx-background-color: #f36464;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 30px;
+    -fx-arc-height: 30px;
+    -fx-start-margin: 20px;
+    -fx-end-margin: 20px;
+    -fx-min-width: 80px;
+    -fx-pref-width: 80px;
+}
+
+.editButton {
+    -fx-background-color: #4773a4;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 30px;
+    -fx-arc-height: 30px;
+    -fx-start-margin: 20px;
+    -fx-end-margin: 20px;
+    -fx-min-width: 80px;
+    -fx-pref-width: 80px;
+}
+
+.editButton:hover{
+    -fx-background-color: #245d9d;
+}
+
+.deleteButton:hover{
+    -fx-background-color: #ec8a8a;
+}
+
+
+
+.hbox {
+    -fx-padding: 5px;
+    -fx-spacing: 20px;
 }
