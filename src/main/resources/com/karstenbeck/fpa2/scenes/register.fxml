@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0"
+            prefWidth="400.0"
+            style="-fx-background-color: #4d608a;"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.karstenbeck.fpa2.controller.RegistrationController">
+    <children>
+        <Label layoutX="50.0"
+               layoutY="220.0"
+               style="-fx-text-fill: #fff;"
+               text="Username"/>
+        <TextField fx:id="userName"
+                   layoutX="50.0"
+                   layoutY="240.0"
+                   prefWidth="300"/>
+
+        <Label layoutX="50.0"
+               layoutY="278.0"
+               style="-fx-text-fill: #fff;"
+               text="First Name"/>
+        <TextField fx:id="firstName"
+                   layoutX="50.0"
+                   layoutY="298.0"
+                   prefWidth="300"/>
+
+        <Label layoutX="50.0"
+               layoutY="335.0"
+               style="-fx-text-fill: #fff;"
+               text="Last Name"/>
+        <TextField fx:id="lastName"
+                   layoutX="50.0"
+                   layoutY="355.0"
+                   prefWidth="300"/>
+
+        <Label layoutX="50.0"
+               layoutY="391.0"
+               text="Email"
+               textFill="WHITE"/>
+        <TextField fx:id="email"
+                   layoutX="50.0"
+                   layoutY="408.0"
+                   prefWidth="300.0"/>
+
+        <Label layoutX="50.0"
+               layoutY="443.0"
+               style="-fx-text-fill: #fff;"
+               text="Password"/>
+        <TextField fx:id="password"
+                   layoutX="50.0"
+                   layoutY="463.0"
+                   prefWidth="300"/>
+
+        <Button fx:id="createUser"
+                layoutX="75.0"
+                layoutY="527.0"
+                mnemonicParsing="false"
+                onAction="#createUser"
+                prefWidth="100"
+                style="-fx-background-color: rgba(81,187,81,0.6)"
+                text="Confirm"/>
+        <Button fx:id="cancel"
+                layoutX="225.0"
+                layoutY="527.0"
+                mnemonicParsing="false"
+                onAction="#cancelUserCreation"
+                prefWidth="100"
+                style="-fx-background-color: rgba(187,97,81,0.6)"
+                text="Cancel"/>
+        <ImageView fx:id="image"
+                   fitHeight="150.0"
+                   fitWidth="150.0"
+                   layoutX="50.0"
+                   layoutY="43.0"
+                   pickOnBounds="true"
+                   preserveRatio="true"
+                   style="-fx-background-color: #333333">
+
+        </ImageView>
+        <Button fx:id="loadImageButton"
+                layoutX="225.0"
+                layoutY="168.0"
+                mnemonicParsing="false"
+                onAction="#insertImageButtonPress"
+                text="Upload Image"/>
+
+
+    </children>
+</AnchorPane>

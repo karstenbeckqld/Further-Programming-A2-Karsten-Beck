@@ -104,9 +104,9 @@ public class LoginController extends Controller {
 
             if (isPatient.size() > 0) {
 
-                if (this.password.getText().equals(isPatient.get(0).getPassword())) {
+                if (this.password.getText().equals(isPatient.get(0).getPassword()) && this.userName.getText().equals(isPatient.get(0).getUserName())) {
 
-                    /* If the passwords from the entry and in the database match, we set the global active patient to the patient that logged in */
+                    /* If the password and username from the entry and in the database match, we set the global active patient to the patient that logged in */
                     MyHealth.getMyHealthInstance().setCurrentPatient(Patient.setPatientByUserName(this.userName.getText()));
 
                     /* Now we can forward the user to the next scene where they'll get their records displayed. */

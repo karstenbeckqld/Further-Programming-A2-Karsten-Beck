@@ -1,3 +1,4 @@
+/*
 .container {
     -fx-background-color: transparent;
 }
@@ -13,6 +14,11 @@
 
 }
 
+.table .table-view .column-header{
+    -fx-text-fill: #fff;
+    -fx-font-size: 16;
+}
+
 .table-view .column-header-background {
     -fx-background-color: transparent;
     -fx-background-radius: 20px 20px 0px 0px;
@@ -20,9 +26,9 @@
     -fx-padding: 5px 0;
 }
 
-.table-view .column-header {
+!*.table-view .column-header {
     -fx-text-fill: #fff;
-}
+}*!
 
 .table .table-col {
     -fx-text-fill: #fff;
@@ -61,15 +67,7 @@
 }
 
 
-.menuPane {
-    -fx-background-color: #2470a4;
-    -fx-background-radius: 20px;
-}
 
-.menuButton {
-    -fx-background-color: rgba(255, 255, 255, 0);
-    -fx-text-fill: #fff;
-}
 
 .deleteButton {
     -fx-background-color: #f36464;
@@ -101,9 +99,28 @@
     -fx-background-color: #ec8a8a;
 }
 
-
-
 .hbox {
     -fx-padding: 5px;
     -fx-spacing: 20px;
 }
+.menuPane {
+    -fx-background-color: #2470a4;
+    -fx-background-radius: 20px;
+}
+
+.menuButton {
+    -fx-background-color: #154464;
+    -fx-text-fill: #fff;
+}
+
+.menuButton:hover {
+    -fx-background-color: #1a4460;
+    -fx-text-fill: #fff;
+}
+.menu {
+}
+
+.profileImage {
+    -fx-background-color: #67befa;
+    -fx-border-color: #fff;
+}*/

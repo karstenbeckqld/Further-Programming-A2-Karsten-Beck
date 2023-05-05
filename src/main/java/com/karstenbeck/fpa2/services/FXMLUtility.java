@@ -26,6 +26,10 @@ public class FXMLUtility {
 
     public static URL editView = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editRecord.fxml");
 
+    public static URL editPatientDetails = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editPatientDetails.fxml");
+
+    public static URL addRecord = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/addRecord.fxml");
+
     //**** LOAD SCENE METHOD ****\\
     //This utility helper method accepts a scene url, stage and css file and will combine the three
     //before returning the loaded scene, this streamlines the loading of scene later in the program.

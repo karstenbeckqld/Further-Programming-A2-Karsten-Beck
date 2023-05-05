@@ -63,6 +63,14 @@ public class Patient extends Record {
         return (String) this.data.get("password");
     }
 
+    public String getEmail() {
+        return this.data.get("email");
+    }
+
+    public String getImage(){
+        return this.data.get("photo");
+    }
+
     /**
      * The setFirstName() method assigns a first name
      *

@@ -76,6 +76,35 @@ public abstract class Record {
         return DatabaseConnection.booleanQuery("DELETE FROM " + table + " WHERE " + column + "='" + value + "'");
     }
 
+    public boolean updateRecord (){
+        /* Create the base component of a SQL query and pass in the required table parameter. */
+        String query = "UPDATE " + table +" SET ";
+
+        StringBuilder dataFields = new StringBuilder();
+        StringBuilder valueFields = new StringBuilder();
+
+        /* Define a StringBuilder object that gets populated with the data fields of the object calling the method. */
+
+        data.forEach((key, value) -> {
+
+            dataFields.append(key).append("= '").append(value).append("' ,");
+        });
+
+        /* We have to remove the last character as here is one comma too many. */
+        dataFields.deleteCharAt(dataFields.length() - 1);
+
+
+        dataFields.append(" WHERE ").append("recordId = '").append(data.get("recordId")).append("';");
+
+
+
+        /* Printing out the query for debugging purposes. */
+        System.out.println(query + dataFields + valueFields);
+
+        /* Executing the query on the database */
+        return DatabaseConnection.booleanQuery(query + dataFields);
+    }
+
     /**
      * The toString() method that overrides the Object toString method and outputs a String representation of the
      * Patient class.
