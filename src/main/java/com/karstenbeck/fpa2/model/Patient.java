@@ -1,6 +1,7 @@
 package com.karstenbeck.fpa2.model;
 
 import com.karstenbeck.fpa2.core.DatabaseConnection;
+import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -13,8 +14,7 @@ import java.util.Vector;
  */
 public class Patient extends Record {
 
-
-    public Patient(HashMap<String, String> row) {
+    public Patient(HashMap<String, Object> row) {
         super("patients", row);
     }
 
@@ -23,8 +23,8 @@ public class Patient extends Record {
      *
      * @return The patient ID as String
      */
-    public String getId() {
-        return this.data.get("patientId");
+    public String getPatientId() {
+        return (String) this.data.get("patientId");
     }
 
     /**
@@ -51,7 +51,7 @@ public class Patient extends Record {
      * @return The userName as String
      */
     public String getUserName() {
-        return this.data.get("userName");
+        return (String) this.data.get("userName");
     }
 
     /**
@@ -64,12 +64,9 @@ public class Patient extends Record {
     }
 
     public String getEmail() {
-        return this.data.get("email");
+        return (String) this.data.get("email");
     }
 
-    public String getImage(){
-        return this.data.get("photo");
-    }
 
     /**
      * The setFirstName() method assigns a first name
@@ -101,6 +98,10 @@ public class Patient extends Record {
         this.saveRecord();
     }
 
+    public void setImageFilePath(String imagePath) {
+        this.data.put("photo",imagePath);
+    }
+
     /**
      * The setPatientByUserName() method takes a username as parameter and returns the corresponding patient from the
      * database. It then sets the patient variable in the MyHealth main file to this patient, so that a patient's
@@ -112,8 +113,12 @@ public class Patient extends Record {
     public static Patient setPatientByUserName(String uName) {
         String sqlQuery = "SELECT * FROM patients WHERE userName='" + uName + "'";
 
-        Vector<HashMap<String, String>> patientData = DatabaseConnection.query(sqlQuery);
+        Vector<HashMap<String, Object>> patientData = DatabaseConnection.query(sqlQuery);
 
         return new Patient(patientData.get(0));
+    }
+
+    public String getImageFilePath() {
+        return (String) this.data.get("imageFilePath");
     }
 }

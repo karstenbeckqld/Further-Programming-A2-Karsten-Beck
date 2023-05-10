@@ -3,6 +3,7 @@ package com.karstenbeck.fpa2.model;
 import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -14,16 +15,16 @@ import java.util.Vector;
  */
 public class PatientRecord extends Record {
 
-    //private String date;
+    private Checkbox selected;
 
     /**
      * Non-default constructor which creates an object of the PatientRecord class.
      *
      * @param data The patient's record data as HashMap&lt;String, String&gt;
      */
-    public PatientRecord(HashMap<String, String> data) {
+    public PatientRecord(HashMap<String, Object> data) {
         super("records", data);
-
+        this.selected = new Checkbox();
     }
 
     /**
@@ -33,7 +34,7 @@ public class PatientRecord extends Record {
      * @param value The value to search for as String
      * @return A Vector of HashMaps with the result data
      */
-    public Vector<HashMap<String, String>> specificRecord(String key, String value) {
+    public Vector<HashMap<String, Object>> specificRecord(String key, String value) {
         String sqlQuery = "SELECT * FROM records WHERE '" + key + "' AND '" + value + "'";
         return DatabaseConnection.query(sqlQuery);
     }
@@ -44,7 +45,7 @@ public class PatientRecord extends Record {
      * @return The record ID as String
      */
     public String getRecordId() {
-        return this.data.get("recordId");
+        return (String) this.data.get("recordId");
     }
 
     /**
@@ -53,7 +54,7 @@ public class PatientRecord extends Record {
      * @return The patient id as String
      */
     public String getPatientId() {
-        return this.data.get("patientId");
+        return (String) this.data.get("patientId");
     }
 
     /**
@@ -62,7 +63,7 @@ public class PatientRecord extends Record {
      * @return The weight as String
      */
     public String getWeight() {
-        return this.data.get("weight");
+        return (String) this.data.get("weight");
     }
 
     /**
@@ -71,7 +72,7 @@ public class PatientRecord extends Record {
      * @return The temperature as String
      */
     public String getTemperature() {
-        return this.data.get("temperature");
+        return (String) this.data.get("temperature");
     }
 
     /**
@@ -80,7 +81,7 @@ public class PatientRecord extends Record {
      * @return The systolic blood pressure value as String
      */
     public String getSysBp() {
-        return this.data.get("sysBp");
+        return (String) this.data.get("sysBp");
     }
 
     /**
@@ -89,7 +90,7 @@ public class PatientRecord extends Record {
      * @return The diastolic blood pressure value as String
      */
     public String getDiaBp() {
-        return this.data.get("diaBp");
+        return (String) this.data.get("diaBp");
     }
 
     /**
@@ -98,7 +99,7 @@ public class PatientRecord extends Record {
      * @return The comment as String
      */
     public String getComment() {
-        return this.data.get("comment");
+        return (String) this.data.get("comment");
     }
 
     /**
@@ -107,7 +108,7 @@ public class PatientRecord extends Record {
      * @return The local time as LocalTime
      */
     public String getTime() {
-    return this.data.get("time");
+    return (String) this.data.get("time");
     }
 
     /**
@@ -116,7 +117,15 @@ public class PatientRecord extends Record {
      * @return The local date as LocalDate
      */
     public String getDate() {
-    return this.data.get("date");
+    return (String) this.data.get("date");
+    }
+
+    public void setSelected(Checkbox selected) {
+        this.selected = selected;
+    }
+
+    public Checkbox getSelected() {
+        return this.selected;
     }
 
     /**
@@ -124,7 +133,7 @@ public class PatientRecord extends Record {
      *
      * @return  The record data as HashMap&lt;String,String&gt;
      */
-    public HashMap<String, String> getPatientRecordDataSet() {
+    public HashMap<String, Object> getPatientRecordDataSet() {
         return this.data;
     }
 
@@ -135,7 +144,7 @@ public class PatientRecord extends Record {
      * @return A new RecordFinder instance for the records table
      */
     public RecordFinder getCurrentPatientRecords() {
-        return new RecordFinder().where("patientId", String.valueOf(MyHealth.getMyHealthInstance().getCurrentPatient().getId()));
+        return new RecordFinder().where("patientId", String.valueOf(MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId()));
     }
 
     public RecordFinder getPatientDetails(String patUserName, String patPassword){

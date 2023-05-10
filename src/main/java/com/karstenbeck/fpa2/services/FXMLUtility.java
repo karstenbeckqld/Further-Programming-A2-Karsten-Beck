@@ -1,7 +1,7 @@
-//**** PACKAGE ****\\
+
 package com.karstenbeck.fpa2.services;
 
-//**** PACKAGE IMPORTS \\
+
 
 import com.karstenbeck.fpa2.core.MyHealth;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +12,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-//**** START FXML UTILITY CLASS ****\\
-//This class has the URL links to all our FXML files and provides an easy
-//way for other classes to access them by having them as static URLs
+/**
+ * The FXMLUtility class provides a central point of URL to the required fxml files for various scenes. The URLs are
+ * declared static, so that they can get accessed without instantiating the FXMLUtility class itself.
+ */
 public class FXMLUtility {
 
-    //**** FXML URL LINKS ****\\
+    /* URLs to the respective fxml files as public static variables. */
     public static URL loginFXML = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/login.fxml");
 
     public static URL registrationFXML = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/register.fxml");
@@ -30,9 +31,16 @@ public class FXMLUtility {
 
     public static URL addRecord = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/addRecord.fxml");
 
-    //**** LOAD SCENE METHOD ****\\
-    //This utility helper method accepts a scene url, stage and css file and will combine the three
-    //before returning the loaded scene, this streamlines the loading of scene later in the program.
+    public static URL alertBox = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/alertBox.fxml");
+
+    public static URL recordSelection = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/recordSelector.fxml");
+
+
+    /* The loadScene() method is a helper method that takes a URL and a Stage and adds the corresponding CSS files to
+       provide a single point to add styling to a scene.
+
+       Because only the login screen and the registration scene use styling so far, usage currently is limited and
+       practicability is still under investigation. */
     public static Scene loadScene(URL sceneURL, Stage stage) throws IOException {
 
         //Create our FXML loader and pass it the scene URL its in constructor

@@ -1,11 +1,14 @@
 package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.MyHealth;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -18,7 +21,7 @@ import java.net.URL;
  * @author Karsten Beck
  * @version 1.0 (15/04/2023)
  */
-public class Controller {
+public class Controller<confirmEdit> {
 
     /**
      * The stageForward() method provides the child classes with a method to create a new stage.
@@ -34,7 +37,7 @@ public class Controller {
         centerStage(stage);
     }
 
-    private void centerStage(Stage stage) {
+    public void centerStage(Stage stage) {
         Rectangle2D stageBounds = Screen.getPrimary().getVisualBounds();;
         double width = (stageBounds.getWidth() - stage.getWidth()) / 2;
         double height = (stageBounds.getHeight() - stage.getHeight()) / 2;

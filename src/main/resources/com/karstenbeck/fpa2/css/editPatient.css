@@ -1,0 +1,22 @@
+.userName {
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
+
+}
+.errorHidden {
+    -fx-background-color: transparent!important;
+    -fx-text-fill: transparent!important;
+}
+
+.errorVisible {
+    -fx-background-color: #720808;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.textFieldError{
+    -fx-border-color: #720808 !important;
+}

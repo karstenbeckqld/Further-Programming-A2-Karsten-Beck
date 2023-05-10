@@ -12,10 +12,10 @@ import java.util.HashMap;
  */
 public abstract class Record {
 
-    protected HashMap<String, String> data;
+    protected HashMap<String, Object> data;
     protected String table;
 
-    public Record(String table, HashMap<String, String> row) {
+    public Record(String table, HashMap<String, Object> row) {
         this.data = row;
         this.table = table;
     }
@@ -67,13 +67,13 @@ public abstract class Record {
      * The deleteRecord() method provides a ubiquitous method to delete records from the database.
      *
      * @param table     The table to select from the database as String
-     * @param column    The table column to select as String (also called the key)
+     * @param row       The table row to select as String (also called the key)
      * @param value     The table value to select as String
      * @return          A boolean value indicating success or failure of the process
      */
-    public boolean deleteRecord(String table, String column, String value) {
+    public boolean deleteRecord(String table, String row, String value) {
 
-        return DatabaseConnection.booleanQuery("DELETE FROM " + table + " WHERE " + column + "='" + value + "'");
+        return DatabaseConnection.booleanQuery("DELETE FROM " + table + " WHERE " + row + "='" + value + "'");
     }
 
     public boolean updateRecord (){
@@ -81,7 +81,7 @@ public abstract class Record {
         String query = "UPDATE " + table +" SET ";
 
         StringBuilder dataFields = new StringBuilder();
-        StringBuilder valueFields = new StringBuilder();
+        /* StringBuilder valueFields = new StringBuilder(); */
 
         /* Define a StringBuilder object that gets populated with the data fields of the object calling the method. */
 
@@ -99,7 +99,7 @@ public abstract class Record {
 
 
         /* Printing out the query for debugging purposes. */
-        System.out.println(query + dataFields + valueFields);
+        System.out.println(query + dataFields);
 
         /* Executing the query on the database */
         return DatabaseConnection.booleanQuery(query + dataFields);

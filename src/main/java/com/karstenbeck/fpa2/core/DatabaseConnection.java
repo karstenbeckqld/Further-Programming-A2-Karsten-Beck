@@ -1,11 +1,21 @@
 package com.karstenbeck.fpa2.core;
 
+import com.karstenbeck.fpa2.model.Patient;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * The DatabaseConnection class provides functionality for interacting with a SQLite database.
@@ -21,18 +31,201 @@ public class DatabaseConnection {
      */
     private static final String JdbcUrl = "jdbc:sqlite:/Users/karstenbeck/Documents/Programming/Java/RMIT/FP/FPA2/data.db";
 
+    private static final String patientStoreStatement = "INSERT INTO patients (firstName, lastName, userName, " +
+            "password, email, imageFilePath, photo) VALUES (?,?,?,?,?,?,?)";
+    private static final String recordStoreStatement = "INSERT INTO records (patientId, date, time, weight, temperature, " +
+            "sysBp, diaBp, comment) VALUES (?,?,?,?,?,?,?,?)";
+
+    private static final String patientRetrieveStatement = "SELECT * FROM patients WHERE patientId=?";
+    private static final String recordRetrieveStatement = "SELECT * FROM records WHERE patientId=?";
+
+    private static final String getPatientPhoto = "SELECT photo FROM patients WHERE patientId=?";
+    private static final String setPatientPhoto = "UPDATE patients SET photo=? WHERE patientId=?";
+
+    private static final String patientUpdateStatement = "UPDATE patients SET firstName=?, lastName=?, userName=?, " +
+            "password=?, email=?, imageFilePath=?, photo=? WHERE patientId=?";
+    private static final String recordUpdateStatement = "INSERT INTO records (patientId, date, time, weight, " +
+            "temperature, sysBp, diaBp, comment) VALUES (?, ?, ?, ?, ? ,?, ?, ?)";
+
+    private static final String deleteRecordStatement = "DELETE FROM ? WHERE recordId=?";
+
+    public static boolean savePatientData(HashMap<String, String> data) {
+        boolean result = false;
+
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);
+             Statement statement = connection.createStatement();) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(patientStoreStatement)) {
+
+                preparedStatement.setString(1, data.get("firstName"));
+                preparedStatement.setString(2, data.get("lastName"));
+                preparedStatement.setString(3, data.get("userName"));
+                preparedStatement.setString(4, hashPassword(data.get("password")));
+                preparedStatement.setString(5, data.get("email"));
+                preparedStatement.setString(6, data.get("imageFilePath"));
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(data.get("photo"));
+                    preparedStatement.setBinaryStream(7, fileInputStream, fileInputStream.available());
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
+
+
+                preparedStatement.execute();
+
+                connection.close();
+
+                result = true;
+
+            }
+
+
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    public static boolean addProfileImage(String imageUrl, String patientId) {
+
+        boolean result = false;
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);
+             Statement statement = connection.createStatement();) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(setPatientPhoto)) {
+
+                preparedStatement.setString(2, patientId);
+
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(imageUrl);
+                    preparedStatement.setBinaryStream(1, fileInputStream, fileInputStream.available());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                preparedStatement.execute();
+
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
+    public static HashMap<String, Object> getPatientData(String patientId) {
+
+        HashMap<String, Object> data = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);
+             Statement statement = connection.createStatement();) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(patientRetrieveStatement)) {
+                preparedStatement.setString(1, patientId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                System.out.println(resultSet);
+                if (resultSet.next()) {
+                    data.put("firstName", resultSet.getString(2));
+                    data.put("lastName", resultSet.getString(3));
+                    data.put("userName", resultSet.getString(4));
+                    data.put("password", resultSet.getString(5));
+                    data.put("email", resultSet.getString(6));
+                    data.put("imageFilePath", resultSet.getString(7));
+
+                    InputStream imageBlob = resultSet.getBinaryStream(8);
+                    Image image = new Image(imageBlob);
+                    data.put("photo", image);
+
+
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
+    public static Image getProfileImage(String patientId) {
+
+        Image image = null;
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);
+             Statement statement = connection.createStatement();) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getPatientPhoto)) {
+                preparedStatement.setString(1, patientId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    InputStream imageBlob = resultSet.getBinaryStream(1);
+                    image = new Image(imageBlob);
+                } else {
+                    System.out.println("no profile image available.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return image;
+    }
+
+    public static boolean updatePatientDetails(HashMap<String, String> data, String patientId) {
+        boolean result = false;
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(patientUpdateStatement)) {
+
+                preparedStatement.setObject(1, data.get("firstName"));
+                preparedStatement.setObject(2, data.get("lastName"));
+                preparedStatement.setObject(3, data.get("userName"));
+                preparedStatement.setObject(4, hashPassword(data.get("password")));
+                preparedStatement.setObject(5, data.get("email"));
+                preparedStatement.setObject(6, data.get("imageFilePath"));
+
+                if (data.get("photo") != null) {
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream((String) data.get("photo"));
+                        preparedStatement.setBinaryStream(7, fileInputStream, fileInputStream.available());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                preparedStatement.setString(8,patientId);
+                preparedStatement.executeUpdate();
+                connection.close();
+
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
+
     /**
      * The query() method runs a query on the database with a given string.
      *
      * @param query The string to run a query for
      * @return The datasets found as Vector&lt;HashMap&lt;String, String&gt;&gt;
      */
-    public static Vector<HashMap<String, String>> query(String query) {
+    public static Vector<HashMap<String, Object>> query(String query) {
 
         /* Debugging code */
         // System.out.println("Executing Query: " + query);
 
-        Vector<HashMap<String, String>> data = new Vector<>();
+        Vector<HashMap<String, Object>> data = new Vector<>();
 
         try {
             Connection connection = DriverManager.getConnection(DatabaseConnection.JdbcUrl);
@@ -40,7 +233,7 @@ public class DatabaseConnection {
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                HashMap<String, String> dataSet = new HashMap<>();
+                HashMap<String, Object> dataSet = new HashMap<>();
                 int i = 1;
                 while (i <= resultSet.getMetaData().getColumnCount()) {
                     dataSet.put(resultSet.getMetaData().getColumnName(i), resultSet.getString(i));
@@ -82,170 +275,23 @@ public class DatabaseConnection {
         return result;
     }
 
-    public static boolean preparedStatementQuery(HashMap<String, String> data) throws IOException {
-        boolean result = false;
+    public static String hashPassword(String password) {
+        byte[] hashedPassword = new byte[0];
 
-        String firstName = data.get("firstName");
-        String lastName = data.get("lastName");
-        String userName = data.get("userName");
-        String password = data.get("password");
-        String email = data.get("email");
-        String photoURL = data.get("img");
+        try{
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            hashedPassword = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        try (Connection connection = DriverManager.getConnection(JdbcUrl);
-             Statement statement = connection.createStatement();) {
-
-            // USING PREPARED STATEMENT
-
-
-            String sql = "INSERT INTO patients (firstName,lastName,userName,password,photo,email)" +
-                    " VALUES (?, ?, ?, ?, ? ,?)";
-
-            try (PreparedStatement pstmt = connection.prepareStatement(sql);) {
-
-                InputStream fis = new FileInputStream(photoURL);
-                pstmt.setString(1, firstName);
-                pstmt.setString(2, lastName);
-                pstmt.setString(3, userName);
-                pstmt.setString(4, password);
-                pstmt.setBinaryStream(5, (InputStream) fis, (int) photoURL.length());
-                pstmt.setString(6, email);
-                result = pstmt.execute();
-
-            }
-
-            if (result) {
-                System.out.println("Insert into table patients executed successfully");
-                System.out.println(result + " row(s) affected");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Problem happened during record insert.");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Hashing failed " + e);
         }
 
-        return result;
-    }
-
-    public static Image retrieveImage(String patId) {
-
-        Image image = null;
-        try (Connection connection = DriverManager.getConnection(JdbcUrl);) {
-
-            String sql = "SELECT photo FROM patients WHERE patientId=?";
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-
-
-                preparedStatement.setString(1, patId);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.next()) {
-                       /*  byte[] blobBytes = rs.getBytes("photo");
-                        System.out.println(blobBytes.length); */
-                    Blob blob = rs.getBlob("photo");
-                    ByteArrayInputStream in = new ByteArrayInputStream(blob.getBytes(1, (int) blob.length()));
-                    /*  ByteArrayInputStream in = new ByteArrayInputStream(blobBytes); */
-                    image = new Image(in);
-                } else {
-                    System.out.println("Entry not found");
-                }
-
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        StringBuilder stringBuilder = new StringBuilder(hashedPassword.length*2);
+        for (byte b : hashedPassword) {
+            stringBuilder.append(String.format("%x",b));
         }
-        return image;
-    }
 
-    public static void updateRecord(HashMap<String, String> data, String table, String iD, String method) {
-        boolean result = false;
-        try (Connection connection = DriverManager.getConnection(JdbcUrl);
-             Statement statement = connection.createStatement();) {
-
-
-
-            if (table.equals("patients") && method.equals("set")) {
-                String firstName = data.get("firstName");
-                String lastName = data.get("lastName");
-                String userName = data.get("userName");
-                String password = data.get("password");
-                String email = data.get("email");
-                String photoURL = data.get("img");
-
-                String sql = "INSERT INTO patients (firstName,lastName,userName,password,photo,email)" +
-                        " VALUES (?, ?, ?, ?, ? ,?)";
-
-                try (PreparedStatement pstmt = connection.prepareStatement(sql);) {
-
-                    InputStream fis = new FileInputStream(photoURL);
-                    pstmt.setString(1, firstName);
-                    pstmt.setString(2, lastName);
-                    pstmt.setString(3, userName);
-                    pstmt.setString(4, password);
-                    pstmt.setBinaryStream(5, (InputStream) fis, (int) photoURL.length());
-                    pstmt.setString(6, email);
-                    result = pstmt.execute();
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-
-                if (result) {
-                    System.out.println("Insert into table" + table + " executed successfully");
-                    System.out.println(result + " row(s) affected");
-                }
-            }
-
-            if (table.equals("records") && method.equals("set")){
-
-                String patId = data.get("patientId");
-                String date = data.get("date");
-                String time = data.get("time");
-                String weight = data.get("weight");
-                String temp = data.get("temperature");
-                String sysBp = data.get("sysBp");
-                String diaBp = data.get("diaBp");
-                String comment = data.get("comment");
-
-
-                String sql = "INSERT INTO records (patientId, date, time, weight, temperature, sysBp, diaBp, comment)" +
-                        " VALUES (?, ?, ?, ?, ? ,?, ?, ?)";
-
-                try (PreparedStatement pstmt = connection.prepareStatement(sql);) {
-
-                    pstmt.setString(1, patId);
-                    pstmt.setString(2, date);
-                    pstmt.setString(3, time);
-                    pstmt.setString(4, weight);
-                    pstmt.setString(5, temp);
-                    pstmt.setString(6, sysBp);
-                    pstmt.setString(7, diaBp);
-                    pstmt.setString(8, comment);
-                    result = pstmt.execute();
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
-                if (result) {
-                    System.out.println("Insert into table" + table + " executed successfully");
-                    System.out.println(result + " row(s) affected");
-                }
-
-            }
-
-            if (table.equals("patients") && method.equals("get")) {
-
-            }
-
-            if (table.equals("records") && method.equals("get")) {
-
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Problem happened during record insert.");
-        }
+        return stringBuilder.toString();
     }
 
 }

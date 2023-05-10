@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class RegistrationControllerTest extends Application {
 
-    private HashMap<String,String> data;
+    private HashMap<String,Object> data;
 
 
     @Override

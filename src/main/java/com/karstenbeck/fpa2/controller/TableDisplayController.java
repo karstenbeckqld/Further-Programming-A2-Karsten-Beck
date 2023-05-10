@@ -1,5 +1,6 @@
 package com.karstenbeck.fpa2.controller;
 
+import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.Patient;
 import com.karstenbeck.fpa2.model.PatientRecord;
@@ -11,21 +12,27 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
+import javax.security.auth.callback.Callback;
 import java.io.IOException;
-import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TableDisplayController extends Controller {
+
+    @FXML
+    public javafx.scene.layout.AnchorPane AnchorPane;
+
+    @FXML
+    public Label displayName;
 
     @FXML
     public ImageView profileImage;
@@ -38,6 +45,9 @@ public class TableDisplayController extends Controller {
 
     @FXML
     public Button addRecord;
+    
+    @FXML
+    private Button selectRecords;
 
     @FXML
     private TableView<PatientRecord> tableView;
@@ -66,25 +76,32 @@ public class TableDisplayController extends Controller {
     @FXML
     private TableColumn<PatientRecord, Button> buttons;
 
-    private String recordId;
+    private int recordId;
 
     private static TableDisplayController tDController;
 
     private ObservableList<Patient> patientDetails;
 
+    String patientId;
+
     @FXML
     public void initialize() {
         TableDisplayController.tDController = this;
 
-        String patientID = MyHealth.getMyHealthInstance().getCurrentPatient().getId();
+        this.patientId = MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId();
 
-        System.out.println("Patient ID: " + patientID);
+        System.out.println("Patient ID: " + patientId);
+
+        ObservableList<Patient> patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
+
+        this.displayName.setText(patientDetails.get(0).getLastName() + ", " + patientDetails.get(0).getFirstName());
+
+        ObservableList<PatientRecord> patientRecords = new RecordFinder().where("patientId", this.patientId).getData("records");
 
 
-        ObservableList<PatientRecord> patientData = new RecordFinder().where("patientId", patientID).getData("records");
-        this.tableView.setItems(patientData);
-        this.tableView.setEditable(true);
-
+        this.tableView.setItems(patientRecords);
+        // this.tableView.setEditable(true);
+        
         this.date.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.time.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.weight.setCellValueFactory(new PropertyValueFactory<>("weight"));
@@ -93,45 +110,32 @@ public class TableDisplayController extends Controller {
         this.diaBp.setCellValueFactory(new PropertyValueFactory<>("diaBp"));
         this.comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
 
-        if (patientData.size()>0) {
-            this.recordId = patientData.get(0).getRecordId();
-        } else{
+        /* if (patientRecords.size() > 0) {
+            this.recordId = Integer.parseInt(patientRecords.get(0).getRecordId());
+        } else {
             System.out.println("No records available.");
+        } */
+
+        System.out.println("Number of records: " + patientRecords.size());
+
+        Image img = DatabaseConnection.getProfileImage(this.patientId);
+        if (img != null) {
+            this.profileImage.setImage(img);
+            centerImage();
+        } else {
+            System.out.println("No profile image available.");
         }
 
-        System.out.println("Number of records: " + patientData.size());
 
-
-        this.patientDetails = new RecordFinder().where("patientId", patientID).getData("patients");
-        System.out.println(this.patientDetails.get(0).getImage());
-
-        //byte[] blobBytes = patientDetails.get(0).getImage().getBytes();
-        Blob blob;
-        /* try {
-            blob = new javax.sql.rowset.serial.SerialBlob(blobBytes);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } */
-        ByteArrayInputStream in;
-       /*  BufferedImage img;
-        try {
-            img = ImageIO.read(in);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } */
-       /*  in = new ByteArrayInputStream(blobBytes);
-        Image img = new Image(in);
-        this.profileImage.setImage(img); */
-
-
-       /*  Image imageData = DatabaseConnection.retrieveImage(patientID);
-        this.profileImage.setImage(imageData); */
-
-
+        /* Here we connect the Edit and Delete buttons to respective ActionEvents. This approach got adapted from
+           https://stackoverflow.com/questions/44696775/how-to-add-two-buttons-in-a-tablecolumn-of-tableview-javafx */
         this.buttons.setCellFactory(param -> new TableCell<PatientRecord, Button>() {
+
+            /* First we define which buttons within the TableCells must be addressed. */
             private final Button editButton = new Button("edit");
             private final Button deleteButton = new Button("delete");
 
+            /* Now we override the respective updateItem methods for each button. */
             @Override
             public void updateItem(Button patient, boolean empty) {
                 super.updateItem(patient, empty);
@@ -142,20 +146,33 @@ public class TableDisplayController extends Controller {
                 } else {
 
                     deleteButton.getStyleClass().add("deleteButton");
+
+                    /* When the Delete button gets pressed, we get the corresponding entry index and record. */
                     deleteButton.setOnAction(event -> {
                         PatientRecord patientRecord = getTableView().getItems().get(getIndex());
+                        System.out.println(patientRecord.toString());
+
+                        /* The record gets passed on to the deletePatientRecord() method. */
                         deletePatientRecord(patientRecord);
                     });
 
                     editButton.getStyleClass().add("editButton");
+
+                    /* When the Edit button gets pressed, we get the corresponding entry index and record. */
                     editButton.setOnAction(event -> {
                         PatientRecord patientRecord = getTableView().getItems().get(getIndex());
                         try {
+
+                            /* The record gets passed on to the editPatientRecord() method. The editPatientRecord()
+                               method throes an IOException which gets handled in a try-catch block. */
                             editPatientRecord(patientRecord);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     });
+
+                    /* We now add the buttons to a Hbox and display them within a table cell. The Hbox serves as
+                       container for better styling. */
                     HBox buttonDisplay = new HBox(editButton, deleteButton);
                     buttonDisplay.getStyleClass().add("hbox");
                     setGraphic(buttonDisplay);
@@ -175,7 +192,7 @@ public class TableDisplayController extends Controller {
         Stage editView = new Stage();
         editView.setMinWidth(300);
         editView.setMinHeight(300);
-        editView.setTitle("Edit Record number: " + this.recordId);
+        editView.setTitle("Edit Record number: " + patientRecord.getRecordId());
         FXMLLoader loader = new FXMLLoader(FXMLUtility.editView);
         Scene scene = new Scene(loader.load());
         editView.setScene(scene);
@@ -198,7 +215,39 @@ public class TableDisplayController extends Controller {
 
 
     private void deletePatientRecord(PatientRecord patientRecord) {
+
+        Stage stage = (Stage) AnchorPane.getScene().getWindow();
+
         System.out.println(patientRecord.getRecordId() + "   " + patientRecord.getDate());
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+
+        alert.getDialogPane().setContentText("Are you sure you want to delete this record:\n"
+                + "Date        : " + patientRecord.getDate() + "\n"
+                + "Time        : " + patientRecord.getTime() + "\n"
+                + "Weight      : " + patientRecord.getWeight() + "\n"
+                + "Temperature : " + patientRecord.getTemperature() + "\n"
+                + "systolic BP : " + patientRecord.getSysBp() + "\n"
+                + "diastolic BP: " + patientRecord.getDiaBp());
+        alert.setHeaderText("Deleting Patient Record");
+
+        Optional<ButtonType> buttonResult = alert.showAndWait();
+        if (buttonResult.isPresent()) {
+            if (buttonResult.get() == ButtonType.OK) {
+                boolean result = patientRecord.deleteRecord("records", "recordId", patientRecord.getRecordId());
+                if (result) {
+                    this.reloadTable();
+                }
+                System.out.println("OK pressed");
+            } else if (buttonResult.get() == ButtonType.CANCEL) {
+                System.out.println("CANCEL pressed");
+            }
+        }
+
+
     }
 
     public void reloadTable() {
@@ -210,6 +259,8 @@ public class TableDisplayController extends Controller {
     }
 
     public void editPatientProfile(ActionEvent actionEvent) throws IOException {
+
+        this.patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
 
         String firstName = this.patientDetails.get(0).getFirstName();
         String lastName = this.patientDetails.get(0).getLastName();
@@ -227,7 +278,45 @@ public class TableDisplayController extends Controller {
         editPatientProfile.show();
     }
 
+    private void centerImage() {
+        /* https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview */
+        Image image = this.profileImage.getImage();
+        if (image != null) {
+            double width = 0;
+            double height = 0;
 
+            double ratioX = this.profileImage.getFitWidth() / image.getWidth();
+            double ratioY = this.profileImage.getFitHeight() / image.getHeight();
+
+            double coeff = 0;
+            if (ratioX > ratioY) {
+                coeff = ratioY;
+            } else {
+                coeff = ratioX;
+            }
+
+            width = image.getWidth() * coeff;
+            height = image.getHeight() * coeff;
+
+            this.profileImage.setX((this.profileImage.getFitWidth() - width) / 2);
+            this.profileImage.setY((this.profileImage.getFitHeight() - height) / 2);
+        }
+    }
+
+
+    public void closeTableView(ActionEvent actionEvent) throws IOException {
+        stageForward(actionEvent, FXMLUtility.loginFXML);
+    }
+
+    public void selectRecords(ActionEvent actionEvent) throws IOException {
+        Stage selectView = new Stage();
+        FXMLLoader loader = new FXMLLoader(FXMLUtility.recordSelection);
+        Scene scene = new Scene(loader.load());
+        selectView.setScene(scene);
+        RecordSelectorController recordSelectorController = loader.getController();
+        recordSelectorController.setStage(selectView);
+        selectView.show();
+    }
 }
 
 

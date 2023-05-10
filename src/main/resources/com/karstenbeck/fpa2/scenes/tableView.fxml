@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
@@ -13,7 +14,7 @@
             maxWidth="-Infinity"
             minHeight="-Infinity"
             minWidth="-Infinity"
-            prefHeight="670.0"
+            prefHeight="700.0"
             prefWidth="1130.0"
             styleClass="container"
             stylesheets="@../css/userData.css"
@@ -21,18 +22,21 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.karstenbeck.fpa2.controller.TableDisplayController">
     <children>
-        <AnchorPane prefHeight="670.0"
-                    prefWidth="1100.0"
+        <AnchorPane fx:id="AnchorPane"
+                    layoutX="-30.0"
+                    prefHeight="700.0"
+                    prefWidth="1130.0"
                     styleClass="main"
                     translateX="30.0">
             <children>
                 <TableView id="tableView"
                            fx:id="tableView"
                            layoutX="246.0"
-                           layoutY="37.0"
+                           layoutY="80.0"
                            prefHeight="400.0"
                            prefWidth="800.0"
                            styleClass="table"
+                           translateY="20.0"
                            AnchorPane.bottomAnchor="40.0"
                            AnchorPane.leftAnchor="250.0"
                            AnchorPane.rightAnchor="40.0"
@@ -71,26 +75,24 @@
                                      prefWidth="228.0"/>
                     </columns>
                 </TableView>
-            </children>
-        </AnchorPane>
-        <AnchorPane prefHeight="600.0"
-                    prefWidth="230.0"
-                    styleClass="menuPane"
-                    translateY="35.0">
-            <children>
-                <VBox prefHeight="598.0"
-                      prefWidth="228.0"
+                <VBox layoutX="10.0"
+                      layoutY="40.0"
+                      prefHeight="620.0"
+                      prefWidth="230.0"
                       spacing="10.0"
-                      styleClass="menu">
+                      styleClass="menu"
+                      translateY="20.0">
                     <children>
                         <ImageView fx:id="profileImage"
                                    fitHeight="150.0"
                                    fitWidth="150.0"
                                    pickOnBounds="true"
                                    preserveRatio="true"
-                                   styleClass="profileImage">
+                                   styleClass="profileImage"
+                                   translateX="35.0"
+                                   VBox.vgrow="NEVER">
                             <VBox.margin>
-                                <Insets left="29.0"/>
+                                <Insets/>
                             </VBox.margin>
                         </ImageView>
                         <Button fx:id="edit"
@@ -102,33 +104,60 @@
                                 text="Edit Profile"
                                 textAlignment="CENTER">
                             <font>
-                                <Font size="18.0"/>
+                                <Font size="14.0"/>
                             </font>
                         </Button>
                         <Button fx:id="addRecord"
-                                onAction="#addPatientRecord"
                                 mnemonicParsing="false"
+                                onAction="#addPatientRecord"
                                 prefHeight="50.0"
                                 prefWidth="228.0"
                                 styleClass="menuButton"
                                 text="Add Record">
                             <font>
-                                <Font size="18.0"/>
+                                <Font size="14.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="selectRecords"
+                                mnemonicParsing="false"
+                                onAction="#selectRecords"
+                                prefHeight="50.0"
+                                prefWidth="228.0"
+                                text="Select Records for Export">
+                            <font>
+                                <Font size="14.0"/>
                             </font>
                         </Button>
                         <Button fx:id="exit"
                                 mnemonicParsing="false"
+                                onAction="#closeTableView"
                                 prefHeight="50.0"
                                 prefWidth="228.0"
                                 styleClass="menuButton"
                                 text="Sign Out"
-                                translateY="240.0">
+                                translateY="190.0">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </Button>
                     </children>
                 </VBox>
+                <Label layoutX="250.0"
+                       layoutY="20.0"
+                       text="Showing records for:">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="displayName"
+                       layoutX="431.0"
+                       layoutY="20.0"
+                       prefWidth="400.0"
+                       text="Name">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
     </children>

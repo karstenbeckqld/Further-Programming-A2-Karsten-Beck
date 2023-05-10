@@ -3,22 +3,23 @@ package com.karstenbeck.fpa2.controller;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.PatientRecord;
 import com.karstenbeck.fpa2.model.RecordFinder;
+import com.karstenbeck.fpa2.services.DatePickerSettings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditRecordController {
 
-    private HashMap<String, String> patientData;
+    private HashMap<String, Object> patientData;
 
     private ArrayList<PatientRecord> record;
 
@@ -66,6 +67,9 @@ public class EditRecordController {
     @FXML
     private TextArea comment;
 
+    @FXML
+    private DatePicker datePicker;
+
 
     /* Buttons */
     @FXML
@@ -74,19 +78,12 @@ public class EditRecordController {
     @FXML
     private Button confirmBtn;
 
-    public void prefillRecord(String recordId) {
-        System.out.println(recordId);
-        System.out.println("Record ID in EditRecordController: " + recordId);
-        this.record = new RecordFinder().where("recordId", recordId).getDataAsArrayList("records");
-        System.out.println(record.toString());
+    private String pickedDate;
 
-        this.date.setText(record.get(0).getDate());
-        this.time.setText(record.get(0).getTime());
-        this.weight.setText(record.get(0).getWeight());
-        this.temp.setText(record.get(0).getTemperature());
-        this.sysBp.setText(record.get(0).getSysBp());
-        this.diaBp.setText(record.get(0).getDiaBp());
-        this.comment.setText(record.get(0).getComment());
+    private final String pattern = "dd/MM/yyyy";
+
+    public void initialize(){
+        this.datePicker.setDayCellFactory(DatePickerSettings.setWeekends());
 
     }
 
@@ -112,10 +109,30 @@ public class EditRecordController {
 
     }
 
+    public void prefillRecord(String recordId) {
+        System.out.println(recordId);
+        System.out.println("Record ID in EditRecordController: " + recordId);
+        this.record = new RecordFinder().where("recordId", recordId).getDataAsArrayList("records");
+        System.out.println(record.toString());
+
+        this.pickedDate = record.get(0).getDate();
+
+        this.datePicker.getEditor().setText(record.get(0).getDate());
+        this.time.setText(record.get(0).getTime());
+        this.weight.setText(record.get(0).getWeight());
+        this.temp.setText(record.get(0).getTemperature());
+        this.sysBp.setText(record.get(0).getSysBp());
+        this.diaBp.setText(record.get(0).getDiaBp());
+        this.comment.setText(record.get(0).getComment());
+
+    }
+
+
+
     public void confirmEdit() throws IOException {
         this.patientData = new HashMap<>();
-        patientData.put("patientId", MyHealth.getMyHealthInstance().getCurrentPatient().getId());
-        patientData.put("date", this.date.getText());
+        patientData.put("patientId", MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId());
+        patientData.put("date", this.pickedDate);
         patientData.put("time", this.time.getText());
         patientData.put("weight", this.weight.getText());
         patientData.put("temperature", this.temp.getText());
@@ -125,10 +142,20 @@ public class EditRecordController {
         patientData.put("recordId",this.record.get(0).getRecordId());
 
         PatientRecord newPatRecord = new PatientRecord(patientData);
-        newPatRecord.updateRecord();
+        boolean result = newPatRecord.updateRecord();
 
-        TableDisplayController tDC = TableDisplayController.getTableDisplayControllerInstance();
-        tDC.reloadTable();
+        if (result) {
+            TableDisplayController tDC = TableDisplayController.getTableDisplayControllerInstance();
+            tDC.reloadTable();
+        }
+    }
+
+    public void getDate(ActionEvent actionEvent) {
+
+        LocalDate datePickerDate = this.datePicker.getValue();
+        //System.out.println(formattedDate);
+        this.pickedDate = datePickerDate.format(DateTimeFormatter.ofPattern(this.pattern));
+
     }
 
 }

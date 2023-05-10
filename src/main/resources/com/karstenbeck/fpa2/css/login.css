@@ -1,39 +1,64 @@
-.start{
-    -fx-background-color: #7c9fd5;
+.pane{
+    -fx-background-color: #4d608a;
     -fx-color-label-visible: #beb8b8;
 }
 
 .welcome {
     -fx-text-alignment: center;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ffffff;
 }
 
 .loginButton {
     -fx-arc-width: 200px;
-    -fx-arc-height: 50px;
-    -fx-font-size: 18px;
-    -fx-border-color: none;
-    -fx-border-radius: 25px;
-    -fx-background-color: #436e43;
+    -fx-arc-height: 30px;
+    -fx-font-size: 16px;
+   /* -fx-border-color: none;
+    -fx-border-radius: 25px;*/
+    -fx-background-color: #5ec45e;
     -fx-background-radius: 25px;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
 .loginButton:hover{
-    -fx-background-color: #508350;
+    -fx-background-color: #499a49;
 }
 
 .registerButton {
     -fx-arc-width: 200px;
-    -fx-arc-height: 50px;
-    -fx-font-size: 18px;
-    -fx-border-color: none;
-    -fx-border-radius: 25px;
-    -fx-background-color: #cc934a;
+    -fx-arc-height: 30px;
+    -fx-font-size: 16px;
+   /* -fx-border-color: none;
+    -fx-border-radius: 25px;*/
+    -fx-background-color: #cb7100;
     -fx-background-radius: 25px;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
 .registerButton:hover{
-    -fx-background-color: #eeab56;
+    -fx-background-color: #ff8d00;
+}
+
+Label{
+    -fx-text-fill: #ffffff;
+}
+
+.forgotPwdButton{
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.errorHidden {
+    -fx-background-color: transparent!important;
+    -fx-text-fill: transparent!important;
+}
+
+.errorVisible {
+    -fx-background-color: #720808;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 10px;
 }

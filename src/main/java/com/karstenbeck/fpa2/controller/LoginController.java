@@ -1,5 +1,6 @@
 package com.karstenbeck.fpa2.controller;
 
+import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.Patient;
 import com.karstenbeck.fpa2.model.RecordFinder;
@@ -18,6 +19,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static javafx.scene.input.KeyCode.ENTER;
 
@@ -40,6 +42,9 @@ public class LoginController extends Controller {
      */
     @FXML
     public Button register;
+
+    @FXML
+    public Button forgotPwdButton;
     /**
      * The loginMessage describes a label where we can display text to the user.
      */
@@ -60,10 +65,12 @@ public class LoginController extends Controller {
 
     /**
      * The initialize() method gets executed automatically uon loading the LoginController. It sets up appropriate
-     * EventHandlers for the input fields and buttons.
+     * EventHandlers for the input fields and buttons, so that users can tab through the fields and login with pressing
+     * the Enter key.
      */
     public void initialize() {
 
+        /* Setting up  */
         EventHandler<MouseEvent> mouseClickHandler = mouseEvent -> {
             if (MouseButton.PRIMARY.equals(mouseEvent.getButton())) {
                 try {
@@ -93,38 +100,67 @@ public class LoginController extends Controller {
      * The loginButtonClick() method is bound to the login button in login.fxml and performs a basic login check.
      */
     public void loginButtonClick(Event event) throws IOException {
+
+        int numError = 0;
+
         if (this.userName.getText().isBlank()) {
             this.loginMessage.setText("Please enter a Username.");
-        } else if (this.password.getText().isBlank()) {
-            this.loginMessage.setText("Your Password is required.");
+            this.loginMessage.setText("Username cannot be empty");
+            this.loginMessage.getStyleClass().remove("errorHidden");
+            this.userName.getStyleClass().add("textFieldError");
+            numError++;
         } else {
+            this.userName.getStyleClass().remove("textFieldError");
+        }
+
+        if (this.password.getText().isBlank()) {
+            this.loginMessage.setText("Your Password is required.");
+            this.loginMessage.setText("Password cannot be empty");
+            this.loginMessage.getStyleClass().remove("errorHidden");
+            this.password.getStyleClass().add("textFieldError");
+            numError++;
+        } else {
+            this.password.getStyleClass().remove("textFieldError");
+        }
+
+
+        if (numError == 0) {
 
             /* Retrieve credentials from database table 'patients' by using the 'where' method of the RecordFinder class */
-            ObservableList<Patient> isPatient = new RecordFinder().where("userName", this.userName.getText()).getData("patients");
+            ObservableList<Patient> patients = new RecordFinder().where("userName", this.userName.getText()).getData("patients");
 
-            if (isPatient.size() > 0) {
 
-                if (this.password.getText().equals(isPatient.get(0).getPassword()) && this.userName.getText().equals(isPatient.get(0).getUserName())) {
+            if (patients.size() > 0) {
 
-                    /* If the password and username from the entry and in the database match, we set the global active patient to the patient that logged in */
+                if (DatabaseConnection.hashPassword(this.password.getText()).equals((patients.get(0).getPassword()))) {
+
+                    /*  If the password and username from the entry and in the database match, we set the global active patient to the patient that logged in */
                     MyHealth.getMyHealthInstance().setCurrentPatient(Patient.setPatientByUserName(this.userName.getText()));
 
                     /* Now we can forward the user to the next scene where they'll get their records displayed. */
                     stageForward(event, FXMLUtility.patOverview);
+                } else {
+                    this.loginMessage.setText("Wrong username or password. Please try again.");
                 }
 
             } else {
                 this.loginMessage.setText("Wrong username or password. Please try again.");
             }
+        } else {
+            if (numError>1){
+                this.loginMessage.setText("There are still errors.");
+            }
         }
     }
+
+
 
     /**
      * The registerNewPatient() method is bound to the register button in login.fxml and changes the scene to the
      * registration view.
      *
-     * @param event         The ActionEvent received from the 'Register' button.
-     * @throws IOException  The method can throw an IOException due to the Event class
+     * @param event The ActionEvent received from the 'Register' button.
+     * @throws IOException The method can throw an IOException due to the Event class
      */
     public void registerButtonClick(ActionEvent event) throws IOException {
         stageForward(event, FXMLUtility.registrationFXML);

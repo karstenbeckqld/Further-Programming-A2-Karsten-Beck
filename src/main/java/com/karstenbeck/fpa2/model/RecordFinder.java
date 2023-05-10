@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicReference;
 
 /* The RecordFinder class is supposed to provide concatenated search strings like:
  * RecordFinder findRecords = recordFinder.where("weight",80).limit(10);
@@ -25,7 +26,7 @@ public class RecordFinder {
     /**
      * The where instance variable stores a key/value pair as a HashMap&lt;String, String&gt;
      */
-    private HashMap<String, String> where;
+    private final HashMap<String, String> where;
 
     /**
      * The limit instance variable defines a limit for the search results.
@@ -113,13 +114,13 @@ public class RecordFinder {
             sqlQuery.append(" AND LIMIT =").append(this.limit);
         }
 
-        Vector<HashMap<String,String>> queryResult = DatabaseConnection.query(sqlQuery.toString());
+        Vector<HashMap<String,Object>> queryResult = DatabaseConnection.query(sqlQuery.toString());
 
         /* Run the sqlQuery on the database and add found records to the ArrayList. */
         if (queryResult.isEmpty()) {
             System.out.println("No records found.");
         } else {
-            for (HashMap<String,String> n : queryResult) {
+            for (HashMap<String,Object> n : queryResult) {
                 if (table.equals("patients")){
                     databaseContent.add((T) new Patient(n));
                 } else if (table.equals("records")) {
@@ -147,13 +148,13 @@ public class RecordFinder {
             sqlQuery.append(" AND LIMIT =").append(this.limit);
         }
 
-        Vector<HashMap<String,String>> queryResult = DatabaseConnection.query(sqlQuery.toString());
+        Vector<HashMap<String,Object>> queryResult = DatabaseConnection.query(sqlQuery.toString());
 
         /* Run the sqlQuery on the database and add found records to the ArrayList. */
         if (queryResult.isEmpty()) {
             System.out.println("No records found.");
         } else {
-            for (HashMap<String,String> n : queryResult) {
+            for (HashMap<String,Object> n : queryResult) {
                 if (table.equals("patients")){
                     databaseContent.add((T) new Patient(n));
                 } else if (table.equals("records")) {
