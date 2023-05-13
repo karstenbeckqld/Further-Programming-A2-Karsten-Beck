@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1130.0" styleClass="container" stylesheets="@../css/userData.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0"
+            prefWidth="1130.0" styleClass="container" stylesheets="@../css/userData.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
     <children>
         <Label alignment="CENTER" prefHeight="23.0" prefWidth="1130.0" text="Please select the Records to Export">
             <font>
@@ -39,27 +39,11 @@
                 </Button>
             </children>
         </VBox>
-        <HBox alignment="CENTER_LEFT" layoutX="250.0" layoutY="613.0" minHeight="0.0" prefHeight="66.0" prefWidth="840.0" spacing="40.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="613.0">
-            <children>
-                <Button fx:id="selectAll" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="130.0" styleClass="menuButton" text="Select All">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Button>
-                <Button fx:id="clearSelection" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="130.0" text="Clear Selection">
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="saveRecords" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" text="Save Selected Records">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
+      <CheckBox fx:id="checkSelectAll" layoutX="250.0" layoutY="46.0" mnemonicParsing="false" text="select All" />
+          <Button fx:id="saveRecords" layoutX="585.0" layoutY="626.0" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" text="Save Selected Records">
+              <font>
+                  <Font size="14.0" />
+              </font>
+          </Button>
     </children>
 </AnchorPane>

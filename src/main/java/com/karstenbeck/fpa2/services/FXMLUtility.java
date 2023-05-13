@@ -31,9 +31,9 @@ public class FXMLUtility {
 
     public static URL addRecord = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/addRecord.fxml");
 
-    public static URL alertBox = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/alertBox.fxml");
-
     public static URL recordSelection = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/recordSelector.fxml");
+
+    public static URL saveFileDialogue = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/saveFileDialogue.fxml");
 
 
     /* The loadScene() method is a helper method that takes a URL and a Stage and adds the corresponding CSS files to

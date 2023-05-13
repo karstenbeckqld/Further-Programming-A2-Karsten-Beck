@@ -19,9 +19,9 @@ import java.net.URL;
  * The Controller class is the parent class to the controllers that interface between the fxml files and MyHealth.
  *
  * @author Karsten Beck
- * @version 1.0 (15/04/2023)
+ * @version 2.0 (12/05/2023)
  */
-public class Controller<confirmEdit> {
+public class Controller  {
 
     /**
      * The stageForward() method provides the child classes with a method to create a new stage.
@@ -37,6 +37,11 @@ public class Controller<confirmEdit> {
         centerStage(stage);
     }
 
+    /**
+     * The centerStage() method centres a newly created stage in the centre of the window.
+     *
+     * @param stage The stage to get centred.
+     */
     public void centerStage(Stage stage) {
         Rectangle2D stageBounds = Screen.getPrimary().getVisualBounds();;
         double width = (stageBounds.getWidth() - stage.getWidth()) / 2;

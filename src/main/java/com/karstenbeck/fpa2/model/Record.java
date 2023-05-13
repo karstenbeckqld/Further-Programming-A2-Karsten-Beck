@@ -8,7 +8,7 @@ import java.util.HashMap;
  * The Record class is the parent class for all record classes the application might encounter.
  *
  * @author Karsten Beck
- * @version 1.0 (15/04/2023)
+ * @version 2.0 (12/05/2023)
  */
 public abstract class Record {
 

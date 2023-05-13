@@ -12,11 +12,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The EditRecordController class handles all activities related to editing a patient's record.
+ *
+ * @author Karsten Beck
+ * @version 1.0 (12/05/2023)
+ */
 public class EditRecordController {
 
     private HashMap<String, Object> patientData;
@@ -25,44 +30,11 @@ public class EditRecordController {
 
     /* Labels */
     @FXML
-    private Label dateLabel;
-
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private Label weightLabel;
-
-    @FXML
-    private Label tempLabel;
-
-    @FXML
-    private Label sysBpLabel;
-
-    @FXML
-    private Label diaBpLabel;
-
-    @FXML
-    private Label commentLabel;
+    private Label dateLabel, timeLabel, weightLabel, tempLabel, sysBpLabel, diaBpLabel, commentLabel;
 
     /* TextFields */
     @FXML
-    private TextField date;
-
-    @FXML
-    private TextField time;
-
-    @FXML
-    private TextField weight;
-
-    @FXML
-    private TextField temp;
-
-    @FXML
-    private TextField sysBp;
-
-    @FXML
-    private TextField diaBp;
+    private TextField time, weight, temp, sysBp, diaBp;
 
     @FXML
     private TextArea comment;
@@ -80,35 +52,45 @@ public class EditRecordController {
 
     private String pickedDate;
 
-    private final String pattern = "dd/MM/yyyy";
+    private final static String DATE_PATTERN = "dd/MM/yyyy";
 
-    public void initialize(){
+    /**
+     * The initialize() method sets the layout format for the date picker.
+     */
+    public void initialize() {
         this.datePicker.setDayCellFactory(DatePickerSettings.setWeekends());
 
     }
 
+    /**
+     * The setStage() method receives the stage instance for the current Stage from the class calling this controller.
+     * This way, we get a reference to the current stage and can perform actions on it.
+     *
+     * @param stage The instance of the current stage.
+     */
     public void setStage(Stage stage) {
-        this.cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                stage.close();
-            }
-        });
 
-        this.confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    confirmEdit();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                stage.close();
+        /* When the user clicks the Cancel button, we close this stage. */
+        this.cancelBtn.setOnAction(actionEvent -> stage.close());
+
+        /* When the user clicks the OK button, we call the confirmEdit() method and then close the stage. */
+        this.confirmBtn.setOnAction(actionEvent -> {
+            try {
+                confirmEdit();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            stage.close();
         });
 
     }
 
+    /**
+     * The prefillRecord() method retrieves record data for the selected record from the database and fill sin the
+     * fields with this data. This way, the user doesn't have to memorise the values for the record they want to edit.
+     *
+     * @param recordId The ID of the selected record as String.
+     */
     public void prefillRecord(String recordId) {
         System.out.println(recordId);
         System.out.println("Record ID in EditRecordController: " + recordId);
@@ -128,7 +110,6 @@ public class EditRecordController {
     }
 
 
-
     public void confirmEdit() throws IOException {
         this.patientData = new HashMap<>();
         patientData.put("patientId", MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId());
@@ -139,7 +120,7 @@ public class EditRecordController {
         patientData.put("sysBp", this.sysBp.getText());
         patientData.put("diaBp", this.diaBp.getText());
         patientData.put("comment", this.comment.getText());
-        patientData.put("recordId",this.record.get(0).getRecordId());
+        patientData.put("recordId", this.record.get(0).getRecordId());
 
         PatientRecord newPatRecord = new PatientRecord(patientData);
         boolean result = newPatRecord.updateRecord();
@@ -153,8 +134,8 @@ public class EditRecordController {
     public void getDate(ActionEvent actionEvent) {
 
         LocalDate datePickerDate = this.datePicker.getValue();
-        //System.out.println(formattedDate);
-        this.pickedDate = datePickerDate.format(DateTimeFormatter.ofPattern(this.pattern));
+        // System.out.println(formattedDate);
+        this.pickedDate = datePickerDate.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
 
     }
 

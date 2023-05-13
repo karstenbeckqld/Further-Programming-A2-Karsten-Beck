@@ -2,6 +2,8 @@ package com.karstenbeck.fpa2.model;
 
 import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -11,11 +13,13 @@ import java.util.Vector;
  * The PatientRecord class resembles a record a patient can create
  *
  * @author Karsten Beck
- * @version 1.0 (15/04/2023)
+ * @version 2.0 (12/05/2023)
  */
 public class PatientRecord extends Record {
 
-    private Checkbox selected;
+    /* To be able to change the selected status of a PatientRecord in a tableview, we've added the BooleanProperty
+       selected to the class. This allows us to select PatientRecords by ticking a checkbox in the tableview row. */
+    private BooleanProperty selected;
 
     /**
      * Non-default constructor which creates an object of the PatientRecord class.
@@ -24,7 +28,7 @@ public class PatientRecord extends Record {
      */
     public PatientRecord(HashMap<String, Object> data) {
         super("records", data);
-        this.selected = new Checkbox();
+        this.selected = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -120,12 +124,31 @@ public class PatientRecord extends Record {
     return (String) this.data.get("date");
     }
 
-    public void setSelected(Checkbox selected) {
-        this.selected = selected;
+    /**
+     * The setSelected() method sets the selected field to the value provided.
+     *
+     * @param selected  A boolean value to set the selected field.
+     */
+    public void setSelected(Boolean selected) {
+        this.selected.set(selected);
     }
 
-    public Checkbox getSelected() {
-        return this.selected;
+    /**
+     * The getSelected() method returns the value of the selected field.
+     *
+     * @return A boolean value of true or false.
+     */
+    public Boolean getSelected() {
+        return this.selected.get();
+    }
+
+    /**
+     * The selectedProperty() method returns the value of the selected field as BooleanProperty.
+     *
+     * @return  A BooleanProperty representing the state of the selected field.
+     */
+    public BooleanProperty selectedProperty(){
+        return  selected;
     }
 
     /**

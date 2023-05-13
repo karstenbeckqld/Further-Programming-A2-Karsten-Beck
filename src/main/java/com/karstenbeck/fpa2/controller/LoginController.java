@@ -144,11 +144,11 @@ public class LoginController extends Controller {
                 }
 
             } else {
-                this.loginMessage.setText("Wrong username or password. Please try again.");
+                this.loginMessage.setText("This patient is not registered.");
             }
         } else {
             if (numError>1){
-                this.loginMessage.setText("There are still errors.");
+                this.loginMessage.setText("Please provide your login details.");
             }
         }
     }

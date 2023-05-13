@@ -193,12 +193,16 @@ public class TableDisplayController extends Controller {
         editView.setMinWidth(300);
         editView.setMinHeight(300);
         editView.setTitle("Edit Record number: " + patientRecord.getRecordId());
+
         FXMLLoader loader = new FXMLLoader(FXMLUtility.editView);
         Scene scene = new Scene(loader.load());
+
         editView.setScene(scene);
+
         EditRecordController editRecordController = loader.getController();
         editRecordController.prefillRecord(recordId);
         editRecordController.setStage(editView);
+
         editView.show();
     }
 

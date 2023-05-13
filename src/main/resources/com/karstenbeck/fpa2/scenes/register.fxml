@@ -15,7 +15,7 @@
             style="-fx-background-color: #4d608a;"
             styleClass="main"
             stylesheets="@../css/register.css"
-            xmlns="http://javafx.com/javafx/19"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.karstenbeck.fpa2.controller.RegistrationController">
     <children>
