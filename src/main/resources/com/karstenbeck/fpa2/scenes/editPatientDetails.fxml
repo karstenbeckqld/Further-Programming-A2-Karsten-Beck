@@ -162,7 +162,7 @@
                                         right="20.0"/>
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="password"
+                        <PasswordField fx:id="password"
                                    GridPane.columnIndex="1"
                                    GridPane.columnSpan="2"
                                    GridPane.rowIndex="4">
@@ -170,7 +170,7 @@
                                 <Insets left="20.0"
                                         right="20.0"/>
                             </GridPane.margin>
-                        </TextField>
+                        </PasswordField>
                         <Label text="Confirm Password"
                                GridPane.rowIndex="5"/>
                         <PasswordField fx:id="confirmPassword"

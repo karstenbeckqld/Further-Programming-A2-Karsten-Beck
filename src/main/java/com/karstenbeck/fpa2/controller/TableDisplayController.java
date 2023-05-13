@@ -8,7 +8,6 @@ import com.karstenbeck.fpa2.model.RecordFinder;
 import com.karstenbeck.fpa2.services.FXMLUtility;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,16 +15,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.security.auth.callback.Callback;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * The TableDisplayController class displays the records stored for a patient, as well as the patient's name and
+ * profile image. .
+ *
+ * @author Karsten Beck
+ * @version 1.0 (13/05/2023)
+ */
 public class TableDisplayController extends Controller {
 
     @FXML
@@ -45,33 +48,12 @@ public class TableDisplayController extends Controller {
 
     @FXML
     public Button addRecord;
-    
-    @FXML
-    private Button selectRecords;
 
     @FXML
     private TableView<PatientRecord> tableView;
 
     @FXML
-    private TableColumn<PatientRecord, String> date;
-
-    @FXML
-    private TableColumn<PatientRecord, String> time;
-
-    @FXML
-    private TableColumn<PatientRecord, String> weight;
-
-    @FXML
-    private TableColumn<PatientRecord, String> temp;
-
-    @FXML
-    private TableColumn<PatientRecord, String> sysBp;
-
-    @FXML
-    private TableColumn<PatientRecord, String> diaBp;
-
-    @FXML
-    private TableColumn<PatientRecord, String> comment;
+    private TableColumn<PatientRecord, String> date, time, weight, temp, sysBp, diaBp, comment;
 
     @FXML
     private TableColumn<PatientRecord, Button> buttons;
@@ -84,24 +66,34 @@ public class TableDisplayController extends Controller {
 
     String patientId;
 
+    /**
+     * The initialize() method retrieves the patient ID for the currently registered patient from the MyHealth class and
+     * sets the display name as well as creates the TableView and the ImageView of the profile image. It also adds a
+     * patient's records to the TableView.
+     */
     @FXML
     public void initialize() {
+
+        /* We often refer back to the TableDisplayController from other classes to reload the table data. Therefore, we
+           assign the current TableDisplayController class to a variable to be able to access it.  */
         TableDisplayController.tDController = this;
 
+        /* Here we get the patient ID of the currently logged in patient. */
         this.patientId = MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId();
 
-        System.out.println("Patient ID: " + patientId);
-
+        /* We use this patient ID to obtain the patient's details from the database as an observable list. */
         ObservableList<Patient> patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
 
+        /* Here we set the name displayed at the top of the window to the currently logged in patient. */
         this.displayName.setText(patientDetails.get(0).getLastName() + ", " + patientDetails.get(0).getFirstName());
 
+        /* Now we load all patient records available in the database. */
         ObservableList<PatientRecord> patientRecords = new RecordFinder().where("patientId", this.patientId).getData("records");
 
-
+        /* Assign these records to the TableView. */
         this.tableView.setItems(patientRecords);
-        // this.tableView.setEditable(true);
-        
+
+        /* Setting the CellValueFactories for the table columns. */
         this.date.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.time.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.weight.setCellValueFactory(new PropertyValueFactory<>("weight"));
@@ -110,14 +102,8 @@ public class TableDisplayController extends Controller {
         this.diaBp.setCellValueFactory(new PropertyValueFactory<>("diaBp"));
         this.comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
 
-        /* if (patientRecords.size() > 0) {
-            this.recordId = Integer.parseInt(patientRecords.get(0).getRecordId());
-        } else {
-            System.out.println("No records available.");
-        } */
-
-        System.out.println("Number of records: " + patientRecords.size());
-
+        /* We now set the image for the ImageView in the sidebar by getting the image data from the database via the
+           patient ID. */
         Image img = DatabaseConnection.getProfileImage(this.patientId);
         if (img != null) {
             this.profileImage.setImage(img);
@@ -127,7 +113,8 @@ public class TableDisplayController extends Controller {
         }
 
 
-        /* Here we connect the Edit and Delete buttons to respective ActionEvents. This approach got adapted from
+        /* Here we connect the Edit and Delete buttons for each table row to respective ActionEvents. This approach got
+           adapted from:
            https://stackoverflow.com/questions/44696775/how-to-add-two-buttons-in-a-tablecolumn-of-tableview-javafx */
         this.buttons.setCellFactory(param -> new TableCell<PatientRecord, Button>() {
 
@@ -179,16 +166,18 @@ public class TableDisplayController extends Controller {
                 }
             }
         });
-
     }
 
-
+    /**
+     * The editPatientRecord() method gets called from the Edit button inside a table row and allows for a record to get
+     * edited. It opens the Edit view, defined by the editView FXML file and passes the record data on to this class.
+     *
+     * @param patientRecord The patient record displayed in the table row the button is contained in.
+     * @throws IOException  Because we're using the FXMLLoader class, we can encounter an IOException.
+     */
     private void editPatientRecord(PatientRecord patientRecord) throws IOException {
-        System.out.println(patientRecord.getRecordId() + "   " + patientRecord.getWeight());
-        String recordId = patientRecord.getRecordId();
-        ArrayList<PatientRecord> patientRecordFinder = new RecordFinder().where("recordId", patientRecord.getRecordId()).getDataAsArrayList("records");
-        System.out.println(patientRecordFinder.toString());
 
+        /* Create a new stage for the edit view and pass on the record that has been detected by the button action event. */
         Stage editView = new Stage();
         editView.setMinWidth(300);
         editView.setMinHeight(300);
@@ -200,14 +189,20 @@ public class TableDisplayController extends Controller {
         editView.setScene(scene);
 
         EditRecordController editRecordController = loader.getController();
-        editRecordController.prefillRecord(recordId);
+        editRecordController.prefillRecord(patientRecord.getRecordId());
         editRecordController.setStage(editView);
 
         editView.show();
     }
 
+    /**
+     * The addPatientRecord() method allows a user to add a patient record to the database. It calls the addRecord FXML
+     * file and controller in a new window.
+     *
+     * @throws IOException  Because we're using the FXMLLoader class, we can get an IOException.
+     */
     @FXML
-    private void addPatientRecord(Event event) throws IOException {
+    private void addPatientRecord() throws IOException {
         Stage addView = new Stage();
         FXMLLoader loader = new FXMLLoader(FXMLUtility.addRecord);
         Scene scene = new Scene(loader.load());

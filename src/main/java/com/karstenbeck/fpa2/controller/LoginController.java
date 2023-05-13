@@ -64,13 +64,13 @@ public class LoginController extends Controller {
     private TextField userName;
 
     /**
-     * The initialize() method gets executed automatically uon loading the LoginController. It sets up appropriate
-     * EventHandlers for the input fields and buttons, so that users can tab through the fields and login with pressing
-     * the Enter key.
+     * The initialize() method gets executed automatically upon loading the LoginController. It sets up appropriate
+     * EventHandlers for the input fields and buttons, so that users can login by pressing the enter key or clicking the
+     * mouse.
      */
     public void initialize() {
 
-        /* Setting up  */
+        /* Setting up he buttons so that the user can use either the mouse or the keyboard to hit enter.  */
         EventHandler<MouseEvent> mouseClickHandler = mouseEvent -> {
             if (MouseButton.PRIMARY.equals(mouseEvent.getButton())) {
                 try {

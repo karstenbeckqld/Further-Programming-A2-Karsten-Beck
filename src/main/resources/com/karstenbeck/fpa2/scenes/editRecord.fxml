@@ -44,6 +44,6 @@
         <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="7" />
         <Button fx:id="confirmBtn" mnemonicParsing="false" text="Confirm" GridPane.columnIndex="3" GridPane.rowIndex="7" />
         <Label fx:id="commentLabel" text="Comment (max. 50 words)" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <DatePicker fx:id="datePicker" onAction="#getDate" prefHeight="26.0" prefWidth="224.0" GridPane.columnIndex="2" />
+      <DatePicker fx:id="datePicker" onAction="#getFormattedDate" prefHeight="26.0" prefWidth="224.0" GridPane.columnIndex="2" />
     </children>
 </GridPane>

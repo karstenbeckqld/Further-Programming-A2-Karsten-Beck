@@ -59,7 +59,7 @@
                layoutY="510.0"
                style="-fx-text-fill: #fff;"
                text="Password"/>
-        <TextField fx:id="password"
+        <PasswordField fx:id="password"
                    layoutX="50.0"
                    layoutY="530.0"
                    prefWidth="300"/>

@@ -2,7 +2,6 @@ package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
-import com.karstenbeck.fpa2.services.FXMLUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -30,10 +29,10 @@ public class EditPatientDetailsController extends Controller {
 
     /* References to the FXML TextFields. */
     @FXML
-    private TextField firstName, lastName, userName, password, email;
+    private TextField firstName, lastName, userName, email;
 
     @FXML
-    private PasswordField confirmPassword;
+    private PasswordField password, confirmPassword;
 
     @FXML
     private ImageView profileImage;
@@ -111,7 +110,7 @@ public class EditPatientDetailsController extends Controller {
     public void confirmButtonPress() {
         int numErrors = 0;
 
-        /* Here we check for the password fields to match. */
+        /* Here we check for the password and confirmPassword fields to match. */
         if (this.password.getText().isEmpty()) {
             this.errorMessage.setText("Password is required.");
             this.errorMessage.getStyleClass().remove("errorHidden");

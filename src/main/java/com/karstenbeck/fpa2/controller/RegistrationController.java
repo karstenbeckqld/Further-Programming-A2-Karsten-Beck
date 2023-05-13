@@ -31,7 +31,7 @@ import java.util.Optional;
  * The RegistrationController class forms the interface between the register.fxml file and MyHealth.
  *
  * @author Karsten Beck
- * @version 1.0 (15/04/2023)
+ * @version 2.0 (12/05/2023)
  */
 public class RegistrationController extends Controller {
 
@@ -75,7 +75,7 @@ public class RegistrationController extends Controller {
      * The password TextField provides the application with the value for a password the user entered.
      */
     @FXML
-    private TextField password;
+    private PasswordField password;
 
     /**
      * The email TextField provides the application with the value for the email the user entered.
@@ -96,8 +96,6 @@ public class RegistrationController extends Controller {
     @FXML
     public Button backBtn;
 
-    private Stage stage;
-
     private HashMap<String, String> patData;
 
     /**
@@ -107,9 +105,13 @@ public class RegistrationController extends Controller {
      */
     public void initialize() {
 
+        /* First, we initialise the patData field as a new HashMap. */
         this.patData = new HashMap<>();
+
+        /* Because we set a default patient image for every user that registers, we define the file here.  */
         File selectedFile = new File("images/default.png");
 
+        /* Now we're filling the ImageView with this file. */
         try {
             InputStream is = new FileInputStream(selectedFile);
             Image image = new Image(is);
@@ -121,9 +123,13 @@ public class RegistrationController extends Controller {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        /* If the user doesn't change the photo to their own, we have to keep the path to the current image. Therefore,
+           we set the "photo" and "imageFilePath" key's values to the path of the default photo.  */
         this.patData.put("photo", selectedFile.getAbsolutePath());
         this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
 
+        /* If the user decides not to register, they'll be offered a back button here.  */
         this.backBtn.setOnAction(actionEvent -> {
             try {
                 stageForward(actionEvent, FXMLUtility.loginFXML);
@@ -142,9 +148,13 @@ public class RegistrationController extends Controller {
      */
     public void createUser(ActionEvent event) throws EmptyInputFieldException, IOException {
 
-
+        /* We need to check for uniqueness of the username. Hence, we load all database instances of the username
+           entered. If this value is greater than 0, we have a username duplication and need to inform the registering
+           user.  */
         ObservableList<Patient> patient = new RecordFinder().where("userName", this.userName.getText()).getData("patients");
 
+        /* The following code block performs checks on empty input fields and renders the text fields, as well as the
+           error message, accordingly. Only of there are no errors, the user can get created.  */
 
         int numErrors = 0;
 
@@ -202,7 +212,8 @@ public class RegistrationController extends Controller {
             this.userName.getStyleClass().remove("textFieldError");
         }
 
-
+        /* When there are no errors, the values of the entered test fields are added to the HashMap initialised earlier
+           and by using the DatabaseConnection class' static savePatientData() method, saved to the database.  */
         if (numErrors == 0) {
             patData.put("firstName", this.firstName.getText());
             patData.put("lastName", this.lastName.getText());
@@ -210,8 +221,12 @@ public class RegistrationController extends Controller {
             patData.put("password", this.password.getText());
             patData.put("email", this.email.getText());
 
+            /* We use a method from the DatabaseConnection class instead of the Record's own save method because of the
+               image that gets saved along with the data. While saving patients records works fine with this method, for
+               patients themselves we need a more specialised method.  */
             boolean result = DatabaseConnection.savePatientData(this.patData);
 
+            /* Now we can clear all fields for new entries. */
             this.firstName.clear();
             this.lastName.clear();
             this.userName.clear();
@@ -219,6 +234,7 @@ public class RegistrationController extends Controller {
             this.confirmPassword.clear();
             this.email.clear();
 
+            /* If the patient got saved successfully, we display an alert to confirm the addition to the database. */
             if (result) {
                 Stage stage = (Stage) this.anchorPane.getScene().getWindow();
 
@@ -234,8 +250,6 @@ public class RegistrationController extends Controller {
                         stageForward(event,FXMLUtility.loginFXML);
                     }
                 }
-
-
             } else {
                 System.out.println("Patient not created.");
             }
@@ -246,17 +260,24 @@ public class RegistrationController extends Controller {
         }
     }
 
+    /**
+     * The insertImageButtonPress() method lets the user choose an image from a file within the file system of the
+     * computer.
+     */
     public void insertImageButtonPress() {
 
-        this.stage = MyHealth.getMyHealthInstance().getStage();
+        /* Firstly we obtain the reference to the current stage  */
+        Stage stage = MyHealth.getMyHealthInstance().getStage();
 
-
+        /* We display a FileChooser so that the user can pick a file for an image. We allow for the common image file
+           extensions. */
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a profile picture");
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("*.png", "*.jpg", "*.jpeg", "*.png");
         fileChooser.getExtensionFilters().add(extensionFilter);
         File selectedFile = fileChooser.showOpenDialog(this.loadImageButton.getScene().getWindow());
 
+        /* Once a file got picked, we display it in the ImageView field as a confirmation for the user. */
         try {
             InputStream is = new FileInputStream(selectedFile);
             Image image = new Image(is);
@@ -268,12 +289,11 @@ public class RegistrationController extends Controller {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        /* We now add the file path of the chosen image to the "photo" and "imageFilePath" keys of the HamsMap. The
+           DatabaseConnection class will deal with converting them into a BLOB. */
         this.patData.put("photo", selectedFile.getAbsolutePath());
         this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
-
-        System.out.println(this.patData.get("imageFilePath"));
-
-
     }
 
     /**
