@@ -1,6 +1,10 @@
 Link to video recording Milestone 2:
 https://rmiteduau-my.sharepoint.com/:v:/r/personal/s3912792_student_rmit_edu_au/Documents/Recording-20230513_112503.webm?csf=1&web=1&e=aZdoZe
 
+Available usernames and passwords:
+Username: nbeck - password: test
+Username: kbeck - password: test
+Username: tester - password: test
 
 Link to video recording Milestone 1:
 
@@ -15,42 +19,26 @@ Karsten Beck | s3912792@student.rmit.edu.au
 HOW TO COMPILE
 -----------------------------------------------------------------------------
 
-The assignment has been created using the IntelliJ IDEA IDE and Maven. To compile the code, , to compile the program
-for testing you can simply click the green arrow at the top left hand side of
-the program.
+The assignment has been created using the IntelliJ IDEA 2023.1.1 (Ultimate Edition) , Maven and Xerial sqlite database
+JDBC module.
+To compile the code, please open it in IntelliJ and adjust your module settings according to the below-mentioned
+libraries. Once setup, you can click the green arrow at the top right hand side of the window or press (CTRL+R on Mac)
+to run the program.
 
-Alternatively if you wish to compile the program to be used standalone or by
-others then you need to click file -> project structure -> artifacts, from
-here you can click plus to add a new artifact -> jar -> from module with
-dependencies. As this is a maven project I would recommend for simplicity that
-the program be compiled via a IntelliJ artifact instead of a standard Java
-commandline compile as was done in A1.
-
-Once you have the artifact added then simply press the build button on the top
-ribbon menu, then select artifact, select the one you created then build.
+Because of the use of Maven libraries, we recommend running the program inside the IntelliJ IDE rather than compiling
+from the command line. For this, we've provided the complete project folder structure.
 
 
-|---------------------------------------------------------------------------|
-|                         HOW TO RUN UNIT TESTS                             |
-|---------------------------------------------------------------------------|
-To make the unit tests easy to run I have placed them all inside the testing
-package "com.jackgharris.cosc2288.a2.tests" to run all the testing classes in
-that package simply right-click on the package via the project view on the left
-and select run "Run tests in com.jackgharris.cosc2288.a2.tests". IntelliJ will
-then go ahead and run all the class files and the tests compiled with in.
-
-From there you can export the results as a .html file and place them in the
-dedicated "unit testing results" folder.
+HOW TO RUN UNIT TESTS
+-----------------------------------------------------------------------------
+The unit tests have not been finalised at this point.
 
 
-|---------------------------------------------------------------------------|
-|                         JDK Version & Compiler                            |
-|---------------------------------------------------------------------------|
-For this project I have used the follow:
+JDK VERSION AND COMPILER
+-----------------------------------------------------------------------------
+The used compiler and libraries for this project are:
 
-- open JDK version 19 & Compiler (installed via intelliJ)
-- openJavaFX version 17.0.2 (installed via intelliJ with Maven)
-- sqlite-jdbc by org.xerial version 3.39.3.0 (installed via intelliJ with Maven)
-- commons-validator version 1.7 (installed via intelliJ with Maven)
-- Junit version 4.13.2 (installed via intelliJ with Maven)
-- hamcrest-core version 1.3 (installed via intelliJ with Maven)
+- open JDK version 11.0.18 & Compiler (installed from Oracle website and stored in /Library/Java/JavaVirtualMachines)
+- openJavaFX version 17.0.2 (installed through IntelliJ with Maven)
+- sqlite-jdbc by org.xerial version 3.41.2.1 (installed via IntelliJ)
+- Junit version 4.13.1 (installed via IntelliJ with Maven)

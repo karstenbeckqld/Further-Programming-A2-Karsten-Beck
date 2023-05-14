@@ -66,39 +66,10 @@ public class RecordFinder {
     }
 
     /**
-     * The getFromDatabase() method combines the remaining methods in this class and executes the database search.
+     * The getData() method combines the remaining methods in this class and executes the database search.
      *
-     * @return An ArrayList&lt;PatientRecord&gt; containing the records for a patient matching the search criteria
+     * @return An ObservableList&lt;T&gt; where T can be a Patient or a PatientRecord.
      */
-   /*  public ArrayList<PatientRecord> getFromDatabase() {
-         *//* The getFromDatabase method should get converted into a generic method to accommodate for PatientRecords and
-        Patients and any future classes that extend the Record class. However, time ran out and I also have to check if
-        my approach can get handled by Java 11, or if it only works for higher Java versions. *//*
-
-        ArrayList<PatientRecord> databaseContents = new ArrayList<>();
-
-        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM records");
-
-        if (this.where.size() > 0) {
-            this.where.forEach((key, value) -> {
-                sqlQuery.append(" WHERE ").append(key).append("='").append(value).append("'");
-            });
-        }
-
-        if (this.limit > 0) {
-            sqlQuery.append(" LIMIT=").append(this.limit);
-        }
-
-         *//* Run the sqlQuery on the database and add found records to the ArrayList. *//*
-        DatabaseConnection.query(sqlQuery.toString()).forEach((n) -> {
-
-            databaseContents.add(new PatientRecord(n));
-
-        });
-
-        return databaseContents;
-    } */
-
     public <T extends Record> ObservableList<T> getData(String table) {
 
         ObservableList<T> databaseContent = FXCollections.observableArrayList();
@@ -133,6 +104,11 @@ public class RecordFinder {
 
     }
 
+    /**
+     * The getDataAsArrayList() method combines the remaining methods in this class and executes the database search.
+     *
+     * @return An ArrayList&lt;T&gt; where T can be a Patient or a PatientRecord.
+     */
     public <T extends Record> ArrayList<T> getDataAsArrayList(String table) {
 
         ArrayList<T> databaseContent = new ArrayList<>();
@@ -164,8 +140,5 @@ public class RecordFinder {
         }
 
         return databaseContent;
-
     }
-
-
 }

@@ -29,7 +29,7 @@ import java.util.HashMap;
  * @author Karsten Beck
  * @version 1.0 (13/05/2023)
  */
-public class RecordSelectorController {
+public class RecordSelectorController extends Controller {
 
 
     @FXML

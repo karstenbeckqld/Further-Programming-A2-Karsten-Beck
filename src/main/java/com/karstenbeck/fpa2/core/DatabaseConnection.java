@@ -21,7 +21,7 @@ import java.util.*;
  * The DatabaseConnection class provides functionality for interacting with a SQLite database.
  *
  * @author Karsten Beck
- * @version 1.0 (15/04/2023)
+ * @version 2.0 (13/05/2023)
  */
 public class DatabaseConnection {
 
@@ -30,6 +30,10 @@ public class DatabaseConnection {
      * The JdbcUrl variable stores the path to the database.
      */
     private static final String JdbcUrl = "jdbc:sqlite:/Users/karstenbeck/Documents/Programming/Java/RMIT/FP/FPA2/data.db";
+
+    /**
+     * Here we store the required prepared statements as static fields so we can access them in the respective methods.
+     */
 
     private static final String patientStoreStatement = "INSERT INTO patients (firstName, lastName, userName, " +
             "password, email, imageFilePath, photo) VALUES (?,?,?,?,?,?,?)";
@@ -44,11 +48,20 @@ public class DatabaseConnection {
 
     private static final String patientUpdateStatement = "UPDATE patients SET firstName=?, lastName=?, userName=?, " +
             "password=?, email=?, imageFilePath=?, photo=? WHERE patientId=?";
+
+
     private static final String recordUpdateStatement = "INSERT INTO records (patientId, date, time, weight, " +
             "temperature, sysBp, diaBp, comment) VALUES (?, ?, ?, ?, ? ,?, ?, ?)";
 
     private static final String deleteRecordStatement = "DELETE FROM ? WHERE recordId=?";
 
+    /**
+     * The savePatientData() method uses a prepared statement to save patient data to the database, including hashing
+     * the password and the profile image as BLOB.
+     *
+     * @param data  The patient data as HashMap of type String, String.
+     * @return      A boolean result depicting if the execution was successful or nor.
+     */
     public static boolean savePatientData(HashMap<String, String> data) {
         boolean result = false;
 
@@ -71,55 +84,25 @@ public class DatabaseConnection {
                     throw new RuntimeException(e);
                 }
 
-
-
-
-
                 preparedStatement.execute();
 
                 connection.close();
 
                 result = true;
-
             }
-
-
         } catch (SQLException | IOException e) {
             System.out.println(e.getMessage());
         }
         return result;
     }
 
-    public static boolean addProfileImage(String imageUrl, String patientId) {
-
-        boolean result = false;
-
-        try (Connection connection = DriverManager.getConnection(JdbcUrl);
-             Statement statement = connection.createStatement();) {
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(setPatientPhoto)) {
-
-                preparedStatement.setString(2, patientId);
-
-                try {
-                    FileInputStream fileInputStream = new FileInputStream(imageUrl);
-                    preparedStatement.setBinaryStream(1, fileInputStream, fileInputStream.available());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                preparedStatement.execute();
-
-                connection.close();
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return result;
-    }
-
+    /**
+     * The getPatientData() method receives the patient ID value and returns the data for this patient stored in the
+     * database.
+     *
+     * @param patientId The patient ID as String.
+     * @return          A HashMap of type String, Object that contains the patient's data, including the image as BLOB.
+     */
     public static HashMap<String, Object> getPatientData(String patientId) {
 
         HashMap<String, Object> data = new HashMap<>();
@@ -152,6 +135,13 @@ public class DatabaseConnection {
         return data;
     }
 
+    /**
+     * The getProfileImage() method loads a patient's profile image from the database as an Image to get displayed in an
+     * ImageView container.
+     *
+     * @param patientId The patient ID as a String.
+     * @return            An Image object.
+     */
     public static Image getProfileImage(String patientId) {
 
         Image image = null;
@@ -177,6 +167,13 @@ public class DatabaseConnection {
         return image;
     }
 
+    /**
+     * The updatePatientDetails() method updates patient details in the database.
+     *
+     * @param data      A HashMap of type String, String that contains patient data.
+     * @param patientId The patient ID to update as String.
+     * @return          A boolean value, indicating success or failure of the operation.
+     */
     public static boolean updatePatientDetails(HashMap<String, String> data, String patientId) {
         boolean result = false;
 
@@ -212,7 +209,6 @@ public class DatabaseConnection {
 
         return result;
     }
-
 
     /**
      * The query() method runs a query on the database with a given string.
@@ -251,7 +247,7 @@ public class DatabaseConnection {
     }
 
     /**
-     * The booleanQuery() method can get used to insert and update records in the database.
+     * The booleanQuery() method can get used to insert and update patient records in the database.
      *
      * @param query The query to get run on the database as String
      * @return A boolean value of either true (success) or false (fail)
@@ -275,10 +271,18 @@ public class DatabaseConnection {
         return result;
     }
 
+    /**
+     * The hashPassword() method hashes a password provided by the user to be stored in the database. It is part of the
+     * DatabaseConnection class because here we need to hash passwords to store and to compare passwords.
+     *
+     * @param password  The password to hash as String.
+     * @return          The hashed password as String.
+     */
     public static String hashPassword(String password) {
         byte[] hashedPassword = new byte[0];
 
         try{
+            /* For size reasons we use the SHA256 hash algorithm as it produces shorter strings.  */
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             hashedPassword = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
 

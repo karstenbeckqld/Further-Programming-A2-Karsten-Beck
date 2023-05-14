@@ -15,6 +15,9 @@ import java.net.URL;
 /**
  * The FXMLUtility class provides a central point of URL to the required fxml files for various scenes. The URLs are
  * declared static, so that they can get accessed without instantiating the FXMLUtility class itself.
+ *
+ * @author Karsten Beck
+ * @version 3.0 (13/05/2023)
  */
 public class FXMLUtility {
 

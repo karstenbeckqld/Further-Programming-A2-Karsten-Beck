@@ -58,7 +58,7 @@ public class TableDisplayController extends Controller {
     @FXML
     private TableColumn<PatientRecord, Button> buttons;
 
-    private int recordId;
+   /*  private int recordId; */
 
     private static TableDisplayController tDController;
 
@@ -80,6 +80,9 @@ public class TableDisplayController extends Controller {
 
         /* Here we get the patient ID of the currently logged in patient. */
         this.patientId = MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId();
+
+        /* Load the patient details for use throughout the class. */
+        this.patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
 
         /* We use this patient ID to obtain the patient's details from the database as an observable list. */
         ObservableList<Patient> patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
@@ -116,7 +119,7 @@ public class TableDisplayController extends Controller {
         /* Here we connect the Edit and Delete buttons for each table row to respective ActionEvents. This approach got
            adapted from:
            https://stackoverflow.com/questions/44696775/how-to-add-two-buttons-in-a-tablecolumn-of-tableview-javafx */
-        this.buttons.setCellFactory(param -> new TableCell<PatientRecord, Button>() {
+        this.buttons.setCellFactory(param -> new TableCell<>() {
 
             /* First we define which buttons within the TableCells must be addressed. */
             private final Button editButton = new Button("edit");
@@ -212,18 +215,24 @@ public class TableDisplayController extends Controller {
         addView.show();
     }
 
-
+    /**
+     * The deletePatientRecord() receives a patient record and deletes it from the database. It uses the Record class'
+     * deleteRecord() method to perform this action and receives the patient record t delete from the action event of
+     * the button pressed in the table row.
+     *
+     * @param patientRecord The patient record to delete as type PatientRecord.
+     */
     private void deletePatientRecord(PatientRecord patientRecord) {
 
+        /* We first define the stage as the window of the underlying AnchorPane to have a reference for the alert. */
         Stage stage = (Stage) AnchorPane.getScene().getWindow();
 
-        System.out.println(patientRecord.getRecordId() + "   " + patientRecord.getDate());
-
+        /* Now we initialise a new alert of type confirmation and define the modality and owner. */
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
 
+        /* We now set the display text, which will be the selected record's data for confirmation. */
         alert.getDialogPane().setContentText("Are you sure you want to delete this record:\n"
                 + "Date        : " + patientRecord.getDate() + "\n"
                 + "Time        : " + patientRecord.getTime() + "\n"
@@ -233,38 +242,55 @@ public class TableDisplayController extends Controller {
                 + "diastolic BP: " + patientRecord.getDiaBp());
         alert.setHeaderText("Deleting Patient Record");
 
+        /* Now we create the event handler and wait for user input. */
         Optional<ButtonType> buttonResult = alert.showAndWait();
         if (buttonResult.isPresent()) {
+
+            /* If the user clicks the OK button, we delete the record from the database using the deleteRecord() method
+               from the parent class  */
             if (buttonResult.get() == ButtonType.OK) {
                 boolean result = patientRecord.deleteRecord("records", "recordId", patientRecord.getRecordId());
                 if (result) {
                     this.reloadTable();
                 }
-                System.out.println("OK pressed");
+
+                /* If cancel is pressen, we close the alert and do nothing.  */
             } else if (buttonResult.get() == ButtonType.CANCEL) {
                 System.out.println("CANCEL pressed");
             }
         }
-
-
     }
+
+    /**
+     * The reloadTable() method reloads the table view by calling the initialize() method again.
+     * */
 
     public void reloadTable() {
         initialize();
     }
 
+    /**
+     * The getTableDisplayControllerInstance() method returns the instance of this TableDisplayController to the calling
+     * method.
+     * @return  The current TableDisplayController instance as TableDisplayController.
+     */
     public static TableDisplayController getTableDisplayControllerInstance() {
         return TableDisplayController.tDController;
     }
 
-    public void editPatientProfile(ActionEvent actionEvent) throws IOException {
+    /**
+     * The editPatientProfile() method allows a user to change their profile data. It opens the editPatientDetails FXML
+     * file.
+     *
+     * @throws IOException  Because we use the FXMLLoader class, we can encounter an IOException.
+     */
+    public void editPatientProfile() throws IOException {
 
-        this.patientDetails = new RecordFinder().where("patientId", this.patientId).getData("patients");
-
+        /* To customise the popup window, we use the patient's first and last names to display in the window header. */
         String firstName = this.patientDetails.get(0).getFirstName();
         String lastName = this.patientDetails.get(0).getLastName();
 
-
+        /* Now we create a new stage to display the edit fields amd load the corresponding controller. */
         Stage editPatientProfile = new Stage();
         editPatientProfile.setTitle("Edit Profile for: " + firstName + " " + lastName);
 
@@ -277,22 +303,26 @@ public class TableDisplayController extends Controller {
         editPatientProfile.show();
     }
 
+    /**
+     * The centerImage() method serves as a helper to center the profile image within the ImageView display. It has been
+     * adapted from:
+     * <a href="https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview">...</a>
+     */
     private void centerImage() {
-        /* https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview */
+        /* First we get the image from the image view. */
         Image image = this.profileImage.getImage();
+
+        /* If it's not null, we calculate the x and y ratios of the image and define a coefficient that we can multiply
+           the image width and height with. Then we calculate the ratio width and height and finally set the X and Y
+           positions of the image to the relative values. */
         if (image != null) {
-            double width = 0;
-            double height = 0;
+            double width;
+            double height;
 
             double ratioX = this.profileImage.getFitWidth() / image.getWidth();
             double ratioY = this.profileImage.getFitHeight() / image.getHeight();
 
-            double coeff = 0;
-            if (ratioX > ratioY) {
-                coeff = ratioY;
-            } else {
-                coeff = ratioX;
-            }
+            double coeff = Math.min(ratioX, ratioY);
 
             width = image.getWidth() * coeff;
             height = image.getHeight() * coeff;
@@ -302,12 +332,23 @@ public class TableDisplayController extends Controller {
         }
     }
 
-
+    /**
+     * The closeTable() method closes the table view and returns the user back to the login screen.
+     *
+     * @param actionEvent The action event fired by the Sign-Out button.
+     * @throws IOException  We use the FXMLLoader class which can throw an IOException.
+     */
     public void closeTableView(ActionEvent actionEvent) throws IOException {
         stageForward(actionEvent, FXMLUtility.loginFXML);
     }
 
-    public void selectRecords(ActionEvent actionEvent) throws IOException {
+    /**
+     * The selectRecords() method opens the recordSelection FXML view and the respective controller. It lets the user
+     * select records for export.
+     *
+     * @throws IOException We use the FXMLLoader class which can throw an IOException.
+     */
+    public void selectRecords() throws IOException {
         Stage selectView = new Stage();
         FXMLLoader loader = new FXMLLoader(FXMLUtility.recordSelection);
         Scene scene = new Scene(loader.load());

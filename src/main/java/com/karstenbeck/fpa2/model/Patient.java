@@ -63,6 +63,11 @@ public class Patient extends Record {
         return (String) this.data.get("password");
     }
 
+    /**
+     * The getEmail() method returns a patient's email
+     *
+     * @return  The email of the patent as String.
+     */
     public String getEmail() {
         return (String) this.data.get("email");
     }
@@ -75,7 +80,6 @@ public class Patient extends Record {
      */
     public void setFirstName(String firstName) {
         this.data.put("firstName", firstName);
-        this.saveRecord();
     }
 
     /**
@@ -85,7 +89,6 @@ public class Patient extends Record {
      */
     public void setLastName(String lastName) {
         this.data.put("lastName", lastName);
-        this.saveRecord();
     }
 
     /**
@@ -95,11 +98,6 @@ public class Patient extends Record {
      */
     public void setPassword(String pwd) {
         this.data.put("password", pwd);
-        this.saveRecord();
-    }
-
-    public void setImageFilePath(String imagePath) {
-        this.data.put("photo",imagePath);
     }
 
     /**
@@ -116,9 +114,5 @@ public class Patient extends Record {
         Vector<HashMap<String, Object>> patientData = DatabaseConnection.query(sqlQuery);
 
         return new Patient(patientData.get(0));
-    }
-
-    public String getImageFilePath() {
-        return (String) this.data.get("imageFilePath");
     }
 }

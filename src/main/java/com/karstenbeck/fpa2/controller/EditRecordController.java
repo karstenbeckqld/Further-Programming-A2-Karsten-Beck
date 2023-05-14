@@ -26,7 +26,7 @@ import static javafx.scene.input.KeyCode.ENTER;
  * @author Karsten Beck
  * @version 1.0 (12/05/2023)
  */
-public class EditRecordController {
+public class EditRecordController extends Controller {
 
     private HashMap<String, Object> patientData;
 

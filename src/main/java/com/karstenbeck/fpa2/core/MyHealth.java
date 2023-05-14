@@ -50,8 +50,10 @@ public class MyHealth extends Application {
             //this.primaryStage.initStyle(StageStyle.TRANSPARENT);
 
 
-            /* Set a title for the */
+            /* Set a title for the stage */
             this.primaryStage.setTitle("Welcome to MyHealth App!");
+
+            /* Display the stage to the screen. */
             this.primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

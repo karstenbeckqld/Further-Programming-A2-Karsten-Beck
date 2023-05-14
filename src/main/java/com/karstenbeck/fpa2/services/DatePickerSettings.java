@@ -8,8 +8,23 @@ import javafx.util.Callback;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
+/**
+ * The DatePickerSettings class provides settings for the used DatePicker.
+ *
+ * @author Karsten Beck
+ * @version 1.0 (11/05/2023)
+ */
 public class DatePickerSettings {
 
+    /* I'm planning to adjust more settings of the date picker, so this class will be a collection of settings in the
+       future.  */
+
+    /**
+     * The setWeekends() method returns a Callback to set the weekends of the date picker to have a blue background
+     * and white text to make them more prominent.
+     *
+     * @return  A Callback that sets the format of the days on weekends.
+     */
     public static Callback<DatePicker, DateCell> setWeekends() {
         Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
             public DateCell call(DatePicker datePicker) {
