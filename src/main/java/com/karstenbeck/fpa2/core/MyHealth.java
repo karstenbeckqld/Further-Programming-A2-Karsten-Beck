@@ -5,6 +5,8 @@ import com.karstenbeck.fpa2.services.FXMLUtility;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 /**
  * Driver class which is the main point of execution in this application
  *
@@ -24,8 +26,6 @@ public class MyHealth extends Application {
     private Patient patient;
 
     private Stage primaryStage;
-
-    private Stage rootStage;
 
     /**
      * Default constructor to create an object of the MyHealth class.
@@ -47,11 +47,10 @@ public class MyHealth extends Application {
             this.primaryStage.setScene(FXMLUtility.loadScene(FXMLUtility.loginFXML,primaryStage));
 
             this.primaryStage.setResizable(false);
-            //this.primaryStage.initStyle(StageStyle.TRANSPARENT);
 
 
             /* Set a title for the stage */
-            this.primaryStage.setTitle("Welcome to MyHealth App!");
+            this.primaryStage.setTitle("Welcome to the MyHealth App!");
 
             /* Display the stage to the screen. */
             this.primaryStage.show();

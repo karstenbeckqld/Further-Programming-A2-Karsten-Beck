@@ -24,11 +24,11 @@ public class FXMLUtility {
     /* URLs to the respective fxml files as public static variables. */
     public static URL loginFXML = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/login.fxml");
 
-    public static URL registrationFXML = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/register.fxml");
+    public static URL register = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/register.fxml");
 
-    public static URL patOverview = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/tableView.fxml");
+    public static URL recordListing = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/tableView.fxml");
 
-    public static URL editView = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editRecord.fxml");
+    public static URL editView = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editRecord_old.fxml");
 
     public static URL editPatientDetails = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/editPatientDetails.fxml");
 
@@ -38,6 +38,11 @@ public class FXMLUtility {
 
     public static URL saveFileDialogue = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/saveFileDialogue.fxml");
 
+    public static URL dashboard = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/dashboard.fxml");
+
+    public static URL menu = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/menu.fxml");
+
+    public static URL resetPassword = MyHealth.class.getResource("/com/karstenbeck/fpa2/scenes/passwordReset.fxml");
 
     /* The loadScene() method is a helper method that takes a URL and a Stage and adds the corresponding CSS files to
        provide a single point to add styling to a scene.
@@ -59,12 +64,12 @@ public class FXMLUtility {
         //scene.getStylesheets().add(css);
 
         //Add the mouse press events to drag the stage around the monitor.
-        scene.setOnMousePressed(pressEvent ->{
+        /* scene.setOnMousePressed(pressEvent ->{
             scene.setOnMouseDragged(dragEvent ->{
                 stage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
                 stage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
             });
-        });
+        }); */
 
         //lastly we return the scene
         return scene;

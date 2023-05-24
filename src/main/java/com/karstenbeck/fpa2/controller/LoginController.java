@@ -19,7 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static javafx.scene.input.KeyCode.ENTER;
 
@@ -94,6 +93,14 @@ public class LoginController extends Controller {
         userName.setOnKeyPressed(pressEnterKeyHandler);
         login.setOnMousePressed(mouseClickHandler);
         password.setOnKeyPressed(pressEnterKeyHandler);
+
+        this.forgotPwdButton.setOnAction(event->{
+            try {
+                stageForward(event,FXMLUtility.resetPassword);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
@@ -138,7 +145,7 @@ public class LoginController extends Controller {
                     MyHealth.getMyHealthInstance().setCurrentPatient(Patient.setPatientByUserName(this.userName.getText()));
 
                     /* Now we can forward the user to the next scene where they'll get their records displayed. */
-                    stageForward(event, FXMLUtility.patOverview);
+                    stageForward(event, FXMLUtility.dashboard);
                 } else {
                     this.loginMessage.setText("Wrong username or password. Please try again.");
                 }
@@ -163,6 +170,6 @@ public class LoginController extends Controller {
      * @throws IOException The method can throw an IOException due to the Event class
      */
     public void registerButtonClick(ActionEvent event) throws IOException {
-        stageForward(event, FXMLUtility.registrationFXML);
+        stageForward(event, FXMLUtility.register);
     }
 }

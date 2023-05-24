@@ -3,6 +3,7 @@ package com.karstenbeck.fpa2.model;
 import com.karstenbeck.fpa2.core.DatabaseConnection;
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -12,10 +13,12 @@ import java.util.Vector;
  * @author Karsten Beck
  * @version 1.0 (15/04/2023)
  */
-public class Patient extends Record {
+public class Patient extends Record implements Serializable {
+
 
     public Patient(HashMap<String, Object> row) {
         super("patients", row);
+
     }
 
     /**
@@ -66,12 +69,15 @@ public class Patient extends Record {
     /**
      * The getEmail() method returns a patient's email
      *
-     * @return  The email of the patent as String.
+     * @return The email of the patent as String.
      */
     public String getEmail() {
         return (String) this.data.get("email");
     }
 
+    public String getImageFilePath(){
+        return (String) this.data.get("imageFilePath");
+    }
 
     /**
      * The setFirstName() method assigns a first name

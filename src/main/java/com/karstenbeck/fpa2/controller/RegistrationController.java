@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Optional;
@@ -103,23 +104,18 @@ public class RegistrationController extends Controller {
      * data. This creation is required because we need the HashMap available across multiple methods. That is also the
      * reason why the patData had been created as instance variable.
      */
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
 
         /* First, we initialise the patData field as a new HashMap. */
         this.patData = new HashMap<>();
 
         /* Because we set a default patient image for every user that registers, we define the file here.  */
-        File selectedFile = new File("images/default.png");
+        File selectedFile = new File("src/main/resources/com/karstenbeck/fpa2/images/default.png");
 
         /* Now we're filling the ImageView with this file. */
+
         try {
-            InputStream is = new FileInputStream(selectedFile);
-            Image image = new Image(is);
-            this.image.setFitWidth(150);
-            this.image.setPreserveRatio(true);
-            this.image.setSmooth(true);
-            this.image.setCache(true);
-            this.image.setImage(image);
+            chooseImage(selectedFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -176,7 +172,7 @@ public class RegistrationController extends Controller {
             this.lastName.getStyleClass().remove("textFieldError");
         }
 
-        if (this.userName.getText().isEmpty() ) {
+        if (this.userName.getText().isEmpty()) {
             this.registrationError.setText("Username cannot be empty");
             this.registrationError.getStyleClass().remove("errorHidden");
             this.userName.getStyleClass().add("textFieldError");
@@ -203,12 +199,12 @@ public class RegistrationController extends Controller {
             this.confirmPassword.getStyleClass().remove("textFieldError");
         }
 
-        if (patient.size() !=0 ){
+        if (patient.size() != 0) {
             this.registrationError.setText("Username already taken");
             this.registrationError.getStyleClass().remove("errorHidden");
             this.userName.getStyleClass().add("textFieldError");
             numErrors++;
-        } else{
+        } else {
             this.userName.getStyleClass().remove("textFieldError");
         }
 
@@ -247,14 +243,14 @@ public class RegistrationController extends Controller {
                 Optional<ButtonType> alertResult = creationConfirmation.showAndWait();
                 if (alertResult.isPresent()) {
                     if (alertResult.get() == ButtonType.OK) {
-                        stageForward(event,FXMLUtility.loginFXML);
+                        stageForward(event, FXMLUtility.loginFXML);
                     }
                 }
             } else {
                 System.out.println("Patient not created.");
             }
         } else {
-            if(numErrors>1) {
+            if (numErrors > 1) {
                 this.registrationError.setText("There are still errors in your registration.");
             }
         }
@@ -277,23 +273,31 @@ public class RegistrationController extends Controller {
         fileChooser.getExtensionFilters().add(extensionFilter);
         File selectedFile = fileChooser.showOpenDialog(this.loadImageButton.getScene().getWindow());
 
-        /* Once a file got picked, we display it in the ImageView field as a confirmation for the user. */
-        try {
-            InputStream is = new FileInputStream(selectedFile);
-            Image image = new Image(is);
-            this.image.setFitWidth(150);
-            this.image.setPreserveRatio(true);
-            this.image.setSmooth(true);
-            this.image.setCache(true);
-            this.image.setImage(image);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        if (selectedFile != null) {
+            /* Once a file got picked, we display it in the ImageView field as a confirmation for the user. */
+            try {
+                chooseImage(selectedFile);
+            } catch (FileNotFoundException e) {
+                // throw new RuntimeException(e);
+                System.out.println("No file selected.");
+            }
+
 
         /* We now add the file path of the chosen image to the "photo" and "imageFilePath" keys of the HamsMap. The
            DatabaseConnection class will deal with converting them into a BLOB. */
-        this.patData.put("photo", selectedFile.getAbsolutePath());
-        this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
+            this.patData.put("photo", selectedFile.getAbsolutePath());
+            this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
+        }
+    }
+
+    private void chooseImage(File selectedFile) throws FileNotFoundException {
+        InputStream is = new FileInputStream(selectedFile);
+        Image image = new Image(is);
+        this.image.setFitWidth(150);
+        this.image.setPreserveRatio(true);
+        this.image.setSmooth(true);
+        this.image.setCache(true);
+        this.image.setImage(image);
     }
 
     /**

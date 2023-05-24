@@ -12,7 +12,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -155,9 +154,9 @@ public class EditRecordController extends Controller {
         PatientRecord newPatRecord = new PatientRecord(patientData);
         boolean result = newPatRecord.updateRecord();
 
-        /* If the update was successful, we reload the tableview in the TableDisplayController. */
+        /* If the update was successful, we reload the tableview in the TableViewController. */
         if (result) {
-            TableDisplayController tDC = TableDisplayController.getTableDisplayControllerInstance();
+            TableViewController tDC = TableViewController.getTableDisplayControllerInstance();
             tDC.reloadTable();
         }
     }

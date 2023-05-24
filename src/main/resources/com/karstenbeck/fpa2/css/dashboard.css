@@ -1,0 +1,22 @@
+
+
+.dashboard {
+    -fx-arc-width: 1130px;
+    -fx-arc-height: 650px;
+    -fx-background-color: transparent;
+}
+
+.dashboard .sidebar{
+    -fx-background-image: url('../images/side.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 230 580;
+    -fx-background-position: center center;
+
+}
+
+.dashboard .main{
+    -fx-background-image: url("../images/main.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 1100 650;
+    -fx-background-position: center center;
+}

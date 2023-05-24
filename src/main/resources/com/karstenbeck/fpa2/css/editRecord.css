@@ -1,0 +1,64 @@
+.parent{
+    -fx-color-label-visible: #beb8b8;
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 620 500;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-size: 16px;
+}
+Label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+.time,.weight,.temp,.sysBp,.diaBp{
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-text-fill: #ffffff;
+}
+
+.comment{
+    -fx-text-area-background: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: #ffffff;
+}
+.confirm {
+    -fx-background-color: rgb(0, 105, 0);
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.confirm:hover{
+    -fx-background-color: rgb(10, 136, 10);
+}
+
+.cancel {
+    -fx-background-color: #ff5e51;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.cancel:hover {
+    -fx-background-color: #ff7b71;
+}
+.errorHidden {
+    -fx-background-color: transparent!important;
+    -fx-text-fill: transparent!important;
+}
+
+.errorVisible {
+    -fx-background-color: #ff5e51;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}

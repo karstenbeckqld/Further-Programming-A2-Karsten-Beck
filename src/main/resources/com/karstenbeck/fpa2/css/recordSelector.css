@@ -1,0 +1,52 @@
+.parent {
+    -fx-color-label-visible: #beb8b8;
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 1200 800;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-size: 16px;
+}
+
+Label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+.check{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+.exit {
+    -fx-background-color: #ff5e51;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.exit:hover{
+    -fx-background-color: #ff7b71;
+}
+
+.saveRecords {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.saveRecords:hover{
+    -fx-background-color: #026aa9;
+}
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view .label{
+    -fx-text-fill: #000;
+}

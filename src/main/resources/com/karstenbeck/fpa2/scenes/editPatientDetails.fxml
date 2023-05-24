@@ -14,185 +14,82 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<SplitPane fx:id="splitPane"
-           dividerPositions="0.29797979797979796"
-           maxHeight="-Infinity"
-           maxWidth="-Infinity"
-           minHeight="-Infinity"
-           minWidth="-Infinity"
-           prefHeight="467.0"
-           prefWidth="600.0"
-           stylesheets="@../css/editPatient.css"
-           xmlns="http://javafx.com/javafx/17"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.karstenbeck.fpa2.controller.EditPatientDetailsController">
+<SplitPane fx:id="splitPane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/editPatient.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.EditPatientDetailsController">
     <items>
-        <AnchorPane minHeight="0.0"
-                    minWidth="0.0"
-                    prefHeight="160.0"
-                    prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0">
             <children>
-                <ImageView fx:id="profileImage"
-                           fitHeight="150.0"
-                           fitWidth="150.0"
-                           layoutX="13.0"
-                           layoutY="20.0"
-                           pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fx:id="profileImage" fitHeight="150.0" fitWidth="150.0" layoutX="13.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../../../../images/default.png"/>
+                        <Image url="@../images/default.png" />
                     </image>
                 </ImageView>
-                <Button fx:id="editImage"
-                        layoutX="49.0"
-                        layoutY="186.0"
-                        mnemonicParsing="false"
-                        onAction="#editImageButtonPress"
-                        text="Edit Image"/>
+                <Button fx:id="editImage" layoutX="30.0" layoutY="186.0" mnemonicParsing="false" onAction="#editImageButtonPress" prefHeight="30.0" prefWidth="120.0" styleClass="editImage" text="Edit Image" />
             </children>
             <padding>
-                <Insets left="20.0"/>
+                <Insets left="20.0" />
             </padding>
         </AnchorPane>
-        <AnchorPane minHeight="0.0"
-                    minWidth="0.0"
-                    prefHeight="160.0"
-                    prefWidth="100.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
-                <GridPane layoutX="4.0"
-                          layoutY="6.0"
-                          prefHeight="465.0"
-                          prefWidth="409.0">
+                <GridPane layoutX="4.0" layoutY="6.0" prefHeight="465.0" prefWidth="409.0">
                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT"
-                                           hgrow="SOMETIMES"
-                                           minWidth="10.0"
-                                           prefWidth="100.0"/>
-                        <ColumnConstraints halignment="CENTER"
-                                           hgrow="SOMETIMES"
-                                           minWidth="10.0"
-                                           prefWidth="100.0"/>
-                        <ColumnConstraints halignment="CENTER"
-                                           hgrow="SOMETIMES"
-                                           minWidth="10.0"
-                                           prefWidth="100.0"/>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0"
-                                        prefHeight="30.0"
-                                        vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Username"/>
-                        <Label text="First Name"
-                               GridPane.rowIndex="1"/>
-                        <Label text="Last Name"
-                               GridPane.rowIndex="2"/>
-                        <Label text="Email"
-                               GridPane.rowIndex="3"/>
-                        <Label text="Password"
-                               GridPane.rowIndex="4"/>
-                        <Button fx:id="cancel"
-                                mnemonicParsing="false"
-                                onAction="#cancelButtonPress"
-                                text="Cancel"
-                                GridPane.columnIndex="1"
-                                GridPane.rowIndex="6"/>
-                        <Button fx:id="confirm"
-                                mnemonicParsing="false"
-                                onAction="#confirmButtonPress"
-                                text="Confirm"
-                                GridPane.columnIndex="2"
-                                GridPane.rowIndex="6"/>
-                        <TextField fx:id="userName"
-                                   editable="false"
-                                   styleClass="userName"
-                                   GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2">
+                        <Label text="Username" />
+                        <TextField fx:id="userName" editable="false" styleClass="userName" GridPane.columnIndex="1" GridPane.columnSpan="2">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="firstName"
-                                   GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2"
-                                   GridPane.rowIndex="1">
+                        <Label text="First Name" GridPane.rowIndex="1" />
+                        <TextField fx:id="firstName" styleClass="firstName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="lastName"
-                                   GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2"
-                                   GridPane.rowIndex="2">
+                        <Label text="Last Name" GridPane.rowIndex="2" />
+                        <TextField fx:id="lastName" styleClass="lastName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="email"
-                                   GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2"
-                                   GridPane.rowIndex="3">
+                        <Label text="Email" GridPane.rowIndex="3" />
+                        <TextField fx:id="email" styleClass="email" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </TextField>
-                        <PasswordField fx:id="password"
-                                   GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2"
-                                   GridPane.rowIndex="4">
+                        <Label text="Password" GridPane.rowIndex="4" />
+                        <PasswordField fx:id="password" styleClass="password" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </PasswordField>
-                        <Label text="Confirm Password"
-                               GridPane.rowIndex="5"/>
-                        <PasswordField fx:id="confirmPassword"
-                                       GridPane.columnIndex="1"
-                                       GridPane.columnSpan="2"
-                                       GridPane.rowIndex="5">
+                        <Label text="Confirm Password" GridPane.rowIndex="5" />
+                        <PasswordField fx:id="confirmPassword" styleClass="confirmPassword" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
                             <GridPane.margin>
-                                <Insets left="20.0"
-                                        right="20.0"/>
+                                <Insets left="20.0" right="20.0" />
                             </GridPane.margin>
                         </PasswordField>
-                        <Label fx:id="errorMessage"
-                               alignment="CENTER"
-                               prefWidth="300.0"
-                               styleClass=""
-                               GridPane.columnSpan="3"
-                               GridPane.halignment="CENTER"
-                               GridPane.rowIndex="7"
-                               GridPane.valignment="TOP">
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelButtonPress" prefHeight="30.0" prefWidth="120.0" styleClass="cancel" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Button fx:id="confirm" mnemonicParsing="false" onAction="#confirmButtonPress" prefHeight="30.0" prefWidth="120.0" styleClass="confirm" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Label fx:id="errorMessage" alignment="CENTER" prefWidth="300.0" styleClass="" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP">
                             <styleClass>
-                                <String fx:value="errorHidden"/>
-                                <String fx:value="errorVisible"/>
+                                <String fx:value="errorHidden" />
+                                <String fx:value="errorVisible" />
                             </styleClass>
                         </Label>
                     </children>

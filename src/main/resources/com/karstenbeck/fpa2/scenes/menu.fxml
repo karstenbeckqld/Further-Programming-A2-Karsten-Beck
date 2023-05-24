@@ -1,15 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.karstenbeck.fpa2.controller.MenuController"
-            prefHeight="400.0"
-            prefWidth="600.0">
+<AnchorPane prefHeight="500.0"
+            prefWidth="200.0"
+            stylesheets="@../css/menu.css"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.karstenbeck.fpa2.controller.MenuController">
+    <children>
+        <VBox alignment="CENTER"
+              prefHeight="500.0"
+              prefWidth="200.0"
+              spacing="20.0"
+              AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0"
+              AnchorPane.topAnchor="0.0"
+              styleClass="vBoxParent">
+            <children>
+                <ImageView fx:id="profileImage"
+                           fitHeight="150.0"
+                           fitWidth="150.0"
+                           pickOnBounds="true"
+                           preserveRatio="true"
+                           styleClass="profileImageView"/>
+                <Label fx:id="displayName"
+                       alignment="CENTER"
+                       prefWidth="150.0"
+                       styleClass="displayName"/>
+                <Button fx:id="editProfile"
+                        mnemonicParsing="false"
+                        onAction="#editPatientProfile"
+                        prefHeight="30.0"
+                        prefWidth="100.0"
+                        styleClass="editBtn"
+                        text="Edit Profile"/>
+                <Button fx:id="addRecord"
+                        mnemonicParsing="false"
+                        onAction="#addPatientRecord"
+                        prefHeight="30.0"
+                        prefWidth="100.0"
+                        styleClass="addBtn"
+                        text="Add Record"/>
+                <Button fx:id="selectRecords"
+                        mnemonicParsing="false"
+                        onAction="#selectRecords"
+                        prefHeight="30.0"
+                        prefWidth="100.0"
+                        styleClass="saveBtn"
+                        text="Save Records"/>
+                <Button fx:id="exit"
+                        mnemonicParsing="false"
+                        onAction="#signOut"
+                        prefHeight="30.0"
+                        prefWidth="100.0"
+                        styleClass="signOutBtn"
+                        text="Sign Out"/>
+            </children>
+            <padding>
+                <Insets bottom="20.0"
+                        left="20.0"
+                        right="20.0"
+                        top="20.0"/>
+            </padding>
+        </VBox>
 
+    </children>
 </AnchorPane>

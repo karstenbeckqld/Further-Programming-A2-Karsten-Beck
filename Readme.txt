@@ -1,5 +1,5 @@
 Link to video recording Milestone 2:
-https://rmiteduau-my.sharepoint.com/:v:/r/personal/s3912792_student_rmit_edu_au/Documents/Recording-20230513_112503.webm?csf=1&web=1&e=aZdoZe
+https://rmiteduau-my.sharepoint.com/:v:/r/personal/s3912792_student_rmit_edu_au/Documents/FPA2-Milestone%202%20Video.mp4?csf=1&web=1&e=a0rmns
 
 Available usernames and passwords:
 Username: nbeck - password: test

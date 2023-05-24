@@ -1,16 +1,34 @@
+.main {
+    -fx-color-label-visible: #beb8b8;
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 500 1200;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-size: 16px;
+}
+
+
 .main .backButton {
-    -fx-arc-height: 24px;
-    -fx-arc-width: 24px;
-    -fx-background-image: url(/Users/karstenbeck/Documents/Programming/Java/RMIT/FP/FPA2/icons/arrow-back.svg);
+    -fx-arc-height: 36px;
+    -fx-arc-width: 36px;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.backButton:hover{
+    -fx-background-image: url('../icons/arrow-back-hover.png');
+    -fx-background-size: 36 36;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
 }
 
 .errorHidden {
-    -fx-background-color: transparent!important;
-    -fx-text-fill: transparent!important;
+    -fx-background-color: transparent !important;
+    -fx-text-fill: transparent !important;
 }
 
 .errorVisible {
-    -fx-background-color: #720808;
+    -fx-background-color: #ff5e51;
     -fx-text-fill: white;
     -fx-background-radius: 10px;
     -fx-padding: 5px;
@@ -18,6 +36,60 @@
     -fx-font-size: 16px;
 }
 
-.textFieldError{
-    -fx-border-color: #720808 !important;
+.textFieldError {
+    -fx-border-color: #ff5e51 !important;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+    -fx-start-margin: 5px;
+    -fx-end-margin: 5px;
+}
+
+.confirm {
+    -fx-background-color: rgb(0, 105, 0);
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.confirm:hover{
+    -fx-background-color: rgb(10, 136, 10);
+}
+
+.cancel {
+    -fx-background-color: #ff5e51;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.cancel:hover{
+    -fx-background-color: #ff7b71;
+}
+
+.input {
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-text-fill: #ffffff;
+}
+
+.imageUpload {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #004e7e;
+    -fx-padding: 8px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.imageUpload:hover {
+    -fx-background-color: #026aa9;
 }

@@ -8,156 +8,51 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane"
-          alignment="CENTER"
-          hgap="20.0"
-          maxHeight="-Infinity"
-          maxWidth="-Infinity"
-          minHeight="-Infinity"
-          minWidth="-Infinity"
-          prefHeight="550.0"
-          prefWidth="600.0"
-          stylesheets="@../css/register.css"
-          xmlns="http://javafx.com/javafx/17"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.karstenbeck.fpa2.controller.AddRecordController">
+<GridPane fx:id="gridPane" alignment="CENTER" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/addRecord.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.AddRecordController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES"
-                           maxWidth="300.0"
-                           minWidth="10.0"
-                           prefWidth="107.0"/>
-        <ColumnConstraints halignment="RIGHT"
-                           hgrow="SOMETIMES"
-                           maxWidth="300.0"
-                           minWidth="10.0"
-                           prefWidth="169.0"/>
-        <ColumnConstraints hgrow="SOMETIMES"
-                           maxWidth="280.0"
-                           minWidth="0.0"
-                           prefWidth="245.0"/>
-        <ColumnConstraints hgrow="SOMETIMES"
-                           maxWidth="124.0"
-                           minWidth="0.0"
-                           prefWidth="99.0"/>
+        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="100.0" prefWidth="245.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="65.0"
-                        minHeight="50.0"
-                        prefHeight="70.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="97.0"
-                        minHeight="50.0"
-                        prefHeight="70.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="143.0"
-                        minHeight="50.0"
-                        prefHeight="70.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="167.0"
-                        minHeight="50.0"
-                        prefHeight="70.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="203.0"
-                        minHeight="50.0"
-                        prefHeight="50.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="211.0"
-                        minHeight="50.0"
-                        prefHeight="50.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="231.0"
-                        minHeight="80.0"
-                        prefHeight="100.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="248.0"
-                        minHeight="80.0"
-                        prefHeight="80.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="248.0"
-                        minHeight="50.0"
-                        prefHeight="50.0"
-                        vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="65.0" minHeight="50.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="97.0" minHeight="50.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="143.0" minHeight="50.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="167.0" minHeight="50.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="203.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="211.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="231.0" minHeight="80.0" prefHeight="100.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="100.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="80.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label fx:id="dateLabel"
-               text="Date"
-               GridPane.columnIndex="1"/>
-        <Label fx:id="timeLabel"
-               text="Time"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="1"/>
-        <Label fx:id="weightLabel"
-               text="Weight"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="2"/>
-        <Label fx:id="tempLabel"
-               text="Temperature"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="3"/>
-        <Label fx:id="sysBpLabel"
-               text="systolic BP"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="4"/>
-        <Label fx:id="diaBpLabel"
-               text="diastoloc BP"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="5"/>
-        <TextField fx:id="time"
-                   prefWidth="190.0"
-                   GridPane.columnIndex="2"
-                   GridPane.rowIndex="1"/>
-        <TextField fx:id="weight"
-                   prefWidth="190.0"
-                   GridPane.columnIndex="2"
-                   GridPane.rowIndex="2"/>
-        <TextField fx:id="temp"
-                   prefWidth="190.0"
-                   GridPane.columnIndex="2"
-                   GridPane.rowIndex="3"/>
-        <TextField fx:id="sysBp"
-                   prefWidth="190.0"
-                   GridPane.columnIndex="2"
-                   GridPane.rowIndex="4"/>
-        <TextField fx:id="diaBp"
-                   prefWidth="190.0"
-                   GridPane.columnIndex="2"
-                   GridPane.rowIndex="5"/>
-        <TextArea fx:id="comment"
-                  prefHeight="200.0"
-                  prefWidth="200.0"
-                  GridPane.columnIndex="2"
-                  GridPane.rowIndex="6"/>
-        <Button fx:id="cancelBtn"
-                mnemonicParsing="false"
-                text="Cancel"
-                GridPane.columnIndex="2"
-                GridPane.rowIndex="7"/>
-        <Button fx:id="confirmBtn"
-                mnemonicParsing="false"
-                text="Confirm"
-                GridPane.columnIndex="3"
-                GridPane.rowIndex="7"/>
-        <Label fx:id="commentLabel"
-               text=" Comment (max. 50 words)"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="6"/>
-        <DatePicker fx:id="datePicker"
-                    onAction="#getDate"
-                    prefHeight="26.0"
-                    prefWidth="225.0"
-                    GridPane.columnIndex="2"/>
-        <Label fx:id="errorMessage"
-               alignment="CENTER"
-               prefWidth="393.0"
-               GridPane.columnIndex="1"
-               GridPane.columnSpan="2"
-               GridPane.rowIndex="8">
+        <Label fx:id="dateLabel" text="Date" />
+        <DatePicker fx:id="datePicker" onAction="#getDate" prefHeight="26.0" prefWidth="225.0" styleClass="datePicker" GridPane.columnIndex="1" />
+        <Label fx:id="timeLabel" text="Time" GridPane.rowIndex="1" />
+        <TextField fx:id="time" prefWidth="190.0" styleClass="time" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label fx:id="weightLabel" text="Weight" GridPane.rowIndex="2" />
+        <TextField fx:id="weight" prefWidth="190.0" styleClass="weight" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label fx:id="tempLabel" text="Temperature" GridPane.rowIndex="3" />
+        <TextField fx:id="temp" prefWidth="190.0" styleClass="temp" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label fx:id="sysBpLabel" text="systolic BP" GridPane.rowIndex="4" />
+        <TextField fx:id="sysBp" prefWidth="190.0" styleClass="sysBp" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label fx:id="diaBpLabel" text="diastoloc BP" GridPane.rowIndex="5" />
+        <TextField fx:id="diaBp" prefWidth="190.0" styleClass="diaBp" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label fx:id="commentLabel" text=" Comment (max. 50 words)" GridPane.rowIndex="6" />
+        <TextArea fx:id="comment" prefHeight="200.0" prefWidth="200.0" styleClass="comment" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <Label fx:id="errorMessage" alignment="CENTER" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="500.0" styleClass="error" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8">
             <styleClass>
-                <String fx:value="errorHidden"/>
-                <String fx:value="errorVisible"/>
+                <String fx:value="errorHidden" />
+                <String fx:value="errorVisible" />
             </styleClass>
         </Label>
+        <HBox alignment="CENTER" maxHeight="50.0" minHeight="50.0" prefHeight="60.0" prefWidth="200.0" spacing="80.0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+            <children>
+                <Button fx:id="cancelBtn" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="cancel" text="Cancel" />
+                <Button fx:id="confirmBtn" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="confirm" text="Confirm" />
+            </children>
+        </HBox>
     </children>
 </GridPane>

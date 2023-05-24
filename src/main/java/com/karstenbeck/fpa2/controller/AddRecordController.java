@@ -163,9 +163,9 @@ public class AddRecordController extends Controller {
             PatientRecord newPatRecord = new PatientRecord(recordData);
             newPatRecord.saveRecord();
 
-            /* Now we use the TableDisplayController's getTableDisplayControllerInstance method to access the
-               TableDisplayController and refresh the tableview.  */
-            TableDisplayController tDC = TableDisplayController.getTableDisplayControllerInstance();
+            /* Now we use the TableViewController's getTableDisplayControllerInstance method to access the
+               TableViewController and refresh the tableview.  */
+            TableViewController tDC = TableViewController.getTableDisplayControllerInstance();
             tDC.reloadTable();
 
             this.currentStage.close();

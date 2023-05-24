@@ -1,6 +1,9 @@
 .pane{
-    -fx-background-color: #4d608a;
     -fx-color-label-visible: #beb8b8;
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 500 400;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
 }
 
 .welcome {
@@ -14,7 +17,7 @@
     -fx-font-size: 16px;
    /* -fx-border-color: none;
     -fx-border-radius: 25px;*/
-    -fx-background-color: #5ec45e;
+    -fx-background-color: #006900;
     -fx-background-radius: 25px;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
@@ -29,13 +32,13 @@
     -fx-font-size: 16px;
    /* -fx-border-color: none;
     -fx-border-radius: 25px;*/
-    -fx-background-color: #cb7100;
+    -fx-background-color: #004e7e;
     -fx-background-radius: 25px;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
 .registerButton:hover{
-    -fx-background-color: #ff8d00;
+    -fx-background-color: #00263f;
 }
 
 Label{
@@ -55,7 +58,7 @@ Label{
 }
 
 .errorVisible {
-    -fx-background-color: #720808;
+    -fx-background-color: #ff5e51;
     -fx-text-fill: white;
     -fx-background-radius: 10px;
     -fx-padding: 5px;

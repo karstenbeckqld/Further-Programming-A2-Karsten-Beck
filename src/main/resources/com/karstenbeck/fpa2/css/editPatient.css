@@ -1,15 +1,77 @@
-.userName {
+.parent {
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 650 500;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
+.editImage{
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #004e7e;
+    -fx-padding: 8px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-arc-width: 150px;
+}
+.editImage:hover{
+    -fx-background-color: #026aa9;
+}
+
+Label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+.userName, .firstName,.lastName,.email,.password,.confirmPassword{
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-text-fill: #ffffff;
+}
+
+.cancel {
+    -fx-background-color: #ff5e51;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.cancel:hover{
+    -fx-background-color: #ff7b71;
+}
+
+.confirm {
+    -fx-background-color: rgb(0, 105, 0);
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.confirm:hover{
+    -fx-background-color: rgb(10, 136, 10);
+}
+
+/*.userName {
     -fx-text-fill: #000;
     -fx-background-color: transparent;
 
-}
+}*/
 .errorHidden {
     -fx-background-color: transparent!important;
     -fx-text-fill: transparent!important;
 }
 
 .errorVisible {
-    -fx-background-color: #720808;
+    -fx-background-color: #ff5e51;
     -fx-text-fill: white;
     -fx-background-radius: 10px;
     -fx-padding: 5px;
@@ -18,5 +80,6 @@
 }
 
 .textFieldError{
-    -fx-border-color: #720808 !important;
+    -fx-border-color: #ff5e51 !important;
 }
+

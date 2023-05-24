@@ -1,0 +1,58 @@
+.parent{
+    -fx-color-label-visible: #beb8b8;
+    -fx-background-image: url('../images/main.png');
+    -fx-background-size: 520 300;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-size: 16px;
+}
+Label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.filePath, .fileName{
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-text-fill: #ffffff;
+}
+
+.confirm {
+    -fx-background-color: rgb(0, 105, 0);
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.confirm:hover{
+    -fx-background-color: rgb(10, 136, 10);
+}
+
+.cancel {
+    -fx-background-color: #ff5e51;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 7px;
+}
+
+.cancel:hover {
+    -fx-background-color: #ff7b71;
+}
+
+.choose {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.choose:hover {
+    -fx-background-color: #026aa9;
+}

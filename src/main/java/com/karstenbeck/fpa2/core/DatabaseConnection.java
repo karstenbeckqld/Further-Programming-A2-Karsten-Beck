@@ -49,6 +49,8 @@ public class DatabaseConnection {
     private static final String patientUpdateStatement = "UPDATE patients SET firstName=?, lastName=?, userName=?, " +
             "password=?, email=?, imageFilePath=?, photo=? WHERE patientId=?";
 
+    private static final String updatePasswordStatement ="UPDATE patients SET password=? WHERE patientId=?";
+
 
     private static final String recordUpdateStatement = "INSERT INTO records (patientId, date, time, weight, " +
             "temperature, sysBp, diaBp, comment) VALUES (?, ?, ?, ?, ? ,?, ?, ?)";
@@ -209,6 +211,28 @@ public class DatabaseConnection {
 
         return result;
     }
+
+    public static boolean updatePassword(HashMap<String, String> data, String patientId){
+        boolean result = false;
+
+        try (Connection connection = DriverManager.getConnection(JdbcUrl);) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updatePasswordStatement)) {
+
+                preparedStatement.setObject(1, hashPassword(data.get("password")));
+                preparedStatement.setString(2,patientId);
+                preparedStatement.executeUpdate();
+                connection.close();
+
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
 
     /**
      * The query() method runs a query on the database with a given string.

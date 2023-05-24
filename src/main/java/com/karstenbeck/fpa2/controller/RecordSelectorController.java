@@ -16,12 +16,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * The RecordSelectorController class lets the user select records from the list to get exported to a file.
@@ -31,6 +34,8 @@ import java.util.HashMap;
  */
 public class RecordSelectorController extends Controller {
 
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     public Button saveRecords, exit;
@@ -122,7 +127,7 @@ public class RecordSelectorController extends Controller {
      * The saveSelectedRecords() method creates an ArrayList of HashMaps of the selected records and passes it on to a
      * helper class to be transferred to the SaveFileDialogueController class.
      *
-     * @throws IOException  Because we're using the FXMLLoader class, the method can throw an IOException.
+     * @throws IOException Because we're using the FXMLLoader class, the method can throw an IOException.
      */
     private void saveSelectedRecords() throws IOException {
 
@@ -155,21 +160,58 @@ public class RecordSelectorController extends Controller {
             }
         }
 
-        /* Now we use the static setData() method from the DataTransfer class to move the data to the next controller. */
-        DataTransfer.setData(selectedRecords);
+        if (selectedRecords.isEmpty()) {
 
-        /* Here we call the SaveFileDialogueController and open a new stage to display the dialogue to save te file. */
-        Stage saveFileDialogue = new Stage();
-        saveFileDialogue.setTitle("Save Records");
+            confirmNoSelection();
+        } else {
+            /* Now we use the static setData() method from the DataTransfer class to move the data to the next controller. */
+            DataTransfer.setData(selectedRecords);
 
-        FXMLLoader loader = new FXMLLoader(FXMLUtility.saveFileDialogue);
+            /* Here we call the SaveFileDialogueController and open a new stage to display the dialogue to save te file. */
+            Stage saveFileDialogue = new Stage();
+            saveFileDialogue.setTitle("Save Records");
 
-        Scene scene = new Scene(loader.load());
-        saveFileDialogue.setScene(scene);
+            FXMLLoader loader = new FXMLLoader(FXMLUtility.saveFileDialogue);
 
-        SaveFileDialogueController saveFileDialogueController = loader.getController();
-        saveFileDialogueController.setStage(saveFileDialogue);
+            Scene scene = new Scene(loader.load());
+            saveFileDialogue.setScene(scene);
 
-        saveFileDialogue.show();
+            SaveFileDialogueController saveFileDialogueController = loader.getController();
+            saveFileDialogueController.setStage(saveFileDialogue);
+
+            saveFileDialogue.show();
+        }
+    }
+
+    private void confirmNoSelection() {
+
+        /* We first define the stage as the window of the underlying AnchorPane to have a reference for the alert. */
+        Stage stage = (Stage) this.anchorPane.getScene().getWindow();
+
+        /* Now we initialise a new alert of type confirmation and define the modality and owner. */
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/com/karstenbeck/fpa2/css/dialogPane.css").toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+
+        /* We now set the display text, for confirmation. */
+        alert.getDialogPane().setContentText("You have not selected any records");
+        alert.setHeaderText("No Records selected!");
+
+        /* Now we create the event handler and wait for user input. */
+        Optional<ButtonType> buttonResult = alert.showAndWait();
+        if (buttonResult.isPresent()) {
+
+            /* If the user clicks the OK button, we delete the record from the database using the deleteRecord() method
+               from the parent class  */
+            if (buttonResult.get() == ButtonType.OK) {
+                initialize();
+            }
+        }
+
     }
 }

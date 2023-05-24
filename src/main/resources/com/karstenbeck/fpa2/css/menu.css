@@ -1,0 +1,49 @@
+
+.vBoxParent .displayName {
+    -fx-font-size: 24px;
+    -fx-text-fill: #ffffff;
+}
+
+.editBtn {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.editBtn:hover {
+    -fx-background-color: #026aa9;
+}
+
+.addBtn {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.addBtn:hover {
+    -fx-background-color: #026aa9;
+}
+
+.saveBtn {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.saveBtn:hover {
+    -fx-background-color: #026aa9;
+}
+
+.signOutBtn {
+    -fx-background-color: #ff5e51;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.signOutBtn:hover {
+    -fx-background-color: #ff7b71;
+}

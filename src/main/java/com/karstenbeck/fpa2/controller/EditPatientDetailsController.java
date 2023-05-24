@@ -58,7 +58,7 @@ public class EditPatientDetailsController extends Controller {
      * data.
      */
     public void initialize() {
-        // this.tableDisplayController = TableDisplayController.getTableDisplayControllerInstance();
+        // this.tableDisplayController = TableViewController.getTableDisplayControllerInstance();
 
         /* To write the edited fields to the database, a HashMap gets instantiated. Because we use different methods for
            the image and for the data (as they're two different processes), we can use a HashMap<String, String> here. */
@@ -90,7 +90,7 @@ public class EditPatientDetailsController extends Controller {
     }
 
     /**
-     * The cancelButtonPress() method closes the current stage and reloads the TableDisplayController to refresh the data
+     * The cancelButtonPress() method closes the current stage and reloads the TableViewController to refresh the data
      * displayed. It is assigned in the corresponding FXML file.
      *
      * @param actionEvent The ActionEvent from pressing the button.
@@ -99,7 +99,7 @@ public class EditPatientDetailsController extends Controller {
     public void cancelButtonPress(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) splitPane.getScene().getWindow();
         stage.close();
-        TableDisplayController tDController = TableDisplayController.getTableDisplayControllerInstance();
+        TableViewController tDController = TableViewController.getTableDisplayControllerInstance();
         tDController.reloadTable();
     }
 
@@ -107,7 +107,7 @@ public class EditPatientDetailsController extends Controller {
      * The confirmButtonPress() method checks for matching password fields and then writes the content of the
      * TextFields to the Database. It is assigned in the corresponding FXML file.
      */
-    public void confirmButtonPress() {
+    public void confirmButtonPress() throws IOException {
         int numErrors = 0;
 
         /* Here we check for the password and confirmPassword fields to match. */
@@ -165,7 +165,7 @@ public class EditPatientDetailsController extends Controller {
             boolean result = DatabaseConnection.updatePatientDetails(this.patDataWrite, this.patientId);
 
             /* To give the user feedback, we have an alert popping up to confirm the successful update. If the user
-               presses OK, the update screen will close and the TableDisplayController will update. */
+               presses OK, the update screen will close and the TableViewController will update. */
 
             if (result) {
                 Stage stage = (Stage) splitPane.getScene().getWindow();
@@ -180,8 +180,9 @@ public class EditPatientDetailsController extends Controller {
                 if (alertResult.isPresent()) {
                     if (alertResult.get() == ButtonType.OK) {
                         stage.close();
-                        TableDisplayController tDController = TableDisplayController.getTableDisplayControllerInstance();
-                        tDController.reloadTable();
+
+                        MenuController menuController = MenuController.getMenuControllerInstance();
+                        menuController.reloadMenuController();
                     }
                 }
 
