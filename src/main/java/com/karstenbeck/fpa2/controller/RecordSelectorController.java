@@ -4,11 +4,8 @@ import com.karstenbeck.fpa2.core.DataTransfer;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.PatientRecord;
 import com.karstenbeck.fpa2.model.RecordFinder;
-import com.karstenbeck.fpa2.services.FXMLUtility;
-import javafx.beans.value.ObservableValue;
+import com.karstenbeck.fpa2.utilities.FXMLUtility;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,7 +81,7 @@ public class RecordSelectorController extends Controller {
         this.selectCol.setCellValueFactory(data -> data.getValue().selectedProperty());
 
         /* Here we set the CellValueFactories for the remaining cells.  */
-        this.date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        this.date.setCellValueFactory(new PropertyValueFactory<>("dateAsString"));
         this.time.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.weight.setCellValueFactory(new PropertyValueFactory<>("weight"));
         this.temp.setCellValueFactory(new PropertyValueFactory<>("temperature"));
@@ -113,6 +109,7 @@ public class RecordSelectorController extends Controller {
     public void setStage(Stage stage) {
         this.exit.setOnAction(actionEvent -> stage.close());
 
+        /* The saveRecords button will trigger the saveSelectedRecords method. */
         this.saveRecords.setOnAction(actionEvent -> {
             try {
                 saveSelectedRecords();
@@ -143,7 +140,7 @@ public class RecordSelectorController extends Controller {
             /* If the record's boolean property is set to true, we add its details to the HashMap. */
             if (patientRecords.get(i).selectedProperty().get()) {
                 record.put("recordId", patientRecords.get(i).getRecordId());
-                record.put("date", patientRecords.get(i).getDate());
+                record.put("date", patientRecords.get(i).getDateAsString());
                 record.put("time", patientRecords.get(i).getTime());
                 record.put("weight", patientRecords.get(i).getWeight());
                 record.put("temperature", patientRecords.get(i).getTemperature());
@@ -163,6 +160,7 @@ public class RecordSelectorController extends Controller {
         if (selectedRecords.isEmpty()) {
 
             confirmNoSelection();
+            
         } else {
             /* Now we use the static setData() method from the DataTransfer class to move the data to the next controller. */
             DataTransfer.setData(selectedRecords);

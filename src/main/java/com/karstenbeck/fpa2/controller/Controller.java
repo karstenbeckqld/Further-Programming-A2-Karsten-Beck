@@ -39,7 +39,7 @@ public class Controller  {
      *
      * @param stage The stage to get centred.
      */
-    public void centerStage(Stage stage) {
+    private void centerStage(Stage stage) {
         Rectangle2D stageBounds = Screen.getPrimary().getVisualBounds();;
         double width = (stageBounds.getWidth() - stage.getWidth()) / 2;
         double height = (stageBounds.getHeight() - stage.getHeight()) / 2;

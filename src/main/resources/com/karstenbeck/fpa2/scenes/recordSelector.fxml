@@ -1,65 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1130.0" styleClass="parent" stylesheets="@../css/recordSelector.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
+<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="parent" stylesheets="@../css/recordSelector.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
     <children>
-        <Label alignment="CENTER" prefHeight="23.0" prefWidth="1130.0" styleClass="header" text="Please select the Records to Export" AnchorPane.topAnchor="20.0">
+        <Label alignment="CENTER" layoutY="10.0" maxHeight="30.0" maxWidth="1100.0" minHeight="30.0" minWidth="1100.0" prefHeight="30.0" prefWidth="1100.0" styleClass="header" text="Please select the Records to Export">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <TableView id="tableView" fx:id="tableView" prefHeight="534.0" prefWidth="840.0" styleClass="table" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="90.0">
+        <TableView id="tableView" fx:id="tableView" layoutX="200.0" layoutY="60.0" maxHeight="500.0" maxWidth="880.0" minHeight="500.0" minWidth="880.0" prefHeight="500.0" prefWidth="880.0" styleClass="table">
             <columns>
-                <TableColumn fx:id="selectCol" prefWidth="75.0" text="Select" />
-                <TableColumn id="date" fx:id="date" styleClass="table-col" text="Date" />
-                <TableColumn id="time" fx:id="time" styleClass="table-col" text="Time" />
-                <TableColumn id="weight" fx:id="weight" styleClass="table-col" text="Weight" />
-                <TableColumn id="temp" fx:id="temp" styleClass="table-col" text="Temperature" />
-                <TableColumn id="sysBp" fx:id="sysBp" styleClass="table-col" text="systolic BP" />
-                <TableColumn id="diaBp" fx:id="diaBp" styleClass="table-col" text="diastolic BP" />
-                <TableColumn id="comment" fx:id="comment" prefWidth="283.0" styleClass="table-col" text="Comment" />
-                <TableColumn fx:id="buttons" prefWidth="45.0" />
+                <TableColumn fx:id="selectCol" minWidth="50.0" prefWidth="50.0" styleClass="table-col" text="Select" />
+                <TableColumn id="date" fx:id="date" minWidth="90.0" prefWidth="90.0" styleClass="table-col" text="Date" />
+                <TableColumn id="time" fx:id="time" minWidth="90.0" prefWidth="90.0" styleClass="table-col" text="Time" />
+                <TableColumn id="weight" fx:id="weight" minWidth="90.0" prefWidth="90.0" styleClass="table-col" text="Weight" />
+                <TableColumn id="temp" fx:id="temp" minWidth="100.0" prefWidth="100.0" styleClass="table-col" text="Temperature" />
+                <TableColumn id="sysBp" fx:id="sysBp" minWidth="90.0" prefWidth="90.0" styleClass="table-col" text="systolic BP" />
+                <TableColumn id="diaBp" fx:id="diaBp" minWidth="90.0" prefWidth="90.0" styleClass="table-col" text="diastolic BP" />
+                <TableColumn id="comment" fx:id="comment" prefWidth="280.0" styleClass="table-col" text="Comment" />
             </columns>
         </TableView>
-        <VBox maxHeight="590.0" prefHeight="534.0" prefWidth="210.0" styleClass="menu" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="900.0" AnchorPane.topAnchor="70.0">
-            <children>
-                <Button fx:id="exit" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" styleClass="exit" text="Go Back">
+        <CheckBox fx:id="checkSelectAll" layoutX="200.0" layoutY="36.0" mnemonicParsing="false" styleClass="check" text="select All" />
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="580.0" prefHeight="40.0" prefWidth="880.0" spacing="80.0">
+         <children>
+                <Button fx:id="exit" graphicTextGap="10.0" maxWidth="120.0" minWidth="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" styleClass="exit" text="Close">
                     <font>
                         <Font size="14.0" />
                     </font>
-                    <graphic>
-                        <ImageView fitHeight="36.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../icons/arrow-back.png" />
-                            </image>
-                            <viewport>
-                                <Rectangle2D />
-                            </viewport>
-                        </ImageView>
-                    </graphic>
-                    <VBox.margin>
-                        <Insets left="25.0" />
-                    </VBox.margin>
                 </Button>
-            </children>
-        </VBox>
-        <CheckBox fx:id="checkSelectAll" layoutX="250.0" layoutY="66.0" mnemonicParsing="false" styleClass="check" text="select All" />
-        <Button fx:id="saveRecords" layoutX="585.0" layoutY="626.0" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="saveRecords" text="Save Selected Records">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Button>
+              <Button fx:id="saveRecords" maxHeight="30.0" maxWidth="170.0" minHeight="30.0" minWidth="170.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="saveRecords" text="Save Selected Records">
+                  <font>
+                      <Font size="14.0" />
+                  </font>
+              </Button>
+         </children>
+      </HBox>
     </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </AnchorPane>

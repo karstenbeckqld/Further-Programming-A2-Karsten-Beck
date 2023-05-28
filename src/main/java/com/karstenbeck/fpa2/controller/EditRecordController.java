@@ -3,7 +3,7 @@ package com.karstenbeck.fpa2.controller;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.PatientRecord;
 import com.karstenbeck.fpa2.model.RecordFinder;
-import com.karstenbeck.fpa2.services.DatePickerSettings;
+import com.karstenbeck.fpa2.utilities.DatePickerSettings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -33,7 +33,7 @@ public class EditRecordController extends Controller {
 
     /* Labels */
     @FXML
-    private Label dateLabel, timeLabel, weightLabel, tempLabel, sysBpLabel, diaBpLabel, commentLabel;
+    private Label errorMessage;
 
     /* TextFields */
     @FXML
@@ -48,10 +48,7 @@ public class EditRecordController extends Controller {
 
     /* Buttons */
     @FXML
-    private Button cancelBtn;
-
-    @FXML
-    private Button confirmBtn;
+    private Button cancelBtn, confirmBtn;
 
     private String pickedDate;
 
@@ -78,7 +75,6 @@ public class EditRecordController extends Controller {
 
         confirmBtn.setOnMousePressed(mouseClickHandler);
         confirmBtn.setOnKeyPressed(pressEnterKeyHandler);
-
     }
 
     /**
@@ -101,30 +97,29 @@ public class EditRecordController extends Controller {
     }
 
     /**
-     * The prefillRecord() method retrieves record data for the selected record from the database and fill sin the
+     * The prefillRecord() method retrieves record data for the selected record from the database and fills in the
      * fields with this data. This way, the user doesn't have to memorise the values for the record they want to edit.
      *
      * @param recordId The ID of the selected record as String.
      */
     public void prefillRecord(String recordId) {
-        System.out.println(recordId);
-        System.out.println("Record ID in EditRecordController: " + recordId);
+
+       /* We obtain the record data from the database by using the recordId. */
         this.record = new RecordFinder().where("recordId", recordId).getDataAsArrayList("records");
-        System.out.println(record.toString());
 
         /* To be able to use the value from the database we set the pickedDate field to the database value here. If the
-           user doesn't change anything, we'll just use this value. */
-        this.pickedDate = record.get(0).getDate();
+         * user doesn't change anything, we'll just use this value.
+         */
+        this.pickedDate = record.get(0).getDateAsString();
 
         /* Now we fill the form fields with the data from the database. */
-        this.datePicker.getEditor().setText(record.get(0).getDate());
+        this.datePicker.getEditor().setText(record.get(0).getDateAsString());
         this.time.setText(record.get(0).getTime());
         this.weight.setText(record.get(0).getWeight());
         this.temp.setText(record.get(0).getTemperature());
         this.sysBp.setText(record.get(0).getSysBp());
         this.diaBp.setText(record.get(0).getDiaBp());
         this.comment.setText(record.get(0).getComment());
-
     }
 
     /**
@@ -132,33 +127,71 @@ public class EditRecordController extends Controller {
      */
     public void confirmEdit() {
 
+       /*  int numErrors = 0; */
+
         /* We first initialise the HashMap that'll hold all Record data here. */
         this.patientData = new HashMap<>();
 
-        /* Now we add the data field's content to the HashMap. Because the records table is linked to the patients table
-        in the database, we also have to write the patient ID. which we can get in the following line. */
-        patientData.put("patientId", MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId());
-
-        /* Now we add all form field data. */
-        patientData.put("date", this.pickedDate);
-        patientData.put("time", this.time.getText());
-        patientData.put("weight", this.weight.getText());
-        patientData.put("temperature", this.temp.getText());
-        patientData.put("sysBp", this.sysBp.getText());
-        patientData.put("diaBp", this.diaBp.getText());
-        patientData.put("comment", this.comment.getText());
-        patientData.put("recordId", this.record.get(0).getRecordId());
-
-        /* From the entered data we create a new PatientRecord instance and use the updateRecord() method of the
-        Controller superclass to update the patient record in the database. */
-        PatientRecord newPatRecord = new PatientRecord(patientData);
-        boolean result = newPatRecord.updateRecord();
-
-        /* If the update was successful, we reload the tableview in the TableViewController. */
-        if (result) {
-            TableViewController tDC = TableViewController.getTableDisplayControllerInstance();
-            tDC.reloadTable();
+       /*  if (!sysBp.getText().isEmpty()) {
+            if (!InputValidator.isInteger(this.sysBp.getText())) {
+                this.errorMessage.setText("Blood pressures must be whole numbers.");
+                this.errorMessage.getStyleClass().remove("errorHidden");
+                this.errorMessage.getStyleClass().add("textFieldError");
+                this.sysBp.getStyleClass().add("textFieldError");
+                numErrors++;
+            } else {
+                this.sysBp.getStyleClass().remove("textFieldError");
+            }
         }
+        if (!diaBp.getText().isEmpty()) {
+            if (!InputValidator.isInteger(this.diaBp.getText())) {
+                this.errorMessage.setText("Blood pressures must be whole numbers.");
+                this.errorMessage.getStyleClass().remove("errorHidden");
+                this.errorMessage.getStyleClass().add("textFieldError");
+                this.diaBp.getStyleClass().add("textFieldError");
+                numErrors++;
+            } else {
+                this.diaBp.getStyleClass().remove("textFieldError");
+            }
+        } */
+
+
+       /*  if (numErrors==0) { */
+            /* Now we add the data field's content to the HashMap. Because the records table is linked to the patients table
+             * in the database, we also have to write the patient ID. which we can get in the following line.
+             */
+            patientData.put("patientId", MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId());
+
+            /* Now we add all form field data. */
+            patientData.put("date", this.pickedDate);
+            patientData.put("time", this.time.getText());
+            patientData.put("weight", this.weight.getText());
+            patientData.put("temperature", this.temp.getText());
+            patientData.put("sysBp", this.sysBp.getText());
+            patientData.put("diaBp", this.diaBp.getText());
+            patientData.put("comment", this.comment.getText());
+            patientData.put("recordId", this.record.get(0).getRecordId());
+
+            /* From the entered data we create a new PatientRecord instance and use the updateRecord() method of the
+             * Controller superclass to update the patient record in the database.
+             */
+            PatientRecord newPatRecord = new PatientRecord(patientData);
+            boolean result = newPatRecord.updateRecord(this.record.get(0).getRecordId());
+
+            /* If the update was successful, we reload the tableview in the TableViewController. */
+            if (result) {
+                TableViewController tDC = TableViewController.getTableDisplayControllerInstance();
+                tDC.reloadTable();
+            }
+        /*} else {
+
+             *//* If there are errors, a message gets displayed to the user. *//*
+            if (numErrors > 1) {
+                this.errorMessage.setText("There are errors in your form.");
+                this.errorMessage.getStyleClass().remove("errorHidden");
+            }
+        } */
+
     }
 
     /**

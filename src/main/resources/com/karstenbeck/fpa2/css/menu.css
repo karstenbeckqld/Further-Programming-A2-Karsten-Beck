@@ -4,46 +4,26 @@
     -fx-text-fill: #ffffff;
 }
 
-.editBtn {
+.btnNormal {
     -fx-background-color: #004e7e;
     -fx-text-fill: #fff;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
+    -fx-font-family: "Open Sans", sans-serif;
 }
 
-.editBtn:hover {
-    -fx-background-color: #026aa9;
+.btnNormal:hover {
+    -fx-background-color: #5abafc;
 }
 
-.addBtn {
-    -fx-background-color: #004e7e;
-    -fx-text-fill: #fff;
-    -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
-}
-
-.addBtn:hover {
-    -fx-background-color: #026aa9;
-}
-
-.saveBtn {
-    -fx-background-color: #004e7e;
-    -fx-text-fill: #fff;
-    -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
-}
-
-.saveBtn:hover {
-    -fx-background-color: #026aa9;
-}
-
-.signOutBtn {
+.btnAlert {
     -fx-background-color: #ff5e51;
     -fx-text-fill: #fff;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
 }
 
-.signOutBtn:hover {
-    -fx-background-color: #ff7b71;
+.btnAlert:hover {
+    -fx-background-color: #ff9891;
+    -fx-text-fill: #000000;
 }

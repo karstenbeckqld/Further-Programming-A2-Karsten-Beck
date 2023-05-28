@@ -1,11 +1,11 @@
 package com.karstenbeck.fpa2.core;
 
 import com.karstenbeck.fpa2.model.Patient;
-import com.karstenbeck.fpa2.services.FXMLUtility;
+import com.karstenbeck.fpa2.utilities.FXMLUtility;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Objects;
 
 /**
  * Driver class which is the main point of execution in this application
@@ -44,7 +44,14 @@ public class MyHealth extends Application {
 
         try {
             this.primaryStage = primaryStage;
-            this.primaryStage.setScene(FXMLUtility.loadScene(FXMLUtility.loginFXML,primaryStage));
+            //this.primaryStage.setScene(FXMLUtility.loadScene(FXMLUtility.login,primaryStage));
+
+
+            FXMLLoader loader = new FXMLLoader(FXMLUtility.login);
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add("/com/karstenbeck/fpa2/css/login.css");
+
+            this.primaryStage.setScene(scene);
 
             this.primaryStage.setResizable(false);
 

@@ -1,0 +1,101 @@
+.parent {
+    -fx-background-color: transparent;
+}
+
+Label{
+    -fx-text-fill: #ffffff;
+}
+
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: rgba(0, 1, 2, 0.1);
+}
+
+.chart-content {
+    -fx-padding: 10px;
+}
+
+.chart-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.6em;
+}
+
+.axis-label {
+    -fx-text-fill: #ffffff;
+}
+
+.axis{
+    -fx-font-size: 14px;
+    -fx-tick-length: 10px;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
+}
+
+.chart-legend-item-symbol {
+    -fx-background-radius: 0;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #191970;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent/*#e2ecfe*/;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #ffffff;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}
+
+/*.chart-alternative-row-fill {
+    -fx-fill: #99bcfd;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}*/
+
+.btnNormal {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-font-family: "Open Sans", sans-serif;
+}
+
+.btnNormal:hover {
+    -fx-background-color: #5abafc;
+}
+
+.btnAlert {
+    -fx-background-color: #ff5e51;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.btnAlert:hover {
+    -fx-background-color: #ff9891;
+    -fx-text-fill: #000000;
+}
+
+.lastWeek, .lastMonth, .lastYear {
+    -fx-background-color: #004e7e;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 20px 0 0 20px;
+    -fx-border-color: #002c48;
+    -fx-background-radius: 20px 0 0 20px;
+    -fx-arc-height: 40px;
+    -fx-font-family: "Open Sans", sans-serif;
+    -fx-start-margin: -20px;
+    -fx-cursor: hand;
+}
+
+.lastWeek:hover, .lastMonth:hover, .lastYear:hover {
+    -fx-background-color: #5abafc;
+}

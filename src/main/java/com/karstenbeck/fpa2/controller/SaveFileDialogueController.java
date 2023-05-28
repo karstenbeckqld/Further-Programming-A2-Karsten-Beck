@@ -1,9 +1,7 @@
 package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.DataTransfer;
-import com.karstenbeck.fpa2.services.DataWriter;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.karstenbeck.fpa2.utilities.DataWriter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -68,10 +66,12 @@ public class SaveFileDialogueController extends Controller {
     /**
      * The openDirectoryChooser() method opens a directory chooser and returns the chosen directory as string to the
      * calling method.
-     * @return
+     *
+     * @return The directory chosen as String.
      */
     private String openDirectoryChooser() {
-        System.out.println("Choose pressed.");
+
+        /* This method opens the file chooser and sets the title of the window. It'll return the file path as String. */
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose a File Path");
         File selectedDirectory = chooser.showDialog(this.stage);
@@ -83,16 +83,16 @@ public class SaveFileDialogueController extends Controller {
      * The setStage() method receives the stage instance for the current Stage from the class calling this controller.
      * This way, we get a reference to the current stage and can perform actions on it.
      *
-     * @param stage The instance of the current stage.
+     * @param stage The instance of the stage.
      */
     public void setStage(Stage stage) {
         this.stage = stage;
         this.cancel.setOnAction(actionEvent -> stage.close());
 
+        /* The confirm button will trigger the savePatientRecords() method. */
         this.confirm.setOnAction(actionEvent -> {
             try {
                 savePatientRecords();
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -122,9 +122,14 @@ public class SaveFileDialogueController extends Controller {
         creationConfirmation.initModality(Modality.APPLICATION_MODAL);
         creationConfirmation.initOwner(stage);
 
+        /* Now we set the title and text of the alert. */
         creationConfirmation.setContentText("Your file has been saved to:\n" + this.directory+ enteredFileName);
         creationConfirmation.setHeaderText("Save to file Confirmation");
+
+        /* We now display the alert and wait for user input. */
         Optional<ButtonType> alertResult = creationConfirmation.showAndWait();
+
+        /* If the user chooses OK, we close this stage. */
         if (alertResult.isPresent()) {
             if (alertResult.get() == ButtonType.OK) {
                 stage.close();

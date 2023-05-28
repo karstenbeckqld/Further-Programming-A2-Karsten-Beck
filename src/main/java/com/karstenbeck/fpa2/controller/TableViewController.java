@@ -1,21 +1,19 @@
 package com.karstenbeck.fpa2.controller;
 
-import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.Patient;
 import com.karstenbeck.fpa2.model.PatientRecord;
 import com.karstenbeck.fpa2.model.RecordFinder;
-import com.karstenbeck.fpa2.services.FXMLUtility;
+import com.karstenbeck.fpa2.utilities.FXMLUtility;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -80,7 +78,7 @@ public class TableViewController extends Controller {
         this.tableView.setItems(patientRecords);
 
         /* Setting the CellValueFactories for the table columns. */
-        this.date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        this.date.setCellValueFactory(new PropertyValueFactory<>("dateAsString"));
         this.time.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.weight.setCellValueFactory(new PropertyValueFactory<>("weight"));
         this.temp.setCellValueFactory(new PropertyValueFactory<>("temperature"));
@@ -138,6 +136,7 @@ public class TableViewController extends Controller {
                        container for better styling. */
                     HBox buttonDisplay = new HBox(editButton, deleteButton);
                     buttonDisplay.getStyleClass().add("hbox");
+                    buttonDisplay.setAlignment(Pos.CENTER);
                     setGraphic(buttonDisplay);
                 }
             }
@@ -155,19 +154,21 @@ public class TableViewController extends Controller {
 
         /* Create a new stage for the edit view and pass on the record that has been detected by the button action event. */
         Stage editView = new Stage();
-        editView.setMinWidth(300);
-        editView.setMinHeight(300);
         editView.setTitle("Edit Record number: " + patientRecord.getRecordId());
 
-        FXMLLoader loader = new FXMLLoader(FXMLUtility.editView);
-        Scene scene = new Scene(loader.load());
 
-        editView.setScene(scene);
+
+        FXMLLoader loader = new FXMLLoader(FXMLUtility.editView);
+        GridPane recEdit = (GridPane) loader.load();
+        Scene scene = new Scene(recEdit);
+        /* scene.getStylesheets().add("/com/karstenbeck/fpa2/css/editRecord.css"); */
+
 
         EditRecordController editRecordController = loader.getController();
         editRecordController.prefillRecord(patientRecord.getRecordId());
         editRecordController.setStage(editView);
 
+        editView.setScene(scene);
         editView.show();
     }
 
@@ -190,7 +191,7 @@ public class TableViewController extends Controller {
 
         /* We now set the display text, which will be the selected record's data for confirmation. */
         alert.getDialogPane().setContentText("Are you sure you want to delete this record:\n"
-                + "Date        : " + patientRecord.getDate() + "\n"
+                + "Date        : " + patientRecord.getDateAsString() + "\n"
                 + "Time        : " + patientRecord.getTime() + "\n"
                 + "Weight      : " + patientRecord.getWeight() + "\n"
                 + "Temperature : " + patientRecord.getTemperature() + "\n"
@@ -210,7 +211,7 @@ public class TableViewController extends Controller {
                     this.reloadTable();
                 }
 
-                /* If cancel is pressen, we close the alert and do nothing.  */
+                /* If cancel is pressed, we close the alert and do nothing.  */
             } else if (buttonResult.get() == ButtonType.CANCEL) {
                 System.out.println("CANCEL pressed");
             }

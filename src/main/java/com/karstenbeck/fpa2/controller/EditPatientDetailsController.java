@@ -2,6 +2,7 @@ package com.karstenbeck.fpa2.controller;
 
 import com.karstenbeck.fpa2.core.DatabaseConnection;
 import com.karstenbeck.fpa2.core.MyHealth;
+import com.karstenbeck.fpa2.utilities.InputValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -47,21 +48,25 @@ public class EditPatientDetailsController extends Controller {
     private String patientId;
 
     /* The patDataWrite HashMap holds all values to be written to the database. Because it gets used in two different
-       methods, it is a global variable. */
+     * methods, it is a global variable.
+     */
     private HashMap<String, String> patDataWrite;
 
-    /* To be able to display a patient's current record, we define a HashMap to store this data retrieved from the database. */
+    /* To be able to display a patient's profile, we define a HashMap to store the data retrieved from the database. */
     HashMap<String, Object> patientDataRead;
+
+    /* So tha twe can use styled Alert box, we define a DialogPane object here. */
+    private DialogPane dialog;
 
     /**
      * The initialize() method loads the patient details from the database and fills the fields in the fxml file with this
      * data.
      */
     public void initialize() {
-        // this.tableDisplayController = TableViewController.getTableDisplayControllerInstance();
 
         /* To write the edited fields to the database, a HashMap gets instantiated. Because we use different methods for
-           the image and for the data (as they're two different processes), we can use a HashMap<String, String> here. */
+         * the image and for the data (as they're two different processes), we can use a HashMap<String, String> here.
+         */
         this.patDataWrite = new HashMap<>();
 
         /* Obtain the current patientId from the MyHealth instance. */
@@ -71,14 +76,17 @@ public class EditPatientDetailsController extends Controller {
         this.patientDataRead = DatabaseConnection.getPatientData(this.patientId);
 
         /* If the patient doesn't change their photo, we store the image file path in the field patDataWrite to avoid
-           NullPointerExceptions. The DataBaseConnection class handles the conversion of file path to BLOB.  */
+         * NullPointerExceptions. The DataBaseConnection class handles the conversion of file path to BLOB.
+         */
         this.patDataWrite.put("photo", (String) patientDataRead.get("imageFilePath"));
+        this.patDataWrite.put("imageFilePath", (String) patientDataRead.get("imageFilePath"));
 
-        /* To prefill the fields, we assign the database fields to the textfields. */
+        /* To prefill the fields, we assign the database fields to the text-fields. */
         this.userName.setText((String) patientDataRead.get("userName"));
 
         /* The userName cannot get changed, hence we set the editable property to false. We don't display the password
-           as it's stored as a Hash. Therefore, the user must re-enter their password or enter e new one.  */
+         * as it's stored as a Hash. Therefore, the user must re-enter their password or enter e new one.
+         */
         this.userName.setEditable(false);
         this.firstName.setText((String) patientDataRead.get("firstName"));
         this.lastName.setText((String) patientDataRead.get("lastName"));
@@ -97,10 +105,12 @@ public class EditPatientDetailsController extends Controller {
      * @throws IOException The FXMLLoader class potentially throws an IOException when the respective fxml file cannot get loaded.
      */
     public void cancelButtonPress(ActionEvent actionEvent) throws IOException {
+
+        /* We get the window which contains the current scene. */
         Stage stage = (Stage) splitPane.getScene().getWindow();
+
+        /* Here we close the scene, namely the one this class controls. */
         stage.close();
-        TableViewController tDController = TableViewController.getTableDisplayControllerInstance();
-        tDController.reloadTable();
     }
 
     /**
@@ -110,7 +120,7 @@ public class EditPatientDetailsController extends Controller {
     public void confirmButtonPress() throws IOException {
         int numErrors = 0;
 
-        /* Here we check for the password and confirmPassword fields to match. */
+        /* Here we check if the password field is empty. */
         if (this.password.getText().isEmpty()) {
             this.errorMessage.setText("Password is required.");
             this.errorMessage.getStyleClass().remove("errorHidden");
@@ -121,6 +131,7 @@ public class EditPatientDetailsController extends Controller {
             this.password.getStyleClass().remove("textFieldError");
         }
 
+        /* Here we check if the password confirmation field matches the password. */
         if (!this.confirmPassword.getText().equals(this.password.getText())) {
             this.errorMessage.setText("Password does not match.");
             this.errorMessage.getStyleClass().remove("errorHidden");
@@ -131,12 +142,26 @@ public class EditPatientDetailsController extends Controller {
             this.confirmPassword.getStyleClass().remove("textFieldError");
         }
 
+        /* Finally, we check that the provided email is a valid email format. */
+        if (!InputValidator.isEmail(this.email.getText())) {
+            this.errorMessage.setText("Please provide a correct email address.");
+            this.errorMessage.getStyleClass().remove("errorHidden");
+            this.email.getStyleClass().add("textFieldError");
+            numErrors++;
+        } else {
+            this.email.getStyleClass().remove("textFieldError");
+        }
 
-        /* If the password fields match, we either write back the field values retrieved from the database, or add the
-           newly entered values to the patDataWrite field to be stored in the database. This accounts for the case of
-           a user only updating their image or password. */
+
+        /* If the password fields match and the email validates, we check for empty fields and then either write back
+         * the field values retrieved from the database, or add the newly entered values to the patDataWrite field to
+         * be stored in the database. This accounts for the case of a user only updating their image or password.
+         */
         if (numErrors == 0) {
 
+            /* When the firstName field is not empty, we use the value from the field, otherwise the value from the
+             * database. The same is true for the other fields.
+             */
             if (!this.firstName.getText().isEmpty()) {
                 this.patDataWrite.put("firstName", this.firstName.getText());
             } else {
@@ -165,29 +190,73 @@ public class EditPatientDetailsController extends Controller {
             boolean result = DatabaseConnection.updatePatientDetails(this.patDataWrite, this.patientId);
 
             /* To give the user feedback, we have an alert popping up to confirm the successful update. If the user
-               presses OK, the update screen will close and the TableViewController will update. */
-
+             * presses OK, the update screen will close and the TableViewController will update.
+             */
             if (result) {
+
+                /* Get the window we're in. */
                 Stage stage = (Stage) splitPane.getScene().getWindow();
 
+                /* Create an alert box of type information. */
                 Alert creationConfirmation = new Alert(Alert.AlertType.INFORMATION);
+
+                /* Define the modality. */
                 creationConfirmation.initModality(Modality.APPLICATION_MODAL);
+
+                /* Define the owner stage of the alert box. */
                 creationConfirmation.initOwner(stage);
 
+                /* Now we define the title and text. */
                 creationConfirmation.setContentText("Your details have been updated.");
                 creationConfirmation.setHeaderText("Update Confirmation");
+
+                /* Now we show the alert box and wait for user input. */
                 Optional<ButtonType> alertResult = creationConfirmation.showAndWait();
+
+                /* If the user clicks OK, we close the current stage. */
                 if (alertResult.isPresent()) {
                     if (alertResult.get() == ButtonType.OK) {
                         stage.close();
 
+                        /* So that the image in the menu refreshes, we have to reload the MenuController instance. */
                         MenuController menuController = MenuController.getMenuControllerInstance();
                         menuController.reloadMenuController();
                     }
                 }
 
+                /* If the update failed for whatever reason, we also display a message to the user. */
             } else {
                 System.out.println("Patient details not updated.");
+
+                /* Get the window we're in. */
+                Stage stage = (Stage) splitPane.getScene().getWindow();
+
+                /* Create an alert box of type information. */
+                Alert creationConfirmation = new Alert(Alert.AlertType.INFORMATION);
+
+                /* Define the modality. */
+                creationConfirmation.initModality(Modality.APPLICATION_MODAL);
+
+                /* Define the owner stage of the alert box. */
+                creationConfirmation.initOwner(stage);
+
+                /* Now we define the title and text. */
+                creationConfirmation.setContentText("Something went wrong. No details have been updated.");
+                creationConfirmation.setHeaderText("Update Fail Confirmation");
+
+                /* Now we show the alert box and wait for user input. */
+                Optional<ButtonType> alertResult = creationConfirmation.showAndWait();
+
+                /* If the user clicks OK, we close the current stage. */
+                if (alertResult.isPresent()) {
+                    if (alertResult.get() == ButtonType.OK) {
+                        stage.close();
+
+                        /* So that the image in the menu refreshes, we have to reload the MenuController instance. */
+                        MenuController menuController = MenuController.getMenuControllerInstance();
+                        menuController.reloadMenuController();
+                    }
+                }
             }
         } else {
             if (numErrors > 1) {

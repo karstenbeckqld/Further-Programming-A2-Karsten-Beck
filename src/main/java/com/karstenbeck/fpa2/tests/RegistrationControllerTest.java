@@ -43,7 +43,7 @@ public class RegistrationControllerTest extends Application {
     @Test
     public void createUser() throws EmptyInputFieldException {
         Patient patient = new Patient(this.data);
-        boolean isSuccessful = patient.saveRecord();
+        boolean isSuccessful = patient.saveRecord("54");
         System.out.println("New patient is: " + patient);
         Assert.assertFalse(isSuccessful);
 

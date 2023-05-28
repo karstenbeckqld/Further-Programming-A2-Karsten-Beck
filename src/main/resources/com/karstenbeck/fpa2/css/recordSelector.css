@@ -12,6 +12,57 @@ Label{
     -fx-font-size: 14px;
 }
 
+.container {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #ffffff;
+}
+
+.table {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.table-col {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-highlight-text-fill: #ffffff;
+    -fx-text-alignment: center;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #004e7e;
+    -fx-background-radius: 20px 20px 0 0;
+    /*-fx-background-insets: 0 11px 0 0;*/
+    -fx-padding: 8px 0;
+    -fx-text-fill: #ffffff;
+    -fx-highlight-text-fill: #ffffff;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+}
+
+.table-row-cell {
+    /* -fx-padding: 2px 0 2px 10px;*/
+
+
+}
+
+.table-row-cell:odd {
+    -fx-background-color: rgba(0, 78, 126, 0.5);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-text-alignment: center;
+}
+
+.table-row-cell:even {
+    -fx-background-color: rgba(0, 78, 126, 0.25);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-text-alignment: center;
+}
+
 .check{
     -fx-text-fill: #ffffff;
     -fx-font-size: 14px;

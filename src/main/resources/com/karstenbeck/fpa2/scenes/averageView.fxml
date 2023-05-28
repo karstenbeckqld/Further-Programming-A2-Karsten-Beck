@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="parent" stylesheets="@../css/lineChart.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.AverageViewController">
+    <children>
+        <HBox alignment="CENTER" layoutX="200.0" layoutY="20.0" maxHeight="40.0" maxWidth="880.0" minHeight="40.0" minWidth="880.0" prefHeight="40.0" prefWidth="880.0" styleClass="dateHbox">
+            <children>
+                <Button fx:id="lastWeek" maxHeight="40.0" maxWidth="120.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" styleClass="lastWeek" text="Last Week">
+               <HBox.margin>
+                  <Insets right="-24.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="-10.0" />
+               </padding></Button>
+                <Button fx:id="lastMonth" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="115.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" styleClass="lastMonth" text="Last Month">
+                    <HBox.margin>
+                        <Insets right="-22.0" />
+                    </HBox.margin>
+               <padding>
+                  <Insets left="-10.0" />
+               </padding>
+                </Button>
+                <Button fx:id="lastYear" alignment="CENTER" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="lastYear" text="Last Year">
+                    <HBox.margin>
+                        <Insets left="-2.0" right="20.0" />
+                    </HBox.margin>
+                </Button>
+                <Label text="Start Date">
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </Label>
+                <DatePicker fx:id="startDate" styleClass="datePicker" />
+                <Label text="End Date">
+                    <HBox.margin>
+                        <Insets left="40.0" right="20.0" />
+                    </HBox.margin>
+                </Label>
+                <DatePicker fx:id="endDate" styleClass="datePicker" />
+            </children>
+        </HBox>
+        <LineChart fx:id="lineChart" layoutX="200.0" layoutY="80.0" maxHeight="500.0" maxWidth="880.0" minHeight="500.0" minWidth="880.0" prefHeight="500.0" prefWidth="880.0" styleClass="chart">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" styleClass="categoryAxis" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" styleClass="numberAxis" />
+            </yAxis>
+        </LineChart>
+        <HBox alignment="CENTER" layoutX="334.0" layoutY="584.0" maxHeight="50.0" maxWidth="600.0" prefHeight="50.0" prefWidth="600.0" spacing="40.0" styleClass="btnHbox">
+            <children>
+                <Button fx:id="weight" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" styleClass="btnNormal" text="Weight" />
+                <Button fx:id="temp" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" styleClass="btnNormal" text="Temperature" />
+                <Button fx:id="bloodPressure" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" styleClass="btnNormal" text="Blood Pressure" />
+                <Button fx:id="close" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" styleClass="btnAlert" text="Close" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

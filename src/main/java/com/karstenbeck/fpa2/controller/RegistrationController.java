@@ -5,15 +5,11 @@ import com.karstenbeck.fpa2.core.EmptyInputFieldException;
 import com.karstenbeck.fpa2.core.MyHealth;
 import com.karstenbeck.fpa2.model.Patient;
 import com.karstenbeck.fpa2.model.RecordFinder;
-import com.karstenbeck.fpa2.services.FXMLUtility;
-import javafx.application.Platform;
+import com.karstenbeck.fpa2.utilities.FXMLUtility;
+import com.karstenbeck.fpa2.utilities.InputValidator;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +20,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -37,40 +32,23 @@ import java.util.Optional;
 public class RegistrationController extends Controller {
 
     @FXML
-    public Button cancel;
+    private Button cancel, createUser, loadImage,backBtn;
 
     @FXML
-    public ImageView backImg;
-
-    @FXML
-    public PasswordField confirmPassword;
+    private PasswordField confirmPassword;
 
     @FXML
     public Label registrationError;
 
     @FXML
-    public Button createUser;
-
-    @FXML
     public AnchorPane anchorPane;
 
     /**
-     * The userName TextField provides the application with the value for a username the user entered.
+     * The userName, firstName, lastName and email TextFields provide the application with the value for a username,
+     * first name, last name and email the user entered.
      */
     @FXML
-    private TextField userName;
-
-    /**
-     * The firstName TextField provides the application with the value for a first name the user entered.
-     */
-    @FXML
-    private TextField firstName;
-
-    /**
-     * The lastName TextField provides the application with the value for a last name the user entered.
-     */
-    @FXML
-    private TextField lastName;
+    private TextField userName, firstName, lastName, email;
 
     /**
      * The password TextField provides the application with the value for a password the user entered.
@@ -79,23 +57,11 @@ public class RegistrationController extends Controller {
     private PasswordField password;
 
     /**
-     * The email TextField provides the application with the value for the email the user entered.
-     */
-    @FXML
-    private TextField email;
-
-    /**
      * The image ImageView displays the user's profile image. It gets set to a default image by the application and
      * updated when the user chooses an image via the loadImage button.
      */
     @FXML
-    public ImageView image;
-
-    @FXML
-    public Button loadImageButton;
-
-    @FXML
-    public Button backBtn;
+    private ImageView image;
 
     private HashMap<String, String> patData;
 
@@ -121,14 +87,15 @@ public class RegistrationController extends Controller {
         }
 
         /* If the user doesn't change the photo to their own, we have to keep the path to the current image. Therefore,
-           we set the "photo" and "imageFilePath" key's values to the path of the default photo.  */
+         * we set the "photo" and "imageFilePath" key's values to the path of the default photo.
+         */
         this.patData.put("photo", selectedFile.getAbsolutePath());
         this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
 
         /* If the user decides not to register, they'll be offered a back button here.  */
         this.backBtn.setOnAction(actionEvent -> {
             try {
-                stageForward(actionEvent, FXMLUtility.loginFXML);
+                stageForward(actionEvent, FXMLUtility.login);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -145,13 +112,14 @@ public class RegistrationController extends Controller {
     public void createUser(ActionEvent event) throws EmptyInputFieldException, IOException {
 
         /* We need to check for uniqueness of the username. Hence, we load all database instances of the username
-           entered. If this value is greater than 0, we have a username duplication and need to inform the registering
-           user.  */
+         * entered. If this value is greater than 0, we have a username duplication and need to inform the registering
+         * user.
+         */
         ObservableList<Patient> patient = new RecordFinder().where("userName", this.userName.getText()).getData("patients");
 
         /* The following code block performs checks on empty input fields and renders the text fields, as well as the
-           error message, accordingly. Only of there are no errors, the user can get created.  */
-
+         * error message, accordingly. Only of there are no errors, the user can get created.
+         */
         int numErrors = 0;
 
         if (this.firstName.getText().isEmpty()) {
@@ -208,8 +176,18 @@ public class RegistrationController extends Controller {
             this.userName.getStyleClass().remove("textFieldError");
         }
 
+        if (!InputValidator.isEmail(this.email.getText())) {
+            this.registrationError.setText("Please provide a correct email address.");
+            this.registrationError.getStyleClass().remove("errorHidden");
+            this.email.getStyleClass().add("textFieldError");
+            numErrors++;
+        } else {
+            this.email.getStyleClass().remove("textFieldError");
+        }
+
         /* When there are no errors, the values of the entered test fields are added to the HashMap initialised earlier
-           and by using the DatabaseConnection class' static savePatientData() method, saved to the database.  */
+         * and by using the DatabaseConnection class' static savePatientData() method, saved to the database.
+         */
         if (numErrors == 0) {
             patData.put("firstName", this.firstName.getText());
             patData.put("lastName", this.lastName.getText());
@@ -218,8 +196,9 @@ public class RegistrationController extends Controller {
             patData.put("email", this.email.getText());
 
             /* We use a method from the DatabaseConnection class instead of the Record's own save method because of the
-               image that gets saved along with the data. While saving patients records works fine with this method, for
-               patients themselves we need a more specialised method.  */
+             * image that gets saved along with the data. While saving patients records works fine with this method, for
+             * patients themselves we need a more specialised method.
+             */
             boolean result = DatabaseConnection.savePatientData(this.patData);
 
             /* Now we can clear all fields for new entries. */
@@ -232,18 +211,30 @@ public class RegistrationController extends Controller {
 
             /* If the patient got saved successfully, we display an alert to confirm the addition to the database. */
             if (result) {
+
+                /* Get the current window. */
                 Stage stage = (Stage) this.anchorPane.getScene().getWindow();
 
+                /* Create the alert with type 'information' */
                 Alert creationConfirmation = new Alert(Alert.AlertType.INFORMATION);
+
+                /* Set modality. */
                 creationConfirmation.initModality(Modality.APPLICATION_MODAL);
+
+                /* Attach to owner/ */
                 creationConfirmation.initOwner(stage);
 
+                /* Define content and header texts. */
                 creationConfirmation.setContentText("New Patient Created.");
                 creationConfirmation.setHeaderText("Creation Confirmation");
+
+                /* Make the alert pop up and wait for user input. */
                 Optional<ButtonType> alertResult = creationConfirmation.showAndWait();
+
+                /* If user presses of, we forward to the login screen. */
                 if (alertResult.isPresent()) {
                     if (alertResult.get() == ButtonType.OK) {
-                        stageForward(event, FXMLUtility.loginFXML);
+                        stageForward(event, FXMLUtility.login);
                     }
                 }
             } else {
@@ -266,12 +257,13 @@ public class RegistrationController extends Controller {
         Stage stage = MyHealth.getMyHealthInstance().getStage();
 
         /* We display a FileChooser so that the user can pick a file for an image. We allow for the common image file
-           extensions. */
+         * extensions.
+         */
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a profile picture");
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("*.png", "*.jpg", "*.jpeg", "*.png");
         fileChooser.getExtensionFilters().add(extensionFilter);
-        File selectedFile = fileChooser.showOpenDialog(this.loadImageButton.getScene().getWindow());
+        File selectedFile = fileChooser.showOpenDialog(this.loadImage.getScene().getWindow());
 
         if (selectedFile != null) {
             /* Once a file got picked, we display it in the ImageView field as a confirmation for the user. */
@@ -283,20 +275,35 @@ public class RegistrationController extends Controller {
             }
 
 
-        /* We now add the file path of the chosen image to the "photo" and "imageFilePath" keys of the HamsMap. The
-           DatabaseConnection class will deal with converting them into a BLOB. */
+            /* We now add the file path of the chosen image to the "photo" and "imageFilePath" keys of the HamsMap. The
+             * DatabaseConnection class will deal with converting them into a BLOB.
+             */
             this.patData.put("photo", selectedFile.getAbsolutePath());
             this.patData.put("imageFilePath", selectedFile.getAbsolutePath());
         }
     }
 
+    /**
+     * The chooseImage() method creates an InputStream from a file path and adds it to an image view.
+     *
+     * @param selectedFile The filename and path of the selected file
+     * @throws FileNotFoundException As we're working with file operations, we can encounter a FileNotFundException
+     */
     private void chooseImage(File selectedFile) throws FileNotFoundException {
+
+        /* First we create an input stream from te selected file. */
         InputStream is = new FileInputStream(selectedFile);
+
+        /* Then we build an image from this input stream. */
         Image image = new Image(is);
+
+        /* Now we define some parameters for the ImageView. */
         this.image.setFitWidth(150);
         this.image.setPreserveRatio(true);
         this.image.setSmooth(true);
         this.image.setCache(true);
+
+        /* Here we add the image to the ImageView. */
         this.image.setImage(image);
     }
 
@@ -306,6 +313,8 @@ public class RegistrationController extends Controller {
      * @throws IOException Because it uses the load() method in the stageForward() method, it can throw an IOException
      */
     public void cancelUserCreation(ActionEvent event) throws IOException {
-        stageForward(event, FXMLUtility.loginFXML);
+
+        /* To cancel the user creation process, we forward to the login screen. */
+        stageForward(event, FXMLUtility.login);
     }
 }

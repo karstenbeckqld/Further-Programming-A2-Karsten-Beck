@@ -5,7 +5,11 @@ import com.karstenbeck.fpa2.core.MyHealth;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -21,6 +25,10 @@ public class PatientRecord extends Record {
        selected to the class. This allows us to select PatientRecords by ticking a checkbox in the tableview row. */
     private BooleanProperty selected;
 
+    private String setKey;
+
+    private SimpleDateFormat dateFormat;
+
     /**
      * Non-default constructor which creates an object of the PatientRecord class.
      *
@@ -29,6 +37,7 @@ public class PatientRecord extends Record {
     public PatientRecord(HashMap<String, Object> data) {
         super("records", data);
         this.selected = new SimpleBooleanProperty(false);
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     /**
@@ -112,7 +121,7 @@ public class PatientRecord extends Record {
      * @return The local time as LocalTime
      */
     public String getTime() {
-    return (String) this.data.get("time");
+        return (String) this.data.get("time");
     }
 
     /**
@@ -120,14 +129,20 @@ public class PatientRecord extends Record {
      *
      * @return The local date as LocalDate
      */
-    public String getDate() {
-    return (String) this.data.get("date");
+    public String getDateAsString() {
+        return (String) this.data.get("date");
+    }
+
+
+    public LocalDate getDateAsDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse((String)this.data.get("date"),formatter);
     }
 
     /**
      * The setSelected() method sets the selected field to the value provided.
      *
-     * @param selected  A boolean value to set the selected field.
+     * @param selected A boolean value to set the selected field.
      */
     public void setSelected(Boolean selected) {
         this.selected.set(selected);
@@ -145,16 +160,24 @@ public class PatientRecord extends Record {
     /**
      * The selectedProperty() method returns the value of the selected field as BooleanProperty.
      *
-     * @return  A BooleanProperty representing the state of the selected field.
+     * @return A BooleanProperty representing the state of the selected field.
      */
-    public BooleanProperty selectedProperty(){
-        return  selected;
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public Object getValue() {
+        return this.data.get(setKey);
+    }
+
+    public void setValue(String value) {
+        this.setKey = value;
     }
 
     /**
      * The getPatientRecordDataSet() method provides the complete record data to the calling method.
      *
-     * @return  The record data as HashMap&lt;String,String&gt;
+     * @return The record data as HashMap&lt;String,String&gt;
      */
     public HashMap<String, Object> getPatientRecordDataSet() {
         return this.data;
@@ -170,8 +193,7 @@ public class PatientRecord extends Record {
         return new RecordFinder().where("patientId", String.valueOf(MyHealth.getMyHealthInstance().getCurrentPatient().getPatientId()));
     }
 
-    public RecordFinder getPatientDetails(String patUserName, String patPassword){
+    public RecordFinder getPatientDetails(String patUserName, String patPassword) {
         return new RecordFinder().where(patUserName, patPassword);
     }
-
 }

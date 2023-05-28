@@ -64,7 +64,7 @@
                                 <Insets bottom="50.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <Button fx:id="loadImageButton"
+                        <Button fx:id="loadImage"
                                 mnemonicParsing="false"
                                 onAction="#insertImageButtonPress"
                                 styleClass="imageUpload"

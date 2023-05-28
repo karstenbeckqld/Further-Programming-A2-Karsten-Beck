@@ -2,7 +2,7 @@
     -fx-color-label-visible: #beb8b8;
     -fx-background-image: url('../images/main.png');
     -fx-background-size: 620 600;
-    -fx-background-position: center center;
+    -fx-background-position: center top;
     -fx-background-repeat: no-repeat;
     -fx-font-size: 16px;
 }
@@ -17,14 +17,32 @@ Label{
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-background-color: transparent;
-    -fx-padding: 5px;
+    -fx-padding: 8px;
     -fx-text-fill: #ffffff;
 }
 
 .comment{
-    -fx-text-area-background: transparent;
-    -fx-background-color: transparent;
+    -fx-text-area-background: transparent!important;
+    -fx-background-color: transparent!important;
     -fx-border-color: #ffffff;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.text-area .scroll-pane{
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-text-fill: #ffffff;
 }
 .confirm {
     -fx-background-color: rgb(0, 105, 0);
@@ -32,7 +50,6 @@ Label{
     -fx-background-radius: 20px;
     -fx-text-fill: #ffffff;
     -fx-cursor: hand;
-    -fx-padding: 7px;
 }
 
 .confirm:hover{
@@ -44,9 +61,26 @@ Label{
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-cursor: hand;
-    -fx-padding: 7px;
 }
 
 .cancel:hover{
     -fx-background-color: #ff7b71;
+}
+
+.errorHidden {
+    -fx-background-color: transparent!important;
+    -fx-text-fill: transparent!important;
+}
+
+.errorVisible {
+    -fx-background-color: #ff5e51;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.textFieldError {
+    -fx-border-color: #ff5e51 !important;
 }

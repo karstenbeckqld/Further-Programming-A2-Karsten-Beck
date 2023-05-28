@@ -25,42 +25,8 @@ public abstract class Record {
      * 
      * @return The outcome of saving the data as boolean value: true -> success, false -> failure
      */
-    public boolean saveRecord() {
-
-        /* Create the base component of a SQL query and pass in the required table parameter. */
-        String query = "INSERT INTO " + table + " ";
-        StringBuilder dataFields = new StringBuilder();
-        StringBuilder valueFields = new StringBuilder();
-        
-        /* Define a StringBuilder object that gets populated with the data fields of the object calling the method. */
-        dataFields.append("(");
-        data.forEach((key, value) -> {
-
-            dataFields.append(key).append(",");
-        });
-
-        /* We have to remove the last character as here is one comma too many. */
-        dataFields.deleteCharAt(dataFields.length() - 1);
-        dataFields.append(")");
-
-        /* Define a StringBuilder object that gets populated with the values of the object calling the method. */
-        valueFields.append(" VALUES ('");
-        data.forEach((key, value) -> {
-
-            valueFields.append(value).append("','");
-        });
-
-        /* Here we have to remove the last twi characters from the StringBuilder object as there is a apostrophe and
-        comma too many. */
-        valueFields.deleteCharAt(valueFields.length() - 1);
-        valueFields.deleteCharAt(valueFields.length() - 1);
-        valueFields.append(");");
-
-        /* Printing out the query for debugging purposes. */
-        System.out.println(query + dataFields + valueFields);
-
-        /* Executing the query on the database */
-        return DatabaseConnection.booleanQuery(query + dataFields + valueFields);
+    public boolean saveRecord(String patientId){
+        return DatabaseConnection.saveRecordData(this.data,patientId);
     }
 
     /**
@@ -76,33 +42,14 @@ public abstract class Record {
         return DatabaseConnection.booleanQuery("DELETE FROM " + table + " WHERE " + row + "='" + value + "'");
     }
 
-    public boolean updateRecord (){
-        /* Create the base component of a SQL query and pass in the required table parameter. */
-        String query = "UPDATE " + table +" SET ";
-
-        StringBuilder dataFields = new StringBuilder();
-        /* StringBuilder valueFields = new StringBuilder(); */
-
-        /* Define a StringBuilder object that gets populated with the data fields of the object calling the method. */
-
-        data.forEach((key, value) -> {
-
-            dataFields.append(key).append("= '").append(value).append("' ,");
-        });
-
-        /* We have to remove the last character as here is one comma too many. */
-        dataFields.deleteCharAt(dataFields.length() - 1);
-
-
-        dataFields.append(" WHERE ").append("recordId = '").append(data.get("recordId")).append("';");
-
-
-
-        /* Printing out the query for debugging purposes. */
-        System.out.println(query + dataFields);
-
-        /* Executing the query on the database */
-        return DatabaseConnection.booleanQuery(query + dataFields);
+    /**
+     * The updateRecord() method uses the DatabaseConnection class to save changes in a record dto the database.
+     *
+     * @param recordId The ID of the record to update.
+     * @return A boolean value indicating success or failure of the process
+     */
+    public boolean updateRecord (String recordId){
+        return DatabaseConnection.updatePatientRecord(this.data, recordId);
     }
 
     /**

@@ -3,12 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="dashParent" prefHeight="650.0" prefWidth="1130.0" styleClass="dashboard" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.DashboardController">
+<AnchorPane fx:id="dashParent" maxHeight="650.0" maxWidth="1150.0" minHeight="650.0" minWidth="1150.0" prefHeight="650.0" prefWidth="1150.0" styleClass="dashboard" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.DashboardController">
     <children>
-        <AnchorPane fx:id="mainContainer" layoutX="100.0" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="main" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <padding>
-            <Insets bottom="20.0" left="250.0" right="20.0" top="20.0" />
-         </padding></AnchorPane>
-        <AnchorPane fx:id="sideBarContainer" layoutY="60.0" prefHeight="580.0" prefWidth="230.0" styleClass="sidebar" />
+        <AnchorPane fx:id="mainContainer" layoutX="50.0" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="main">
+            <padding>
+                <Insets bottom="20.0" left="250.0" right="20.0" top="20.0" />
+            </padding>
+        </AnchorPane>
+        <AnchorPane fx:id="sideBarContainer" layoutY="35.0" prefHeight="580.0" prefWidth="230.0" styleClass="sidebar" />
     </children>
 </AnchorPane>

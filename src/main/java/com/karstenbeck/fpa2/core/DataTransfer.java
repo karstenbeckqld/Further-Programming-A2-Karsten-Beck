@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The DataTransfer class is a helper class to copy data from one controller to another.
+ * The DataTransfer class is a helper singleton class to copy data from one controller to another.
  *
  * @author Karsten Beck
  * @version 1.0 (13/05/2023)
