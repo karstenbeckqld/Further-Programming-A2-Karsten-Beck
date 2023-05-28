@@ -13,11 +13,11 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
-.myDialog:header *.header-panel{
+.myDialog:hover *.header-panel{
   /*  -fx-background-color: #a59c31;*/
 }
-.myDialog:header *.header-panel *.label{
+.myDialog:hover *.header-panel *.label{
     -fx-font-size: 18px;
     -fx-font-style: italic;
-    -fx-fill: #ffffff;
+    -fx-fill: #000000;
 }

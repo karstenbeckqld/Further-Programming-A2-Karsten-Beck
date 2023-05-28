@@ -5,7 +5,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="container" stylesheets="../css/tableView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.TableViewController">
+<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0"
+            prefHeight="650.0" prefWidth="1100.0" styleClass="container" stylesheets="../css/tableView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.TableViewController">
     <children>
         <TableView id="tableView" fx:id="tableView" layoutX="200.0" layoutY="20.0" maxHeight="610.0" maxWidth="880.0" minHeight="500.0" minWidth="880.0" prefHeight="610.0" prefWidth="880.0" styleClass="table">
             <columns>

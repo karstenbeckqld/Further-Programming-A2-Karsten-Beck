@@ -14,7 +14,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/editPatient.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.EditPatientDetailsController">
+<SplitPane fx:id="splitPane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity"
+           minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/editPatient.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.EditPatientDetailsController">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0">
             <children>

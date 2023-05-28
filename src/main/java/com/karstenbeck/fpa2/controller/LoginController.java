@@ -128,6 +128,7 @@ public class LoginController extends Controller {
      * The loginButtonClick() method is bound to the login button in login.fxml and performs a basic login check.
      *
      * @param event The event created by the MouseEvent or KeyEvent.
+     * @throws IOException Because of the stageForward method.
      */
     public void loginButtonClick(Event event) throws IOException {
 

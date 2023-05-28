@@ -22,8 +22,9 @@ public abstract class Record {
 
     /**
      * The saveRecord() method provides a ubiquitous method to save record values to the database.
-     * 
-     * @return The outcome of saving the data as boolean value: true -> success, false -> failure
+     *
+     * @param patientId The patient ID as String;
+     * @return The outcome of saving the data as boolean value: true -&lt; success, false -&lt; failure
      */
     public boolean saveRecord(String patientId){
         return DatabaseConnection.saveRecordData(this.data,patientId);

@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="parent" stylesheets="@../css/recordSelector.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
+<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1100.0" minHeight="650.0" minWidth="1100.0"
+            prefHeight="650.0" prefWidth="1100.0" styleClass="parent" stylesheets="@../css/recordSelector.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.RecordSelectorController">
     <children>
         <Label alignment="CENTER" layoutY="10.0" maxHeight="30.0" maxWidth="1100.0" minHeight="30.0" minWidth="1100.0" prefHeight="30.0" prefWidth="1100.0" styleClass="header" text="Please select the Records to Export">
             <font>

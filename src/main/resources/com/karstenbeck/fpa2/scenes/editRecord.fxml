@@ -23,7 +23,7 @@
           styleClass="parent"
           stylesheets="@../css/editRecord.css"
           vgap="10.0"
-          xmlns="http://javafx.com/javafx/19"
+          xmlns="http://javafx.com/javafx/17"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="com.karstenbeck.fpa2.controller.EditRecordController">
     <columnConstraints>

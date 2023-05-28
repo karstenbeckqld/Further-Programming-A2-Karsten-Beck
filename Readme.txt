@@ -2,7 +2,7 @@ Link to video recording Milestone 2:
 https://rmiteduau-my.sharepoint.com/:v:/r/personal/s3912792_student_rmit_edu_au/Documents/FPA2-Milestone%202%20Video.mp4?csf=1&web=1&e=a0rmns
 
 Available usernames and passwords:
-Username: nbeck - password: test
+Username: nbeck - password: text
 Username: kbeck - password: test
 Username: tester - password: test
 
@@ -19,7 +19,7 @@ Karsten Beck | s3912792@student.rmit.edu.au
 HOW TO COMPILE
 -----------------------------------------------------------------------------
 
-The assignment has been created using the IntelliJ IDEA 2023.1.1 (Ultimate Edition) , Maven and Xerial sqlite database
+The code has been created using the IntelliJ IDEA 2023.1.1 (Ultimate Edition) , Maven and Xerial sqlite database
 JDBC module.
 To compile the code, please open it in IntelliJ and adjust your module settings according to the below-mentioned
 libraries. Once setup, you can click the green arrow at the top right hand side of the window or press (CTRL+R on Mac)
@@ -31,7 +31,8 @@ from the command line. For this, we've provided the complete project folder stru
 
 HOW TO RUN UNIT TESTS
 -----------------------------------------------------------------------------
-The unit tests have not been finalised at this point.
+Once you've setup the project in IntelliJ, you can run a unit test by clicking on the green arrow to the left of the
+class declaration to run all tests in this class, or click in front of individual tests to run single tests.
 
 
 JDK VERSION AND COMPILER

@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" alignment="CENTER" hgap="20.0" maxHeight="590.0" maxWidth="-Infinity" minHeight="590.0" minWidth="-Infinity" prefHeight="590.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/addRecord.css" vgap="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.AddRecordController">
+<GridPane fx:id="gridPane" alignment="CENTER" hgap="20.0" maxHeight="590.0" maxWidth="-Infinity" minHeight="590.0"
+          minWidth="-Infinity" prefHeight="590.0" prefWidth="600.0" styleClass="parent" stylesheets="@../css/addRecord.css" vgap="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karstenbeck.fpa2.controller.AddRecordController">
     <columnConstraints>
         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="100.0" prefWidth="245.0" />

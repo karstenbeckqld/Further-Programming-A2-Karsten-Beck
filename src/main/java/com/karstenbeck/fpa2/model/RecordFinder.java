@@ -68,6 +68,7 @@ public class RecordFinder {
     /**
      * The getData() method combines the remaining methods in this class and executes the database search.
      *
+     * @param table Name of the table to use.
      * @return An ObservableList&lt;T&gt; where T can be a Patient or a PatientRecord.
      */
     public <T extends Record> ObservableList<T> getData(String table) {
@@ -107,7 +108,8 @@ public class RecordFinder {
     /**
      * The getDataAsArrayList() method combines the remaining methods in this class and executes the database search.
      *
-     * @return An ArrayList&lt;T&gt; where T can be a Patient or a PatientRecord.
+     * @param table Name of the table to use.
+     * @return An ArrayList&lt;T&gt; where T can be a Patient or a PatientRecord
      */
     public <T extends Record> ArrayList<T> getDataAsArrayList(String table) {
 
